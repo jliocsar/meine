@@ -1,0 +1,7 @@
+CUSTOM_ZSH_IMPORT_PATH="$HOME/my/zsh"
+
+# SPACESHIP config section
+source $CUSTOM_ZSH_IMPORT_PATH/zsh_spaceship
+
+# Include aliases
+source $CUSTOM_ZSH_IMPORT_PATH/zsh_alias
