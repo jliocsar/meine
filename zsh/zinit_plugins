@@ -1,0 +1,5 @@
+if [[ -f $HOME/.zinit/bin/zinit.zsh ]]; then 
+  zinit light zdharma/fast-syntax-highlighting
+  zinit light zsh-users/zsh-autosuggestions
+  zinit light zsh-users/zsh-completions
+fi
