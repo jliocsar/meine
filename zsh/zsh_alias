@@ -1,1 +1,21 @@
-alias hello-world="echo 'hello world'"
+## git
+alias glog='git log --graph --decorate --stat'
+
+## zsh
+alias j='jump'
+
+## apt
+alias update='sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean'
+
+## npm/yarn
+alias ys='yarn start'
+alias yb='yarn build'
+alias yd='yarn dev'
+
+## toggl
+alias today='toggl l today'
+
+# release
+alias check-version='conventional-recommended-bump -p angular -v'
+alias create-changelog="conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md && git commit -m 'docs: Update changelog file'"
+alias create-release='conventional-github-releaser -p angular'
