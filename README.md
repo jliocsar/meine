@@ -6,12 +6,14 @@ This repo is a collection of my personal configuration files for ZSH, Vim, Tmux 
 
 ### Files :evergreen_tree:
 
-```
+```bash
 .
 ├── zsh
+│   ├── zinit_plugins
 │   ├── zsh_alias
+│   ├── zsh_hooks
 │   └── zsh_spaceship
 ├── vim
 │   └── .gitkeep
-└── .zsh_custom_config
+└── .zsh_custom_config # source this in your `.zshrc` file
 ```
