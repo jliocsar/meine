@@ -17,3 +17,11 @@ This repo is a collection of my personal configuration files for ZSH, Vim, Tmux 
 │   └── .gitkeep
 └── .zsh_custom_config # source this in your `.zshrc` file
 ```
+
+### Usage :ninja:
+
+```bash
+git clone git@github.com:jliocsar/meine.git .meine
+echo 'source ~/.meine/zsh_custom_config'
+```
+
