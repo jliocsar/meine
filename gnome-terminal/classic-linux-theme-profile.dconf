@@ -1,0 +1,16 @@
+[/]
+background-color='rgb(0,0,0)'
+background-transparency-percent=13
+cursor-shape='ibeam'
+custom-command=''
+font='JetBrains Mono Bold 12'
+foreground-color='rgb(255,255,255)'
+login-shell=false
+palette=['rgb(6,6,6)', 'rgb(223,62,62)', 'rgb(78,204,113)', 'rgb(218,217,89)', 'rgb(57,137,236)', 'rgb(175,85,211)', 'rgb(73,190,190)', 'rgb(250,235,215)', 'rgb(112,112,112)', 'rgb(249,81,81)', 'rgb(117,220,146)', 'rgb(226,225,118)', 'rgb(116,174,246)', 'rgb(190,119,218)', 'rgb(115,207,207)', 'rgb(255,255,255)']
+scrollbar-policy='never'
+use-custom-command=false
+use-system-font=false
+use-theme-colors=false
+use-theme-transparency=false
+use-transparent-background=true
+visible-name='Default'
