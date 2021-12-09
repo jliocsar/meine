@@ -22,6 +22,6 @@ This repo is a collection of my personal configuration files for ZSH, Vim, Tmux 
 
 ```bash
 git clone git@github.com:jliocsar/meine.git .meine
-echo 'source ~/.meine/zsh_custom_config'
+echo 'source ~/.meine/zsh_custom_config' >> ~/.zshrc
 ```
 
