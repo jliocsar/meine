@@ -11,6 +11,10 @@ alias update='sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove &
 alias ys='yarn start'
 alias yb='yarn build'
 alias yd='yarn dev'
+alias ya='yarn add'
+alias yad='yarn add -D'
+alias yaw='yarn add -W'
+alias yawd='yarn add -WD'
 
 ## toggl
 alias today='toggl l today'
