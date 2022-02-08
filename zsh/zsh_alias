@@ -15,6 +15,9 @@ alias ya='yarn add'
 alias yad='yarn add -D'
 alias yaw='yarn add -W'
 alias yawd='yarn add -WD'
+alias nr='npm run'
+alias ni='npm install'
+alias nid='npm install --save-dev'
 
 ## toggl
 alias today='toggl l today'
