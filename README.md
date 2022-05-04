@@ -20,18 +20,19 @@ This repo is a collection of my personal configuration files for ZSH, Vim, Tmux 
 
 ### Usage :ninja:
 
-#### Required Dependencies
+#### Dependencies
 
 - [zsh](https://www.zsh.org/)
 - [oh my zsh](https://ohmyz.sh/)
 - [zinit](https://github.com/zdharma-continuum/zinit)
 - [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md)
 - [spaceship-prompt](https://github.com/spaceship-prompt/spaceship-prompt)
+- [bat](https://github.com/sharkdp/bat)
 
 #### Installing
 
 ```bash
-git clone git@github.com:jliocsar/meine.git .meine
-echo 'source ~/.meine/zsh_custom_config' >> ~/.zshrc
+git clone git@github.com:jliocsar/meine.git $HOME/.meine
+echo 'source ~/.meine/zsh_custom_config' >> $HOME/.zshrc
 ```
 
