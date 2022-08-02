@@ -28,6 +28,7 @@ This repo is a collection of my personal configuration files for ZSH, Vim, Tmux 
 - [nvm](https://github.com/nvm-sh/nvm/blob/master/README.md)
 - [spaceship-prompt](https://github.com/spaceship-prompt/spaceship-prompt)
 - [bat](https://github.com/sharkdp/bat)
+- [tree](https://linux.die.net/man/1/tree)
 
 #### Installing
 
