@@ -32,11 +32,10 @@ alias create-changelog='conventional-changelog -p angular -i CHANGELOG.md -s && 
 alias create-release='conventional-github-releaser -p angular'
 
 # bash
-if command -v tree &> /dev/null
+if command -v tree &> /dev/null; then
   alias ls='tree -L 1'
 fi
 
-if command -v bat &> /dev/null
-then 
+if command -v bat &> /dev/null; then 
   alias cat='bat'
 fi

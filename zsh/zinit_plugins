@@ -1,5 +1,4 @@
-if command -v zinit &> /dev/null
-then 
+if command -v zinit &> /dev/null; then 
   zinit light zdharma-continuum/fast-syntax-highlighting
   zinit light zsh-users/zsh-autosuggestions
   zinit light zsh-users/zsh-completions
