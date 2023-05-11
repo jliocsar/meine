@@ -6,7 +6,7 @@ This repo is a collection of my personal configuration files for ZSH, Vim, Tmux 
 
 ### Usage :ninja:
 
-Source the `zsh_custom_config` file in your `.zshrc` file and you're set!
+Source the `zsh_custom_config.zsh` file in your `.zshrc` file and you're set!
 
 #### Dependencies
 
@@ -22,6 +22,6 @@ Source the `zsh_custom_config` file in your `.zshrc` file and you're set!
 
 ```bash
 git clone git@github.com:jliocsar/meine.git $HOME/.meine
-echo 'source ~/.meine/zsh_custom_config' >> $HOME/.zshrc
+echo 'source ~/.meine/zsh_custom_config.zsh' >> $HOME/.zshrc
 ```
 

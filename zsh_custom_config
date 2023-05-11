@@ -1,6 +1,0 @@
-CUSTOM_ZSH_IMPORT_PATH="$HOME/.meine/zsh"
-
-source $CUSTOM_ZSH_IMPORT_PATH/zsh_spaceship
-source $CUSTOM_ZSH_IMPORT_PATH/zsh_alias
-source $CUSTOM_ZSH_IMPORT_PATH/zsh_hooks
-source $CUSTOM_ZSH_IMPORT_PATH/zinit_plugins
