@@ -1,7 +1,3 @@
-/*
- Made for the `Kanagawa` theme
- https://marketplace.visualstudio.com/items?itemName=qufiwefefwoyn.kanagawa
-*/
 :root {
   --cursor-color: #dcd7ba;
   --tab-border-color: #ed8d37;
@@ -49,6 +45,11 @@
   background-color: #16161d !important;
 }
 
+.content .split-view-view.visible {
+  /* border-left: 1px solid rgb(42, 42, 55) !important;
+  border-right: 1px solid rgb(42, 42, 55) !important; */
+}
+
 /* Actually make the selected tab's background different than others. */
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active {
   background-color: #363646 !important;
@@ -70,14 +71,16 @@
 }
 
 .monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.sizing-fit {
-  border-right: 1px solid rgb(42, 42, 55) !important;
+  /* border-right: 1px solid rgb(42, 42, 55) !important; */
   /* border-left: 1px solid rgb(42, 42, 55) !important; */
   /* border-top: 1px solid rgb(42, 42, 55) !important; */
 }
 
 .tabs-and-actions-container .editor-actions,
 .monaco-workbench .part.editor>.content .editor-group-container>.title>.tabs-and-actions-container>.monaco-scrollable-element {
-  border-bottom: 1px solid rgb(42, 42, 55) !important;
+  border-bottom: 1px solid #16161d !important;
+  /* border-bottom: 1px solid rgb(42, 42, 55) !important; */
+  /* border-right: 1px solid rgb(42, 42, 55) !important; */
 }
 
 .monaco-editor .cursors-layer .cursor {
