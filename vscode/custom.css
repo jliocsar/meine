@@ -3,7 +3,6 @@
  https://marketplace.visualstudio.com/items?itemName=qufiwefefwoyn.kanagawa
 */
 :root {
-  --cursor-color: #dcd7ba;
   --tab-border-color: #ed8d37;
 }
 
@@ -31,17 +30,41 @@
 } */
 
 /* Make hovered non-active tabs' backgrounds get slightly lighter on hover. */
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab:hover,
-.monaco-workbench .part.editor>.content .editor-group-container.active>.title .tabs-container>.tab:hover {
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title
+  .tabs-container
+  > .tab:hover,
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container.active
+  > .title
+  .tabs-container
+  > .tab:hover {
   background-color: #2a2a37 !important;
 }
 
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab {
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title
+  .tabs-container
+  > .tab {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
 
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab:first-child {
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title
+  .tabs-container
+  > .tab:first-child {
   border-top-left-radius: 0;
 }
 
@@ -55,41 +78,71 @@
 }
 
 /* Actually make the selected tab's background different than others. */
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active {
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title
+  .tabs-container
+  > .tab.active {
   background-color: #363646 !important;
   border-bottom: 2px solid var(--tab-border-color);
 }
 
 /* Make hovered active tab's background get slightly lighter on hover. */
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active:hover,
-.monaco-workbench .part.editor>.content .editor-group-container.active>.title .tabs-container>.tab.active:hover {
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title
+  .tabs-container
+  > .tab.active:hover,
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container.active
+  > .title
+  .tabs-container
+  > .tab.active:hover {
   background-color: #363646 !important;
 }
 
 /* Ensure that a selected Tab's bottom-border stays the same color when we hover
  * on it (it was going from yellow accent color to gray, super ugly).
  */
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.active.tab-border-bottom>.tab-border-bottom-container {
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title
+  .tabs-container
+  > .tab.active.tab-border-bottom
+  > .tab-border-bottom-container {
   /** We added "!important" (And we needed !important everywhere else too, what the heck) */
   background-color: var(--tab-border-bottom-color) !important;
 }
 
-.monaco-workbench .part.editor>.content .editor-group-container>.title .tabs-container>.tab.sizing-fit {
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title
+  .tabs-container
+  > .tab.sizing-fit {
   /* border-right: 1px solid rgb(42, 42, 55) !important; */
   /* border-left: 1px solid rgb(42, 42, 55) !important; */
   /* border-top: 1px solid rgb(42, 42, 55) !important; */
 }
 
 .tabs-and-actions-container .editor-actions,
-.monaco-workbench .part.editor>.content .editor-group-container>.title>.tabs-and-actions-container>.monaco-scrollable-element {
+.monaco-workbench
+  .part.editor
+  > .content
+  .editor-group-container
+  > .title
+  > .tabs-and-actions-container
+  > .monaco-scrollable-element {
   border-bottom: 1px solid #16161d !important;
   /* border-bottom: 1px solid rgb(42, 42, 55) !important; */
   /* border-right: 1px solid rgb(42, 42, 55) !important; */
-}
-
-.monaco-editor .cursors-layer .cursor {
-  color: #22222f !important;
-  background: var(--cursor-color);
-  border-color: var(--cursor-color);
-  /* box-shadow: 0 0 7px var(--cursor-color); */
 }
