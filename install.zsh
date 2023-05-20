@@ -3,7 +3,6 @@
 echo_title "Installing deps"
 sudo apt install -y \
   zsh \
-  neovim \
   bat \
   tree
 
@@ -16,11 +15,20 @@ else
 fi
 
 # Installs Zinit if not installed yet
-if grep_zshrc "zdharma-continuum/zinit"; then
+if command -v zinit &> /dev/null; then
   echo_success "Zinit already installed, proceeding..."
 else
   echo_info "Zinit not found, installing..."
   bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+fi
+
+if command -v nvim &> /dev/null; then 
+  echo_success "Neovim already installed, proceeding..."
+else
+  echo_info "Neovim not found, installing..."
+  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+  chmod u+x ./nvim.appimage
+  sudo mv ./nvim.appimage /usr/bin/nvim
 fi
 
 if [ -f ~/.local/share/nvim/site/autoload/plug.vim ]; then
@@ -53,3 +61,7 @@ else
   echo_info "Sourcing ZSH Custom Config..."
   echo 'source ~/.meine/zsh_custom_config.zsh' >> ~/.zshrc
 fi
+
+# Run nvim & update/install plugins
+nvim -c ':PlugInstall' \
+     -c 'qa!'

@@ -18,16 +18,9 @@ This repo is a collection of my personal configuration files for ZSH, Vim, Tmux 
 - [neovim](https://neovim.io/)
 - [vim-plug](https://github.com/junegunn/vim-plug)
 
-Source the `zsh_custom_config.zsh` file in your `.zshrc` file and you're set!
-
 #### Installing
 
-```bash
-git clone git@github.com:jliocsar/meine.git $HOME/.meine
-echo 'source ~/.meine/zsh_custom_config.zsh' >> $HOME/.zshrc
-```
-
-Or simply run the `install.zsh` script:
+Simply run the `install.zsh` script:
 
 ```bash
 ./install.zsh
