@@ -17,6 +17,8 @@ Source the `zsh_custom_config.zsh` file in your `.zshrc` file and you're set!
 - [spaceship-prompt](https://github.com/spaceship-prompt/spaceship-prompt)
 - [bat](https://github.com/sharkdp/bat)
 - [tree](https://linux.die.net/man/1/tree)
+- [neovim](https://neovim.io/)
+- [vim-plug](https://github.com/junegunn/vim-plug)
 
 #### Installing
 

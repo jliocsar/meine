@@ -1,0 +1,11 @@
+vim.o.conceallevel = 0
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.wo.signcolumn = 'yes'
+vim.wo.cursorline = true
+vim.o.termguicolors = true
+vim.o.title = true
+vim.o.conceallevel = 0
+vim.o.cmdheight = 1
+vim.o.pumheight = 10
+vim.o.showmode = false
