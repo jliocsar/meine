@@ -39,6 +39,10 @@ else
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 fi
 
+
+echo_info "Adding init.nvim..."
+echo 'source $HOME/.meine/vim/init.nvim' > ~/.config/nvim/init.vim
+
 echo_info "Remember to install spaceship-prompt and set \`ZSH_THEME="spaceship"\` in the .zshrc file"
 
 # Last path
