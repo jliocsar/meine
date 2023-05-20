@@ -1,6 +1,6 @@
 local function doMeineFile(fileName)
   local path = MEINE_VIM_PATH .. '/' .. fileName .. '.lua'
-  dofile(path)
+  return dofile(path)
 end
 
 -- 'plugins' need to be at first
