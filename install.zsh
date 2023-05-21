@@ -48,8 +48,8 @@ else
 fi
 
 
-echo_info "Adding init.nvim..."
-echo 'source $HOME/.meine/vim/init.nvim' > ~/.config/nvim/init.vim
+echo_info "Adding init.vim..."
+echo 'source $HOME/.meine/vim/init.vim' > ~/.config/nvim/init.vim
 
 echo_info "Remember to install spaceship-prompt and set \`ZSH_THEME="spaceship"\` in the .zshrc file"
 
