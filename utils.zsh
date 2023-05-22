@@ -15,7 +15,7 @@ grep_zshrc() {
 }
 
 command_exists() {
-  [ -x "$(command -v $1)" ]
+  command -v $1 &> /dev/null
 }
 
 import() {
