@@ -24,10 +24,14 @@ alias ni='npm install'
 alias nid='npm install --save-dev'
 
 # bash
-if command -v tree &> /dev/null; then
-  alias ls='tree -L 1'
+if command_exists "nvim"; then
+  alias vim="nvim"
 fi
 
-if command -v bat &> /dev/null; then 
+if command_exists "tree"; then
+  alias t='tree -L 1'
+fi
+
+if command_exists "bat"; then 
   alias cat='bat'
 fi

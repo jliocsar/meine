@@ -1,11 +1,20 @@
-vim.o.conceallevel = 0
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.wo.signcolumn = 'yes'
-vim.wo.cursorline = true
-vim.o.termguicolors = true
 vim.o.title = true
+vim.o.termguicolors = true
+vim.o.syntax = true
+vim.o.incsearch = true
+-- vim.o.nowrap = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.showcmd = true
+vim.o.showmode = true
+vim.o.showmatch = true
+vim.o.hlsearch = true
 vim.o.conceallevel = 0
 vim.o.cmdheight = 1
 vim.o.pumheight = 10
-vim.o.showmode = false
+vim.o.history = 1000
+
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.wo.cursorline = true
+vim.wo.signcolumn = 'yes'

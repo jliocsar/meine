@@ -13,3 +13,11 @@ echo_info() {
 grep_zshrc() {
   cat "$HOME/.zshrc" | grep -q $1
 }
+
+command_exists() {
+  [ -x "$(command -v $1)" ]
+}
+
+import() {
+  . "$HOME/.meine/$1"
+}
