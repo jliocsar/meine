@@ -4,7 +4,7 @@ local function doMeineFile(fileName)
 end
 
 -- 'plugins' need to be at first
-local modules = {'plugins', 'options', 'theme'}
+local modules = {'plugins', 'options', 'theme', 'keymaps'}
 
 for moduleCount = 1, #modules do
   doMeineFile(modules[moduleCount])
