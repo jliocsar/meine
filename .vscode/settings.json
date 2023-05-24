@@ -1,4 +1,1 @@
-{ "Lua.diagnostics.globals": [
-    "vim",
-    "MEINE_VIM_PATH"
-  ] }
+{ "Lua.diagnostics.globals": ["vim", "import"] }

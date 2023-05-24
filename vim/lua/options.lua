@@ -14,6 +14,9 @@ vim.o.cmdheight = 1
 vim.o.pumheight = 10
 vim.o.history = 1000
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.cursorline = true

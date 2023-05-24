@@ -1,5 +1,9 @@
 lua<<EOF
-  local ROOT_PATH = os.getenv('HOME')
-  MEINE_VIM_PATH = ROOT_PATH .. "/.meine/vim/lua"
-  dofile(MEINE_VIM_PATH .. "/init.lua")
+  local MEINE_VIM_LUA_PATH = os.getenv('HOME') .. '/.meine/vim/lua'
+
+  function import(path)
+    return dofile(MEINE_VIM_LUA_PATH .. '/' .. path .. '.lua')
+  end
+
+  import('init')
 EOF

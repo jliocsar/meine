@@ -4,7 +4,9 @@ echo_title "Installing deps"
 sudo apt install -y \
   zsh \
   bat \
-  tree
+  tree \
+  python3-venv
+npm i -g pyright
 
 # Checks for oh-my-zsh and installs it if not present
 if [ -d $HOME/.oh-my-zsh ]; then
@@ -63,4 +65,6 @@ fi
 
 # Run nvim & update/install plugins
 nvim -c ':PlugInstall' \
+     -c ':COQdeps' \
+     -c ':COQnow -s' \
      -c 'qa!'
