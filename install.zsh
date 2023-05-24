@@ -17,7 +17,7 @@ else
 fi
 
 # Installs Zinit if not installed yet
-if grep_zshrc "zdharma-continuum/zinit"; then
+if command_exists "zinit"; then
   echo_success "Zinit already installed, proceeding..."
 else
   echo_info "Zinit not found, installing..."
@@ -56,12 +56,8 @@ echo_info "Remember to install spaceship-prompt and set \`ZSH_THEME="spaceship"\
 
 # Last path
 # Source the custom config if it's not present in the .zshrc file
-if grep_zshrc "zsh_custom_config"; then
-  echo_success "ZSH Custom Config already sourced, proceeding..."
-else
-  echo_info "Sourcing ZSH Custom Config..."
-  echo 'source $HOME/.meine/zsh_custom_config.zsh' >> $HOME/.zshrc
-fi
+sed -i '/zsh_custom_config/d' $HOME/.zshrc
+echo 'source $HOME/.meine/zsh_custom_config.zsh' >> $HOME/.zshrc
 
 # Run nvim & update/install plugins
 nvim -c ':PlugInstall' \
