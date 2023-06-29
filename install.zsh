@@ -53,9 +53,12 @@ echo_info "Adding init.vim..."
 echo 'source $HOME/.meine/vim/init.vim' > $HOME/.config/nvim/init.vim
 
 echo_info "Remember to install spaceship-prompt and set \`ZSH_THEME="spaceship"\` in the .zshrc file"
+echo_info "Also install \`Cascadia Code\` & Nerd Fonts (Font Awesome etc)"
+echo "https://github.com/spaceship-prompt/spaceship-prompt"
+echo "https://github.com/microsoft/cascadia-code"
 
 # Last path
-# Source the custom config if it's not present in the .zshrc file
+# Source the custom config by replacing the current one if any
 sed -i '/zsh_custom_config/d' $HOME/.zshrc
 echo 'source $HOME/.meine/zsh_custom_config.zsh' >> $HOME/.zshrc
 
