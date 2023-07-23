@@ -78,7 +78,9 @@ else
 fi
 
 # Create hyper stuff
+echo_info "Creating shared Hyper stuff..."
 rm -rf $HOME/.hyper_plugins/local
 mkdir -p $HOME/.hyper_plugins/local
 ln -s $HOME/.meine/hyper/plugins/hypermeine $HOME/.hyper_plugins/local/hypermeine
 sed -i "/localPlugins/c\  localPlugins: ['hypermeine']," $HOME/.hyper.js
+echo_success "Don't forget to include the plugins to your ~/.hyper.js:\nhttps://github.com/jliocsar/meine/blob/main/hyper/hyper-base.js#L10"
