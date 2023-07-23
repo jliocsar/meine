@@ -53,7 +53,7 @@ echo_info "Adding init.vim..."
 echo 'source $HOME/.meine/vim/init.vim' > $HOME/.config/nvim/init.vim
 
 echo_info "Remember to install spaceship-prompt and set \`ZSH_THEME="spaceship"\` in the .zshrc file"
-echo_info "Also install \`Cascadia Code\` & Nerd Fonts (Font Awesome etc)"
+echo_info "Also install \`Cascadia Code\`, Nerd Fonts (Font Awesome etc), Hyper (https://hyper.is/) etc"
 echo "https://github.com/spaceship-prompt/spaceship-prompt"
 echo "https://github.com/microsoft/cascadia-code"
 
@@ -67,3 +67,18 @@ nvim -c ':PlugInstall' \
      -c ':COQdeps' \
      -c ':COQnow -s' \
      -c 'qa!'
+
+if command_exists "hx"; then
+  echo_success "Helix editor already installed, proceeding..."
+else
+  echo_info "Helix not found, installing..."
+  # sudo add-apt-repository ppa:maveonair/helix-editor
+  # sudo apt update
+  # sudo apt install helix
+fi
+
+# Create hyper stuff
+rm -rf $HOME/.hyper_plugins/local
+mkdir -p $HOME/.hyper_plugins/local
+ln -s $HOME/.meine/hyper/plugins/hypermeine $HOME/.hyper_plugins/local/hypermeine
+sed -i "/localPlugins/c\  localPlugins: ['hypermeine']," $HOME/.hyper.js

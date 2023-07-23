@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "hyper-hide-scroll": "^1.0.0",
+    "hyper-statusline": "^1.7.6",
+    "hyperminimal": "^0.1.0"
+  }
+}
