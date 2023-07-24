@@ -12,7 +12,7 @@ module.exports = {
   decorateConfig,
   decorateHyper: (Hyper, args) => {
     const WithUsdBrlConversion = decorateHyperWithUsdBrlConversion(Hyper, args)
-    // const WithJiraCard = decorateHyperWithJiraCard(WithUsdBrlConversion, args)
-    return WithUsdBrlConversion
+    const WithJiraCard = decorateHyperWithJiraCard(WithUsdBrlConversion, args)
+    return WithJiraCard
   },
 }

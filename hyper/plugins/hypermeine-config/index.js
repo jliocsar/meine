@@ -11,6 +11,5 @@ module.exports.decorateConfig = config => {
   if (config.colors) {
     updatedConfig.colors = Object.assign({}, config.colors, baseConfig.colors)
   }
-  console.log(JSON.stringify(updatedConfig, null, 2))
   return updatedConfig
 }

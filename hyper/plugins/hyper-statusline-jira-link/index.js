@@ -1,12 +1,13 @@
 const { shell } = require('electron')
 
 const { classNameToSelector, getExistingCustomChildren } = require('../utils')
+const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
   const componentClassName = 'component_component component_jira_link'
   const componentSelector = classNameToSelector(componentClassName)
 
-  return class extends React.PureComponent {
+  return class extends HypermeineStatusline({ React, componentSelector }) {
     constructor(props) {
       super(props)
 
@@ -18,11 +19,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
     render() {
       const props = this.props
       const { card } = this.state
-      if (!card) {
-        return React.createElement(Hyper, props)
-      }
       const existingChildren = getExistingCustomChildren(props)
-
       return React.createElement(
         Hyper,
         Object.assign({}, props, {
@@ -37,17 +34,9 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                 {
                   className: 'component_item item_clickable',
                   style: { marginLeft: '10px' },
-                  onClick: this.handleConversionClick.bind(this),
+                  onClick: this.handleJiraCardClick.bind(this),
                 },
-                'USD: R$',
-                Number(usdBrlConversion).toFixed(2),
-                lastConversion
-                  ? React.createElement(
-                      'small',
-                      {},
-                      ` (${lastConversion.toLocaleTimeString()})`,
-                    )
-                  : null,
+                card ? 'Jira' : '',
               ),
             ),
           ),
@@ -55,42 +44,20 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       )
     }
 
-    handleConversionClick() {
-      shell.openExternal('https://www.google.com/search?q=usd+brl')
-    }
-
-    async fetchUsdBrlConversion() {
-      const response = await fetch(
-        'https://economia.awesomeapi.com.br/last/USD-BRL',
-      )
-      const { USDBRL } = await response.json()
-      this.setState({
-        usdBrlConversion: USDBRL.bid,
-        lastConversion: new Date(),
-      })
-    }
-
-    componentDidUpdate() {
-      const footerGroup = document.querySelector(
-        '.footer_footer .footer_group:first-of-type',
-      )
-      const components = document.querySelectorAll(componentSelector)
-      if (footerGroup && components) {
-        const [component, ...rest] = components
-        footerGroup.appendChild(component)
-        // TODO: Figure out why this is necessary
-        for (const extraRenders of rest) {
-          extraRenders.remove()
-        }
-      }
+    handleJiraCardClick() {
+      const { card } = this.state
+      shell.openExternal(`https://hapana.atlassian.net/browse/${card}`)
     }
 
     componentDidMount() {
-      this.fetchUsdBrlConversion()
-      this.interval = setInterval(
-        this.fetchUsdBrlConversion.bind(this),
-        conversionInterval,
-      )
+      this.interval = setInterval(() => {
+        const footerGroup = this.rightFooterGroup
+        const match = footerGroup.innerHTML.match(/(CV-\d+)/)
+        if (match) {
+          const [, card] = match
+          this.setState({ card })
+        }
+      }, 1_000)
     }
 
     componentWillUnmount() {

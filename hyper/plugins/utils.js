@@ -13,3 +13,12 @@ module.exports.getExistingCustomChildren = props => {
     : []
   return existingChildren
 }
+
+const footerSelector = '.footer_footer'
+const leftFooterGroupSelector = `${footerSelector} .footer_group:first-child`
+const rightFooterGroupSelector = `${footerSelector} .footer_group:last-child`
+module.exports.queryLeftFooterGroup = () =>
+  document.querySelector(leftFooterGroupSelector)
+
+module.exports.queryRightFooterGroup = () =>
+  document.querySelector(rightFooterGroupSelector)

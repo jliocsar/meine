@@ -1,15 +1,16 @@
 const { shell } = require('electron')
 
 const { getExistingCustomChildren, classNameToSelector } = require('../utils')
+const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
   const SECOND = 1_000
 
+  const conversionInterval = SECOND * 30
   const componentClassName = 'component_component component_usd_brl_conv'
   const componentSelector = classNameToSelector(componentClassName)
-  const conversionInterval = SECOND * 30
 
-  return class extends React.PureComponent {
+  return class extends HypermeineStatusline({ React, componentSelector }) {
     constructor(props) {
       super(props)
 
@@ -22,6 +23,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
     render() {
       const props = this.props
       const { usdBrlConversion, lastConversion } = this.state
+      console.log('lastConversion', lastConversion)
       if (!lastConversion) {
         return React.createElement(Hyper, props)
       }
@@ -72,21 +74,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
         usdBrlConversion: USDBRL.bid,
         lastConversion: new Date(),
       })
-    }
-
-    componentDidUpdate() {
-      const footerGroup = document.querySelector(
-        '.footer_footer .footer_group:first-of-type',
-      )
-      const components = document.querySelectorAll(componentSelector)
-      if (footerGroup && components) {
-        const [component, ...rest] = components
-        footerGroup.appendChild(component)
-        // TODO: Figure out why this is necessary
-        for (const extraRenders of rest) {
-          extraRenders.remove()
-        }
-      }
     }
 
     componentDidMount() {
