@@ -56,6 +56,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
         if (match) {
           const [, card] = match
           this.setState({ card })
+        } else {
+          this.setState({ card: '' })
         }
       }, 1_000)
     }
