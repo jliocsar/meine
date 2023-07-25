@@ -1,5 +1,6 @@
 const { shell } = require('electron')
 
+const { USD_BRL_CONVERSION_COMPONENT_CLASS_NAME } = require('../../hyper-base')
 const { getExistingCustomChildren, classNameToSelector } = require('../utils')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
@@ -7,7 +8,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
   const SECOND = 1_000
 
   const conversionInterval = SECOND * 30
-  const componentClassName = 'component_component component_usd_brl_conv'
+  const componentClassName = `component_component ${USD_BRL_CONVERSION_COMPONENT_CLASS_NAME}`
   const componentSelector = classNameToSelector(componentClassName)
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
@@ -23,7 +24,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
     render() {
       const props = this.props
       const { usdBrlConversion, lastConversion } = this.state
-      console.log('lastConversion', lastConversion)
       if (!lastConversion) {
         return React.createElement(Hyper, props)
       }
@@ -42,10 +42,14 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                 'div',
                 {
                   className: 'component_item item_clickable',
-                  style: { marginLeft: '10px' },
                   onClick: this.handleConversionClick.bind(this),
                 },
-                'USD: R$',
+                React.createElement(
+                  'span',
+                  { className: 'component_icon logo_icon' },
+                  '💵',
+                ),
+                'R$',
                 Number(usdBrlConversion).toFixed(2),
                 lastConversion
                   ? React.createElement(

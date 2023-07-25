@@ -1,10 +1,11 @@
 const { shell } = require('electron')
 
+const { JIRA_LINK_COMPONENT_CLASS_NAME } = require('../../hyper-base')
 const { classNameToSelector, getExistingCustomChildren } = require('../utils')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
-  const componentClassName = 'component_component component_jira_link'
+  const componentClassName = `component_component ${JIRA_LINK_COMPONENT_CLASS_NAME}`
   const componentSelector = classNameToSelector(componentClassName)
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
@@ -28,15 +29,30 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               'div',
               {
                 className: componentClassName,
+                ...(!card && {
+                  style: {
+                    display: 'none',
+                  },
+                }),
               },
               React.createElement(
                 'div',
                 {
                   className: 'component_item item_clickable',
-                  style: { marginLeft: '10px' },
                   onClick: this.handleJiraCardClick.bind(this),
                 },
-                card ? 'Jira' : '',
+                card
+                  ? React.createElement(
+                      'div',
+                      {},
+                      React.createElement(
+                        'span',
+                        { className: 'component_icon logo_icon' },
+                        '󰌃',
+                      ),
+                      card,
+                    )
+                  : null,
               ),
             ),
           ),
@@ -53,13 +69,10 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       this.interval = setInterval(() => {
         const footerGroup = this.rightFooterGroup
         const match = footerGroup.innerHTML.match(/(CV-\d+)/)
-        if (match) {
-          const [, card] = match
-          this.setState({ card })
-        } else {
-          this.setState({ card: '' })
-        }
-      }, 1_000)
+        this.setState({
+          card: match ? match[1] : '',
+        })
+      }, 100)
     }
 
     componentWillUnmount() {

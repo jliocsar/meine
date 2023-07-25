@@ -2,11 +2,38 @@
 // Future versions of Hyper may add additional config options,
 // which will not automatically be merged into this file.
 // See https://hyper.is#cfg for all currently supported options.
-const px = font => font + 'px'
+const px = size => size + 'px'
 
 const FONT_SIZE = 14
 const FONT_FAMILY = '"Cascadia Code", "Symbols Nerd Font", monospace'
+const JIRA_LINK_COMPONENT_CLASS_NAME = 'component_jira_link'
+const USD_BRL_CONVERSION_COMPONENT_CLASS_NAME = 'component_usd_brl_conv'
+const MIN_TERMINAL_WINDOW_WIDTH_SIZE = px(1024)
 
+const Color = {
+  black: '#1F1F28',
+  red: '#E46A78',
+  green: '#98BC6D',
+  yellow: '#E5C283',
+  blue: '#7EB3C9',
+  magenta: '#957FB8',
+  cyan: '#7EB3C9',
+  white: '#DDD8BB',
+  lightBlack: '#3C3C51',
+  lightRed: '#EC818C',
+  lightGreen: '#9EC967',
+  lightYellow: '#F1C982',
+  lightBlue: '#7BC2DF',
+  lightMagenta: '#A98FD2',
+  lightCyan: '#7BC2DF',
+  lightWhite: '#A8A48D',
+  limeGreen: '#9EC967',
+  lightCoral: '#A98FD2',
+}
+
+module.exports.JIRA_LINK_COMPONENT_CLASS_NAME = JIRA_LINK_COMPONENT_CLASS_NAME
+module.exports.USD_BRL_CONVERSION_COMPONENT_CLASS_NAME =
+  USD_BRL_CONVERSION_COMPONENT_CLASS_NAME
 module.exports.plugins = [
   'hyper-statusline',
   'hyper-hide-scroll',
@@ -48,26 +75,64 @@ module.exports.baseConfig = {
   // border color (window, tabs)
   borderColor: '#000',
   // custom CSS to embed in the main window
-  css: `
---gtk-border-color: #454445;
+  css: /* css */ `
+& {
+  --gtk-border-color: #454445;
+  --component-margin-size: 12px;
 
-border: 2px solid var(--gtk-border-color);
-height: 100vh;
+  border: 2px solid var(--gtk-border-color);
+  height: 100vh;
 
-.footer_footer {
-  background: #16161D;
-  border-right: 1px solid var(--gtk-border-color);
-  border-left: 1px solid var(--gtk-border-color);
-  border-bottom: 1px solid var(--gtk-border-color);
-}
+  .footer_footer {
+    background: rgba(0, 0, 0, .2);
+    opacity: 1;
+    border-right: 1px solid var(--gtk-border-color);
+    border-left: 1px solid var(--gtk-border-color);
+    border-bottom: 1px solid var(--gtk-border-color);
 
-.footer_footer div {
-  font-family: ${FONT_FAMILY};
-  font-size: ${px(FONT_SIZE)};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #E6E0C2;
+    div {
+      font-family: ${FONT_FAMILY};
+      font-size: ${px(FONT_SIZE)};
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #E6E0C2;
+    }
+
+    .logo_icon {
+      font-size: ${px(FONT_SIZE + 2)};
+      margin-right: 8px;
+    }
+
+    .${JIRA_LINK_COMPONENT_CLASS_NAME},
+    .${USD_BRL_CONVERSION_COMPONENT_CLASS_NAME} {
+      padding: 0 var(--component-margin-size);
+    }
+
+    .component_component:first-of-type {
+      padding-right: var(--component-margin-size);
+    }
+
+    .${JIRA_LINK_COMPONENT_CLASS_NAME} {
+      background-color: #0052CC;
+
+      div {
+        color: #FFF;
+      }
+
+      @media (max-width: ${MIN_TERMINAL_WINDOW_WIDTH_SIZE}) {
+        display: none;
+      }
+    }
+
+    .${USD_BRL_CONVERSION_COMPONENT_CLASS_NAME} {
+      background-color: ${Color.lightBlack}88;
+
+      @media (max-width: ${MIN_TERMINAL_WINDOW_WIDTH_SIZE}) {
+        display: none;
+      }
+    }
+  }
 }
 */
 `,
@@ -83,30 +148,11 @@ height: 100vh;
   // default: `true` (without backticks and without quotes) on Windows and Linux, ignored on macOS
   showWindowControls: true,
   // custom padding (CSS format, i.e.: `top right bottom left`)
-  padding: '20px',
+  padding: '20px 20px 0',
   // the full list. if you're going to provide the full color palette,
   // including the 6 x 6 color cubes and the grayscale map, just provide
   // an array here instead of a color map object
-  colors: {
-    black: '#1F1F28',
-    red: '#E46A78',
-    green: '#98BC6D',
-    yellow: '#E5C283',
-    blue: '#7EB3C9',
-    magenta: '#957FB8',
-    cyan: '#7EB3C9',
-    white: '#DDD8BB',
-    lightBlack: '#3C3C51',
-    lightRed: '#EC818C',
-    lightGreen: '#9EC967',
-    lightYellow: '#F1C982',
-    lightBlue: '#7BC2DF',
-    lightMagenta: '#A98FD2',
-    lightCyan: '#7BC2DF',
-    lightWhite: '#A8A48D',
-    limeGreen: '#9EC967',
-    lightCoral: '#A98FD2',
-  },
+  colors: Color,
   // Supported Options:
   //  1. 'SOUND' -> Enables the bell as a sound
   //  2. false: turns off the bell
