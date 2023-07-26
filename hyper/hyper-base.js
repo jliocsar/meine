@@ -83,6 +83,29 @@ module.exports.baseConfig = {
   border: 2px solid var(--gtk-border-color);
   height: 100vh;
 
+  .tab_tab {
+    background: rgba(0, 0, 0, .2);
+    border-color: var(--gtk-border-color) !important;
+    border-top: 1px solid var(--gtk-border-color);
+    border-bottom: 0;
+  }
+
+  .tab_tab:first-of-type {
+    border-left: 1px solid var(--gtk-border-color);
+  }
+
+  .tab_tab:last-of-type {
+    border-right: 1px solid var(--gtk-border-color);
+  }
+
+  .tab_hasActivity {
+    color: ${Color.lightCyan};
+  }
+
+  .tab_active {
+    background: ${Color.lightBlack};
+  }
+
   .footer_footer {
     background: rgba(0, 0, 0, .2);
     opacity: 1;
