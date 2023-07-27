@@ -1,14 +1,17 @@
 const { shell } = require('electron')
 
-const { USD_BRL_CONVERSION_COMPONENT_CLASS_NAME } = require('../../hyper-base')
-const { getExistingCustomChildren, classNameToSelector } = require('../utils')
+const {
+  MeineComponentClassNameMap,
+  classNameToSelector,
+} = require('../../hyper-base')
+const { getExistingCustomChildren } = require('../utils')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
   const SECOND = 1_000
 
   const conversionInterval = SECOND * 30
-  const componentClassName = `component_component ${USD_BRL_CONVERSION_COMPONENT_CLASS_NAME}`
+  const componentClassName = `component_component ${MeineComponentClassNameMap.UsdBrlConversion}`
   const componentSelector = classNameToSelector(componentClassName)
 
   return class extends HypermeineStatusline({ React, componentSelector }) {

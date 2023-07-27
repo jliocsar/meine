@@ -23,6 +23,10 @@ alias nr='npm run'
 alias ni='npm install'
 alias nid='npm install --save-dev'
 
+## docker
+alias dc='docker-compose'
+alias dcup='docker-compose up'
+
 # bash
 if command_exists "nvim"; then
   alias vim="nvim"

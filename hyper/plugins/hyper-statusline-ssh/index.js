@@ -1,4 +1,4 @@
-const { shell } = require('electron')
+const { exec } = require('child_process')
 
 const {
   MeineComponentClassNameMap,
@@ -8,7 +8,7 @@ const { getExistingCustomChildren } = require('../utils')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
-  const componentClassName = `component_component ${MeineComponentClassNameMap.Jira}`
+  const componentClassName = `component_component ${MeineComponentClassNameMap.Ssh}`
   const componentSelector = classNameToSelector(componentClassName)
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
@@ -16,13 +16,13 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       super(props)
 
       this.state = {
-        card: '',
+        ssh: '',
       }
     }
 
     render() {
       const props = this.props
-      const { card } = this.state
+      const { ssh } = this.state
       const existingChildren = getExistingCustomChildren(props)
       return React.createElement(
         Hyper,
@@ -32,7 +32,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               'div',
               {
                 className: componentClassName,
-                ...(!card && {
+                ...(!ssh && {
                   style: {
                     display: 'none',
                   },
@@ -40,20 +40,17 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               },
               React.createElement(
                 'div',
-                {
-                  className: 'component_item item_clickable',
-                  onClick: this.handleJiraCardClick.bind(this),
-                },
-                card
+                { className: 'component_item' },
+                ssh
                   ? React.createElement(
                       'div',
                       {},
                       React.createElement(
                         'span',
                         { className: 'component_icon logo_icon' },
-                        '󰌃',
+                        '',
                       ),
-                      card,
+                      ssh,
                     )
                   : null,
               ),
@@ -63,19 +60,29 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       )
     }
 
-    handleJiraCardClick() {
-      const { card } = this.state
-      shell.openExternal(`https://hapana.atlassian.net/browse/${card}`)
+    grepSsh() {
+      exec('ps -ef | grep "ssh .*"', (err, stdout) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        const [ssh] = stdout
+          .split('\n')
+          .filter(line => line && !line.includes('grep'))
+        if (ssh) {
+          const parts = ssh.split(' ')
+          const lastPart = parts[parts.length - 1]
+          if (this.state.ssh !== lastPart) {
+            this.setState({ ssh: lastPart })
+          }
+          return
+        }
+        this.setState({ ssh: '' })
+      })
     }
 
     componentDidMount() {
-      this.interval = setInterval(() => {
-        const footerGroup = this.rightFooterGroup
-        const match = footerGroup.innerHTML.match(/(CV-\d+)/)
-        this.setState({
-          card: match ? match[1] : '',
-        })
-      }, 100)
+      this.interval = setInterval(this.grepSsh.bind(this), 100)
     }
 
     componentWillUnmount() {

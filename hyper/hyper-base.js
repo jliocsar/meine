@@ -3,13 +3,33 @@
 // which will not automatically be merged into this file.
 // See https://hyper.is#cfg for all currently supported options.
 const px = size => size + 'px'
+const componentClassName = className => `meine_component ${className}`
+const classNameToSelector = names =>
+  names
+    .split(' ')
+    .map(className => `.${className}`)
+    .join('')
 
 const FONT_SIZE = 14
 const FONT_FAMILY = '"Cascadia Code", "Symbols Nerd Font", monospace'
-const JIRA_LINK_COMPONENT_CLASS_NAME = 'component_jira_link'
-const USD_BRL_CONVERSION_COMPONENT_CLASS_NAME = 'component_usd_brl_conv'
+const JIRA_LINK_COMPONENT_CLASS_NAME = componentClassName('component_jira_link')
+const USD_BRL_CONVERSION_COMPONENT_CLASS_NAME = componentClassName(
+  'component_usd_brl_conv',
+)
+const SSH_COMPONENT_CLASS_NAME = componentClassName('component_ssh')
+const DOCKER_COMPOSE_COMPONENT_CLASS_NAME = componentClassName(
+  'component_docker_compose',
+)
 const MIN_TERMINAL_WINDOW_WIDTH_SIZE = px(1024)
 
+const plugins = ['hyper-statusline', 'hyper-hide-scroll', 'hyperminimal']
+const localPlugins = ['hypermeine']
+const MeineComponentClassNameMap = {
+  Jira: JIRA_LINK_COMPONENT_CLASS_NAME,
+  UsdBrlConversion: USD_BRL_CONVERSION_COMPONENT_CLASS_NAME,
+  Ssh: SSH_COMPONENT_CLASS_NAME,
+  DockerCompose: DOCKER_COMPOSE_COMPONENT_CLASS_NAME,
+}
 const Color = {
   black: '#1F1F28',
   red: '#E46A78',
@@ -31,15 +51,10 @@ const Color = {
   lightCoral: '#A98FD2',
 }
 
-module.exports.JIRA_LINK_COMPONENT_CLASS_NAME = JIRA_LINK_COMPONENT_CLASS_NAME
-module.exports.USD_BRL_CONVERSION_COMPONENT_CLASS_NAME =
-  USD_BRL_CONVERSION_COMPONENT_CLASS_NAME
-module.exports.plugins = [
-  'hyper-statusline',
-  'hyper-hide-scroll',
-  'hyperminimal',
-]
-module.exports.localPlugins = ['hypermeine']
+module.exports.MeineComponentClassNameMap = MeineComponentClassNameMap
+module.exports.plugins = plugins
+module.exports.localPlugins = localPlugins
+module.exports.classNameToSelector = classNameToSelector
 
 module.exports.baseConfig = {
   // choose either `'stable'` for receiving highly polished,
@@ -76,6 +91,10 @@ module.exports.baseConfig = {
   borderColor: '#000',
   // custom CSS to embed in the main window
   css: /* css */ `
+.terms_termsShifted {
+  margin-top: 0 !important;
+}
+
 & {
   --gtk-border-color: #454445;
   --component-margin-size: 12px;
@@ -88,6 +107,7 @@ module.exports.baseConfig = {
     border-color: var(--gtk-border-color) !important;
     border-top: 1px solid var(--gtk-border-color);
     border-bottom: 0;
+    backdrop-filter: blur(2px);
   }
 
   .tab_tab:first-of-type {
@@ -103,7 +123,7 @@ module.exports.baseConfig = {
   }
 
   .tab_active {
-    background: ${Color.lightBlack};
+    background: ${Color.lightBlack}bb;
   }
 
   .footer_footer {
@@ -127,8 +147,7 @@ module.exports.baseConfig = {
       margin-right: 8px;
     }
 
-    .${JIRA_LINK_COMPONENT_CLASS_NAME},
-    .${USD_BRL_CONVERSION_COMPONENT_CLASS_NAME} {
+    .meine_component {
       padding: 0 var(--component-margin-size);
     }
 
@@ -136,7 +155,7 @@ module.exports.baseConfig = {
       padding-right: var(--component-margin-size);
     }
 
-    .${JIRA_LINK_COMPONENT_CLASS_NAME} {
+    ${classNameToSelector(MeineComponentClassNameMap.Jira)} {
       background-color: #0052CC;
 
       div {
@@ -148,7 +167,32 @@ module.exports.baseConfig = {
       }
     }
 
-    .${USD_BRL_CONVERSION_COMPONENT_CLASS_NAME} {
+    ${classNameToSelector(MeineComponentClassNameMap.DockerCompose)} {
+      background-color: #0db7ed; 
+
+      div {
+        color: #FFF;
+      }
+
+      @media (max-width: ${MIN_TERMINAL_WINDOW_WIDTH_SIZE}) {
+        display: none;
+      }
+    }
+
+
+    ${classNameToSelector(MeineComponentClassNameMap.Ssh)} {
+      background-color: #000;
+
+      div {
+        color: #FFF;
+      }
+
+      @media (max-width: ${MIN_TERMINAL_WINDOW_WIDTH_SIZE}) {
+        display: none;
+      }
+    }
+
+    ${classNameToSelector(MeineComponentClassNameMap.UsdBrlConversion)} {
       background-color: ${Color.lightBlack}88;
 
       @media (max-width: ${MIN_TERMINAL_WINDOW_WIDTH_SIZE}) {
@@ -156,9 +200,7 @@ module.exports.baseConfig = {
       }
     }
   }
-}
-*/
-`,
+}`,
   // custom CSS to embed in the terminal window
   termCSS: '',
   // set custom startup directory (must be an absolute path)

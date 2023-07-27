@@ -1,4 +1,4 @@
-const { shell } = require('electron')
+const { exec } = require('child_process')
 
 const {
   MeineComponentClassNameMap,
@@ -8,7 +8,7 @@ const { getExistingCustomChildren } = require('../utils')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
-  const componentClassName = `component_component ${MeineComponentClassNameMap.Jira}`
+  const componentClassName = `component_component ${MeineComponentClassNameMap.DockerCompose}`
   const componentSelector = classNameToSelector(componentClassName)
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
@@ -16,13 +16,13 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       super(props)
 
       this.state = {
-        card: '',
+        isRunning: false,
       }
     }
 
     render() {
       const props = this.props
-      const { card } = this.state
+      const { isRunning } = this.state
       const existingChildren = getExistingCustomChildren(props)
       return React.createElement(
         Hyper,
@@ -32,7 +32,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               'div',
               {
                 className: componentClassName,
-                ...(!card && {
+                ...(!isRunning && {
                   style: {
                     display: 'none',
                   },
@@ -40,20 +40,27 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               },
               React.createElement(
                 'div',
-                {
-                  className: 'component_item item_clickable',
-                  onClick: this.handleJiraCardClick.bind(this),
-                },
-                card
+                { className: 'component_item' },
+                isRunning
                   ? React.createElement(
                       'div',
-                      {},
+                      {
+                        style: {
+                          display: 'flex',
+                          alignItems: 'center',
+                        },
+                      },
                       React.createElement(
                         'span',
-                        { className: 'component_icon logo_icon' },
-                        '󰌃',
+                        {
+                          className: 'component_icon logo_icon',
+                          style: {
+                            fontSize: 22,
+                          },
+                        },
+                        '󰡨',
                       ),
-                      card,
+                      'dcup',
                     )
                   : null,
               ),
@@ -63,19 +70,21 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       )
     }
 
-    handleJiraCardClick() {
-      const { card } = this.state
-      shell.openExternal(`https://hapana.atlassian.net/browse/${card}`)
+    grepDockerCompose() {
+      exec('ps -ef | grep "docker-compose up"', (err, stdout) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+        const [isRunning] = stdout
+          .split('\n')
+          .filter(line => line && !line.includes('grep'))
+        this.setState({ isRunning: !!isRunning })
+      })
     }
 
     componentDidMount() {
-      this.interval = setInterval(() => {
-        const footerGroup = this.rightFooterGroup
-        const match = footerGroup.innerHTML.match(/(CV-\d+)/)
-        this.setState({
-          card: match ? match[1] : '',
-        })
-      }, 100)
+      this.interval = setInterval(this.grepDockerCompose.bind(this), 100)
     }
 
     componentWillUnmount() {

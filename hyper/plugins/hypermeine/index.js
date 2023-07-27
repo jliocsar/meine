@@ -7,12 +7,24 @@ const {
 const {
   decorateHyper: decorateHyperWithJiraCard,
 } = require('/home/jungledevs/.meine/hyper/plugins/hyper-statusline-jira-link')
+const {
+  decorateHyper: decorateHyperWithSshStatus,
+} = require('/home/jungledevs/.meine/hyper/plugins/hyper-statusline-ssh')
+const {
+  decorateHyper: decorateHyperWithDockerComposeStatus,
+} = require('/home/jungledevs/.meine/hyper/plugins/hyper-statusline-docker-compose')
 
 module.exports = {
   decorateConfig,
-  decorateHyper: (Hyper, args) => {
-    const WithUsdBrlConversion = decorateHyperWithUsdBrlConversion(Hyper, args)
-    const WithJiraCard = decorateHyperWithJiraCard(WithUsdBrlConversion, args)
-    return WithJiraCard
-  },
+  decorateHyper: (Hyper, args) =>
+    decorateHyperWithDockerComposeStatus(
+      decorateHyperWithSshStatus(
+        decorateHyperWithJiraCard(
+          decorateHyperWithUsdBrlConversion(Hyper, args),
+          args,
+        ),
+        args,
+      ),
+      args,
+    ),
 }
