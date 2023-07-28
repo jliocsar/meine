@@ -81,7 +81,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
           .filter(line => line && !line.includes('grep'))
         if (ssh) {
           const parts = ssh.split(' ')
-          const lastPart = parts[parts.length - 1]
+          const lastPart = parts[parts.length - 1].replace(/'/g, '')
           if (this.state.ssh !== lastPart) {
             this.setState({ ssh: lastPart })
           }
