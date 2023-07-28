@@ -166,6 +166,10 @@ module.exports.baseConfig = {
       padding-right: var(--component-margin-size);
     }
 
+    ${classNameToSelector(MeineComponentClassNameMap.UsdBrlConversion)} {
+      background-color: ${Color.lightBlack}88;
+    }
+
     ${classNameToSelector(MeineComponentClassNameMap.Jira)} {
       background-color: #0052CC;
 
@@ -198,14 +202,6 @@ module.exports.baseConfig = {
       }
 
       @media (max-width: ${px(1128)}) {
-        display: none;
-      }
-    }
-
-    ${classNameToSelector(MeineComponentClassNameMap.UsdBrlConversion)} {
-      background-color: ${Color.lightBlack}88;
-
-      @media (max-width: ${px(1314)}) {
         display: none;
       }
     }
