@@ -1,6 +1,4 @@
-const { networkInterfaces } = require('os')
 const { exec } = require('child_process')
-const { shell } = require('electron')
 
 const {
   MeineComponentClassNameMap,
@@ -10,6 +8,7 @@ const { getExistingCustomChildren } = require('../utils')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
+  const MAX_COMMAND_CHARACTERS_LENGTH = 26
   const componentClassName = `component_component ${MeineComponentClassNameMap.Yarn}`
   const componentSelector = classNameToSelector(componentClassName)
 
@@ -34,7 +33,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               'div',
               {
                 className: componentClassName,
-                ...(!command && {
+                ...((!command ||
+                  command.length > MAX_COMMAND_CHARACTERS_LENGTH) && {
                   style: {
                     display: 'none',
                   },
