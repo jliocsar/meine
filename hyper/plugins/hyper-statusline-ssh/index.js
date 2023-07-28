@@ -44,11 +44,21 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                 ssh
                   ? React.createElement(
                       'div',
-                      {},
+                      {
+                        style: {
+                          display: 'flex',
+                          alignItems: 'center',
+                        },
+                      },
                       React.createElement(
                         'span',
-                        { className: 'component_icon logo_icon' },
-                        '',
+                        {
+                          className: 'component_icon logo_icon',
+                          style: {
+                            fontSize: 28,
+                          },
+                        },
+                        '󰣀',
                       ),
                       ssh,
                     )

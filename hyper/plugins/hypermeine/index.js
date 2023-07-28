@@ -13,18 +13,30 @@ const {
 const {
   decorateHyper: decorateHyperWithDockerComposeStatus,
 } = require('/home/jungledevs/.meine/hyper/plugins/hyper-statusline-docker-compose')
+const {
+  decorateHyper: decorateHyperWithIpAddress,
+} = require('/home/jungledevs/.meine/hyper/plugins/hyper-statusline-ip-address')
+const {
+  decorateHyper: decorateHyperWithRunningYarnCommand,
+} = require('/home/jungledevs/.meine/hyper/plugins/hyper-statusline-yarn-command')
+
+const decorate =
+  (...decorators) =>
+  (Hyper, args) =>
+    decorators.reduce(
+      (Component, decorator) => decorator(Component, args),
+      Hyper,
+    )
 
 module.exports = {
   decorateConfig,
   decorateHyper: (Hyper, args) =>
-    decorateHyperWithDockerComposeStatus(
-      decorateHyperWithSshStatus(
-        decorateHyperWithJiraCard(
-          decorateHyperWithUsdBrlConversion(Hyper, args),
-          args,
-        ),
-        args,
-      ),
-      args,
-    ),
+    decorate(
+      decorateHyperWithIpAddress,
+      decorateHyperWithUsdBrlConversion,
+      decorateHyperWithJiraCard,
+      decorateHyperWithSshStatus,
+      decorateHyperWithDockerComposeStatus,
+      decorateHyperWithRunningYarnCommand,
+    )(Hyper, args),
 }

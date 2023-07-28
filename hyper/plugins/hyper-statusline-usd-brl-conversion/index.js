@@ -4,7 +4,7 @@ const {
   MeineComponentClassNameMap,
   classNameToSelector,
 } = require('../../hyper-base')
-const { getExistingCustomChildren } = require('../utils')
+const { getExistingCustomChildren, queryMeineComponents } = require('../utils')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
@@ -21,15 +21,13 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       this.state = {
         usdBrlConversion: 0,
         lastConversion: null,
+        shouldRender: false,
       }
     }
 
     render() {
       const props = this.props
-      const { usdBrlConversion, lastConversion } = this.state
-      if (!lastConversion) {
-        return React.createElement(Hyper, props)
-      }
+      const { usdBrlConversion, lastConversion, shouldRender } = this.state
       const existingChildren = getExistingCustomChildren(props)
 
       return React.createElement(
@@ -40,6 +38,11 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               'div',
               {
                 className: componentClassName,
+                ...(!shouldRender && {
+                  style: {
+                    display: 'none',
+                  },
+                }),
               },
               React.createElement(
                 'div',
@@ -57,7 +60,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                 lastConversion
                   ? React.createElement(
                       'small',
-                      {},
+                      { style: { fontSize: 12 } },
                       ` (${lastConversion.toLocaleTimeString()})`,
                     )
                   : null,
@@ -85,14 +88,22 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
     componentDidMount() {
       this.fetchUsdBrlConversion()
-      this.interval = setInterval(
+      this.renderInterval = setInterval(() => {
+        const currentMeineComponents = queryMeineComponents({
+          filterClassNames: [componentClassName],
+        })
+        const shouldRender = currentMeineComponents.length < 2
+        this.setState({ shouldRender })
+      }, 100)
+      this.fetchInterval = setInterval(
         this.fetchUsdBrlConversion.bind(this),
         conversionInterval,
       )
     }
 
     componentWillUnmount() {
-      clearInterval(this.interval)
+      clearInterval(this.renderInterval)
+      clearInterval(this.fetchInterval)
     }
   }
 }
