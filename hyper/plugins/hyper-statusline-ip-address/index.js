@@ -86,7 +86,11 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                       'p',
                       { style: { fontSize: 10 } },
                       'Home: ',
-                      ip,
+                      React.createElement(
+                        'span',
+                        { style: { userSelect: 'all' } },
+                        ip,
+                      ),
                     ),
                     React.createElement(
                       'p',
@@ -97,7 +101,11 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                           shell.openExternal(`https://${publicIpUrl}`),
                       },
                       'Public: ',
-                      publicIp,
+                      React.createElement(
+                        'span',
+                        { style: { userSelect: 'all' } },
+                        publicIp,
+                      ),
                     ),
                   ),
                 ),
@@ -119,7 +127,18 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       })
     }
 
+    hideCwdComponent() {
+      const component = document.querySelector(
+        '.component_component.component_cwd',
+      )
+      if (component) {
+        component.style.display = 'none'
+      }
+    }
+
     componentDidMount() {
+      // Hides the `cwd` component in favor of the current IP one
+      this.hideCwdComponent()
       this.fetchPublicIp()
     }
   }

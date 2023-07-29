@@ -62,6 +62,7 @@ module.exports.MEINE_COMPONENT_CLASS_NAME = MEINE_COMPONENT_CLASS_NAME
 module.exports.MeineComponentClassNameMap = MeineComponentClassNameMap
 module.exports.plugins = plugins
 module.exports.localPlugins = localPlugins
+module.exports.Color = Color
 module.exports.classNameToSelector = classNameToSelector
 
 const FONT_SIZE = 14
@@ -166,6 +167,10 @@ module.exports.baseConfig = {
       padding-right: var(--component-margin-size);
     }
 
+    ${classNameToSelector(MeineComponentClassNameMap.IpAddress)} {
+      padding-left: 0;
+    }
+
     ${classNameToSelector(MeineComponentClassNameMap.UsdBrlConversion)} {
       background-color: ${Color.lightBlack}88;
     }
@@ -207,11 +212,37 @@ module.exports.baseConfig = {
     }
 
     ${classNameToSelector(MeineComponentClassNameMap.Yarn)} {
-      // yarn colors
       background-color: #2C8EBB;
 
       div {
         color: #FFF;
+      }
+
+      .args_container {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        bottom: 12px;
+        padding: 8px;
+        background: ${Color.black}dd;
+        border-radius: 4px;
+        font-size: 12px;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 0 4px rgba(24, 24, 24, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        pointer-events: none;
+        transform: translateX(-4px);
+        user-select: all;
+
+        ol {
+          list-style-type: none;
+
+          li {
+            .arg_arg {
+              color: ${Color.green};
+            }
+          }
+        }
       }
 
       @media (max-width: ${px(1480)}) {

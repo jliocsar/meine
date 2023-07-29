@@ -16,7 +16,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       super(props)
 
       this.state = {
-        ssh: '',
+        ssh: {},
       }
     }
 
@@ -24,6 +24,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const props = this.props
       const { ssh } = this.state
       const existingChildren = getExistingCustomChildren(props)
+      const openSshInstances = Object.entries(ssh)
+      const hasRunningInstances = !!openSshInstances?.length
       return React.createElement(
         Hyper,
         Object.assign({}, props, {
@@ -32,7 +34,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               'div',
               {
                 className: componentClassName,
-                ...(!ssh && {
+                ...(!hasRunningInstances && {
                   style: {
                     display: 'none',
                   },
@@ -41,7 +43,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               React.createElement(
                 'div',
                 { className: 'component_item' },
-                ssh
+                hasRunningInstances
                   ? React.createElement(
                       'div',
                       {
@@ -60,7 +62,32 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                         },
                         '󰣀',
                       ),
-                      ssh,
+                      openSshInstances.map(
+                        ([sshInstance, instancesCount], index) =>
+                          React.createElement(
+                            'p',
+                            {
+                              style: {
+                                fontSize: 12,
+                                marginLeft: index ? 8 : 0,
+                              },
+                            },
+                            sshInstance,
+                            React.createElement(
+                              'small',
+                              {
+                                style: {
+                                  fontSize: 10,
+                                  marginLeft: 4,
+                                  color: 'rgba(255, 255, 255, 0.5)',
+                                },
+                              },
+                              '(',
+                              instancesCount,
+                              ')',
+                            ),
+                          ),
+                      ),
                     )
                   : null,
               ),
@@ -76,18 +103,22 @@ module.exports.decorateHyper = (Hyper, { React }) => {
           console.error(err)
           return
         }
-        const [ssh] = stdout
+        const ssh = {}
+        const openSshInstances = stdout
           .split('\n')
           .filter(line => line && !line.includes('grep'))
-        if (ssh) {
-          const parts = ssh.split(' ')
-          const lastPart = parts[parts.length - 1].replace(/'/g, '')
-          if (this.state.ssh !== lastPart) {
-            this.setState({ ssh: lastPart })
+        if (openSshInstances) {
+          for (const instance of openSshInstances) {
+            const parts = instance.split(' ')
+            const lastPart = parts[parts.length - 1].replace(/'/g, '')
+            if (ssh[lastPart]) {
+              ssh[lastPart] += 1
+            } else {
+              ssh[lastPart] = 1
+            }
           }
-          return
         }
-        this.setState({ ssh: '' })
+        return this.setState({ ssh })
       })
     }
 

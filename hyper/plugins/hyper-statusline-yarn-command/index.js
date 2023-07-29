@@ -4,7 +4,7 @@ const {
   MeineComponentClassNameMap,
   classNameToSelector,
 } = require('../../hyper-base')
-const { getExistingCustomChildren } = require('../utils')
+const { getExistingCustomChildren, queryMeineComponents } = require('../utils')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
@@ -18,12 +18,14 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
       this.state = {
         command: '',
+        commandArgs: [],
+        showCommandArgs: false,
       }
     }
 
     render() {
       const props = this.props
-      const { command } = this.state
+      const { command, commandArgs, showCommandArgs } = this.state
       const existingChildren = getExistingCustomChildren(props)
       return React.createElement(
         Hyper,
@@ -32,8 +34,14 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
+                ...(commandArgs && {
+                  onMouseEnter: () =>
+                    this.setState({ showCommandArgs: !!commandArgs.length }),
+                  onMouseLeave: () => this.setState({ showCommandArgs: false }),
+                }),
                 className: componentClassName,
                 ...((!command ||
+                  !commandArgs ||
                   command.length > MAX_COMMAND_CHARACTERS_LENGTH) && {
                   style: {
                     display: 'none',
@@ -71,6 +79,30 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                   command,
                 ),
               ),
+              showCommandArgs
+                ? React.createElement(
+                    'div',
+                    { className: 'args_container' },
+                    'Arguments:',
+                    React.createElement(
+                      'ol',
+                      { style: { marginTop: 2 } },
+                      commandArgs.map((arg, index) =>
+                        React.createElement(
+                          'li',
+                          {},
+                          index + 1,
+                          '. ',
+                          React.createElement(
+                            'span',
+                            { className: 'arg_arg' },
+                            `'${arg}'`,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
             ),
           ),
         }),
@@ -89,17 +121,30 @@ module.exports.decorateHyper = (Hyper, { React }) => {
         if (!runningCommandMatch) {
           return this.setState({ command: '' })
         }
-        const command = runningCommandMatch.replace(/.*\/bin\/yarn\s/, '')
-        return this.setState({ command })
+        const [command, ...commandArgs] = runningCommandMatch
+          .replace(/.*\/bin\/yarn\s/, '')
+          .split(' ')
+        return this.setState({
+          command,
+          commandArgs,
+        })
       })
     }
 
     componentDidMount() {
-      this.interval = setInterval(this.grepYarn.bind(this), 100)
+      this.renderInterval = setInterval(() => {
+        const currentMeineComponents = queryMeineComponents({
+          filterClassNames: [componentClassName],
+        })
+        const shouldRender = currentMeineComponents.length < 3
+        this.setState({ shouldRender })
+      }, 100)
+      this.grepInterval = setInterval(this.grepYarn.bind(this), 100)
     }
 
     componentWillUnmount() {
-      clearInterval(this.interval)
+      clearInterval(this.renderInterval)
+      clearInterval(this.grepInterval)
     }
   }
 }
