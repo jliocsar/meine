@@ -19,6 +19,9 @@ const {
 const {
   decorateHyper: decorateHyperWithRunningYarnCommand,
 } = require('/home/jungledevs/.meine/hyper/plugins/hyper-statusline-yarn-command')
+const {
+  decorateHyper: decorateHyperWithGitBranchesHistory,
+} = require('/home/jungledevs/.meine/hyper/plugins/hyper-statusline-git-branches-history')
 
 const decorate =
   (...decorators) =>
@@ -34,6 +37,7 @@ module.exports = {
     decorate(
       decorateHyperWithIpAddress,
       decorateHyperWithUsdBrlConversion,
+      decorateHyperWithGitBranchesHistory,
       decorateHyperWithJiraCard,
       decorateHyperWithSshStatus,
       decorateHyperWithDockerComposeStatus,

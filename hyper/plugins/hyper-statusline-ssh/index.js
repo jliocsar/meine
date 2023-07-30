@@ -17,12 +17,13 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
       this.state = {
         ssh: {},
+        showInstances: false,
       }
     }
 
     render() {
       const props = this.props
-      const { ssh } = this.state
+      const { ssh, showInstances } = this.state
       const existingChildren = getExistingCustomChildren(props)
       const openSshInstances = Object.entries(ssh)
       const hasRunningInstances = !!openSshInstances?.length
@@ -33,6 +34,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
+                onMouseEnter: () => this.setState({ showInstances: true }),
+                onMouseLeave: () => this.setState({ showInstances: false }),
                 className: componentClassName,
                 ...(!hasRunningInstances && {
                   style: {
@@ -62,35 +65,59 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                         },
                         '󰣀',
                       ),
-                      openSshInstances.map(
-                        ([sshInstance, instancesCount], index) =>
+                      openSshInstances.map(([sshInstance, instances], index) =>
+                        React.createElement(
+                          'p',
+                          {
+                            style: {
+                              fontSize: 12,
+                              marginLeft: index ? 8 : 0,
+                            },
+                          },
+                          sshInstance,
                           React.createElement(
-                            'p',
+                            'small',
                             {
                               style: {
-                                fontSize: 12,
-                                marginLeft: index ? 8 : 0,
+                                fontSize: 10,
+                                marginLeft: 4,
+                                color: 'rgba(255, 255, 255, 0.5)',
                               },
                             },
-                            sshInstance,
-                            React.createElement(
-                              'small',
-                              {
-                                style: {
-                                  fontSize: 10,
-                                  marginLeft: 4,
-                                  color: 'rgba(255, 255, 255, 0.5)',
-                                },
-                              },
-                              '(',
-                              instancesCount,
-                              ')',
-                            ),
+                            '(',
+                            instances.length,
+                            ')',
                           ),
+                        ),
                       ),
                     )
                   : null,
               ),
+              showInstances
+                ? React.createElement(
+                    'div',
+                    { className: 'meine_tooltip' },
+                    openSshInstances.flatMap(([instanceName, instances]) =>
+                      React.createElement(
+                        'ol',
+                        {},
+                        instances.map(instance =>
+                          React.createElement(
+                            'li',
+                            {},
+                            instanceName,
+                            ': ',
+                            React.createElement(
+                              'span',
+                              { className: 'arg_arg' },
+                              `'${instance}'`,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : null,
             ),
           ),
         }),
@@ -111,10 +138,11 @@ module.exports.decorateHyper = (Hyper, { React }) => {
           for (const instance of openSshInstances) {
             const parts = instance.split(' ')
             const lastPart = parts[parts.length - 1].replace(/'/g, '')
+            const sshCommand = instance.replace(/.*(?=ssh)/, '')
             if (ssh[lastPart]) {
-              ssh[lastPart] += 1
+              ssh[lastPart].push(sshCommand)
             } else {
-              ssh[lastPart] = 1
+              ssh[lastPart] = [sshCommand]
             }
           }
         }

@@ -27,6 +27,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const props = this.props
       const { command, commandArgs, showCommandArgs } = this.state
       const existingChildren = getExistingCustomChildren(props)
+
       return React.createElement(
         Hyper,
         Object.assign({}, props, {
@@ -82,7 +83,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               showCommandArgs
                 ? React.createElement(
                     'div',
-                    { className: 'args_container' },
+                    { className: 'meine_tooltip' },
                     'Arguments:',
                     React.createElement(
                       'ol',

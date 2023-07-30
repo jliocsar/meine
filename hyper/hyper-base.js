@@ -26,6 +26,9 @@ const IP_ADDRESS_COMPONENT_CLASS_NAME = componentClassName(
 )
 const YARN_COMMAND_COMPONENT_CLASS_NAME =
   componentClassName('component_ip_yarn')
+const GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME = componentClassName(
+  'component_git_branches_history',
+)
 
 const plugins = ['hyper-statusline', 'hyper-hide-scroll', 'hyperminimal']
 const localPlugins = ['hypermeine']
@@ -36,6 +39,7 @@ const MeineComponentClassNameMap = {
   DockerCompose: DOCKER_COMPOSE_COMPONENT_CLASS_NAME,
   IpAddress: IP_ADDRESS_COMPONENT_CLASS_NAME,
   Yarn: YARN_COMMAND_COMPONENT_CLASS_NAME,
+  GitBranchesHistory: GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME,
 }
 const Color = {
   black: '#1F1F28',
@@ -138,6 +142,23 @@ module.exports.baseConfig = {
     background: ${Color.lightBlack}bb;
   }
 
+  .meine_tooltip {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 24px;
+    padding: 8px;
+    background: ${Color.black}dd;
+    border-radius: 8px 8px 8px 0;
+    font-size: 12px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 6px rgba(24, 24, 24, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    pointer-events: none;
+    transform: translateX(4px);
+    user-select: all;
+  }
+
   .footer_footer {
     background: rgba(0, 0, 0, .2);
     opacity: 1;
@@ -167,8 +188,25 @@ module.exports.baseConfig = {
       padding-right: var(--component-margin-size);
     }
 
+    .arg_arg {
+      color: ${Color.green};
+    }
+
+    .conversion_text {
+      color: ${Color.lightCyan};
+      margin-left: 8px;
+    }
+
     ${classNameToSelector(MeineComponentClassNameMap.IpAddress)} {
       padding-left: 0;
+    }
+
+    ${classNameToSelector(MeineComponentClassNameMap.GitBranchesHistory)} {
+      background-color: #333;
+
+      div {
+        color: #f5f5f5;
+      }
     }
 
     ${classNameToSelector(MeineComponentClassNameMap.UsdBrlConversion)} {
@@ -216,33 +254,6 @@ module.exports.baseConfig = {
 
       div {
         color: #FFF;
-      }
-
-      .args_container {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        bottom: 12px;
-        padding: 8px;
-        background: ${Color.black}dd;
-        border-radius: 4px;
-        font-size: 12px;
-        backdrop-filter: blur(4px);
-        box-shadow: 0 0 4px rgba(24, 24, 24, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        pointer-events: none;
-        transform: translateX(-4px);
-        user-select: all;
-
-        ol {
-          list-style-type: none;
-
-          li {
-            .arg_arg {
-              color: ${Color.green};
-            }
-          }
-        }
       }
 
       @media (max-width: ${px(1480)}) {

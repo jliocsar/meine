@@ -22,12 +22,18 @@ module.exports.decorateHyper = (Hyper, { React }) => {
         usdBrlConversion: 0,
         lastConversion: null,
         shouldRender: false,
+        showLastConversion: false,
       }
     }
 
     render() {
       const props = this.props
-      const { usdBrlConversion, lastConversion, shouldRender } = this.state
+      const {
+        usdBrlConversion,
+        lastConversion,
+        shouldRender,
+        showLastConversion,
+      } = this.state
       const existingChildren = getExistingCustomChildren(props)
 
       return React.createElement(
@@ -37,6 +43,9 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
+                onMouseEnter: () => this.setState({ showLastConversion: true }),
+                onMouseLeave: () =>
+                  this.setState({ showLastConversion: false }),
                 className: componentClassName,
                 ...(!shouldRender && {
                   style: {
@@ -52,19 +61,32 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                 },
                 React.createElement(
                   'span',
-                  { className: 'component_icon logo_icon' },
+                  {
+                    ...(lastConversion && {
+                      title: `Last conversion at ${lastConversion.toLocaleTimeString()}`,
+                    }),
+                    className: 'component_icon logo_icon',
+                  },
                   '💵',
                 ),
                 'R$',
                 Number(usdBrlConversion).toFixed(2),
-                lastConversion
-                  ? React.createElement(
-                      'small',
-                      { style: { fontSize: 12 } },
-                      ` (${lastConversion.toLocaleTimeString()})`,
-                    )
-                  : null,
               ),
+              lastConversion && showLastConversion
+                ? React.createElement(
+                    'div',
+                    {
+                      className: 'meine_tooltip',
+                      style: { flexDirection: 'row' },
+                    },
+                    'Last conversion at',
+                    React.createElement(
+                      'span',
+                      { className: 'conversion_text' },
+                      lastConversion.toLocaleTimeString(),
+                    ),
+                  )
+                : null,
             ),
           ),
         }),
@@ -92,7 +114,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
         const currentMeineComponents = queryMeineComponents({
           filterClassNames: [componentClassName],
         })
-        const shouldRender = currentMeineComponents.length < 2
+        const shouldRender = currentMeineComponents.length < 3
         this.setState({ shouldRender })
       }, 100)
       this.fetchInterval = setInterval(
