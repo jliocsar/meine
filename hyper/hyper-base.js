@@ -30,7 +30,12 @@ const GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME = componentClassName(
   'component_git_branches_history',
 )
 
-const plugins = ['hyper-statusline', 'hyper-hide-scroll', 'hyperminimal']
+const plugins = [
+  'hyper-statusline',
+  'hyper-hide-scroll',
+  'hyperminimal',
+  'hyperterm-safepaste',
+]
 const localPlugins = ['hypermeine']
 const MeineComponentClassNameMap = {
   Jira: JIRA_LINK_COMPONENT_CLASS_NAME,
@@ -147,12 +152,12 @@ module.exports.baseConfig = {
     flex-direction: column;
     position: absolute;
     bottom: 24px;
-    padding: 8px;
-    background: ${Color.black}dd;
+    padding: 12px;
+    background: ${Color.black}88;
     border-radius: 8px 8px 8px 0;
     font-size: 12px;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 0 6px rgba(24, 24, 24, 0.3);
+    backdrop-filter: blur(4px);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.15);
     pointer-events: none;
     transform: translateX(4px);
@@ -202,10 +207,14 @@ module.exports.baseConfig = {
     }
 
     ${classNameToSelector(MeineComponentClassNameMap.GitBranchesHistory)} {
-      background-color: #333;
+      background-color: #333A41;
+
+      .logo_icon {
+        color: #959DA5;
+      }
 
       div {
-        color: #f5f5f5;
+        color: #FFF;
       }
     }
 

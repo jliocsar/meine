@@ -69,8 +69,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                     { className: 'meine_tooltip' },
                     React.createElement(
                       'ol',
-                      {},
-                      history.map((entry, index) =>
+                      { style: { listStyleType: 'none' } },
+                      history.map(({ branchName, index }) =>
                         React.createElement(
                           'li',
                           {},
@@ -79,7 +79,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                           React.createElement(
                             'span',
                             { className: 'arg_arg' },
-                            entry,
+                            branchName,
                           ),
                         ),
                       ),
@@ -99,20 +99,24 @@ module.exports.decorateHyper = (Hyper, { React }) => {
           return
         }
         const gitBranchesCommands = stdout.split('\n')
-        const commandsLength = gitBranchesCommands.length
-        const history = gitBranchesCommands
-          .reduce((acc, commandHistory) => {
+        const history = gitBranchesCommands.reduce(
+          (acc, commandHistory, index) => {
             const commandMatchRegex = new RegExp(`^${commandMatch}`)
             const command = commandHistory.replace(/:\s\d+:0;/, '')
             const isGitBranchCommand = commandMatchRegex.test(command)
             if (isGitBranchCommand) {
-              acc.push(command.replace(commandMatchRegex, '').trim())
+              const branchName = command.replace(commandMatchRegex, '').trim()
+              if (branchName && !/^-/.test(branchName)) {
+                acc.push({ branchName, index })
+              }
             }
             return acc
-          }, [])
-          .reverse()
-          .slice(commandsLength - 12)
-        return this.setState({ history })
+          },
+          [],
+        )
+        return this.setState({
+          history: history.slice(history.length - 10),
+        })
       })
     }
 

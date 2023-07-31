@@ -25,3 +25,8 @@ Simply run the `install.zsh` script:
 ```bash
 ./install.zsh
 ```
+
+#### To do
+
+- [ ] Fix `localPlugins` set on `patch-hyper-config.js`;
+- [ ] Re-write `install.zsh` in Node.js.

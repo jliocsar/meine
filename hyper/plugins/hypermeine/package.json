@@ -10,6 +10,5 @@
     "hyper",
     "hyperterm",
     "hyper-config"
-  ],
-  "dependencies": {}
+  ]
 }

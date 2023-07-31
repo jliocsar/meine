@@ -67,7 +67,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                     }),
                     className: 'component_icon logo_icon',
                   },
-                  '💵',
+                  '🇺🇸🇧🇷',
                 ),
                 'R$',
                 Number(usdBrlConversion).toFixed(2),
