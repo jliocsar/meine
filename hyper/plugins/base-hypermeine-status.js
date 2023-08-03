@@ -1,4 +1,4 @@
-const { queryLeftFooterGroup, queryRightFooterGroup } = require('./utils')
+const { queryLeftFooterGroup, queryRightFooterGroup } = require('../utils')
 
 module.exports.HypermeineStatusline = ({ React, componentSelector }) => {
   return class extends React.PureComponent {

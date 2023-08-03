@@ -2,7 +2,7 @@ const fs = require('node:fs')
 const path = require('path')
 const { env, stdout } = require('node:process')
 
-const { plugins, localPlugins } = require('./hyper/hyper-base')
+const { plugins, localPlugins } = require('./hyper/constants')
 
 const HYPER_JS_FILE_PATH = path.resolve(env.HOME, '.hyper.js')
 

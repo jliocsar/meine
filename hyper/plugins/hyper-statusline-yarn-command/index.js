@@ -1,10 +1,12 @@
 const { exec } = require('child_process')
 
 const {
-  MeineComponentClassNameMap,
   classNameToSelector,
-} = require('../../hyper-base')
-const { getExistingCustomChildren, queryMeineComponents } = require('../utils')
+  getExistingCustomChildren,
+  queryMeineComponents,
+} = require('../../utils')
+const { MeineComponentClassNameMap } = require('../../constants')
+const { buildTooltip } = require('../../components/tooltip')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
@@ -27,6 +29,13 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const props = this.props
       const { command, commandArgs, showCommandArgs } = this.state
       const existingChildren = getExistingCustomChildren(props)
+      const Tooltip = buildTooltip({ React })
+
+      const handleMouseEnter = () =>
+        this.setState({ showCommandArgs: !!commandArgs.length })
+      const tooltipProps = {
+        onMouseEnter: handleMouseEnter,
+      }
 
       return React.createElement(
         Hyper,
@@ -35,11 +44,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
-                ...(commandArgs && {
-                  onMouseEnter: () =>
-                    this.setState({ showCommandArgs: !!commandArgs.length }),
-                  onMouseLeave: () => this.setState({ showCommandArgs: false }),
-                }),
                 className: componentClassName,
                 ...((!command ||
                   !commandArgs ||
@@ -52,6 +56,11 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               React.createElement(
                 'div',
                 {
+                  ...(commandArgs && {
+                    ...tooltipProps,
+                    onMouseLeave: () =>
+                      this.setState({ showCommandArgs: false }),
+                  }),
                   className: 'component_item',
                   style: {
                     display: 'flex',
@@ -82,8 +91,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               ),
               showCommandArgs
                 ? React.createElement(
-                    'div',
-                    { className: 'meine_tooltip' },
+                    Tooltip,
+                    tooltipProps,
                     'Arguments:',
                     React.createElement(
                       'ol',
@@ -133,18 +142,10 @@ module.exports.decorateHyper = (Hyper, { React }) => {
     }
 
     componentDidMount() {
-      this.renderInterval = setInterval(() => {
-        const currentMeineComponents = queryMeineComponents({
-          filterClassNames: [componentClassName],
-        })
-        const shouldRender = currentMeineComponents.length < 3
-        this.setState({ shouldRender })
-      }, 100)
       this.grepInterval = setInterval(this.grepYarn.bind(this), 100)
     }
 
     componentWillUnmount() {
-      clearInterval(this.renderInterval)
       clearInterval(this.grepInterval)
     }
   }

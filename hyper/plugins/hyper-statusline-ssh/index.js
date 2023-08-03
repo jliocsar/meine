@@ -1,10 +1,11 @@
 const { exec } = require('child_process')
 
 const {
-  MeineComponentClassNameMap,
   classNameToSelector,
-} = require('../../hyper-base')
-const { getExistingCustomChildren } = require('../utils')
+  getExistingCustomChildren,
+} = require('../../utils')
+const { MeineComponentClassNameMap } = require('../../constants')
+const { buildTooltip } = require('../../components/tooltip')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
@@ -24,9 +25,17 @@ module.exports.decorateHyper = (Hyper, { React }) => {
     render() {
       const props = this.props
       const { ssh, showInstances } = this.state
+      const Tooltip = buildTooltip({ React })
       const existingChildren = getExistingCustomChildren(props)
       const openSshInstances = Object.entries(ssh)
       const hasRunningInstances = !!openSshInstances?.length
+
+      const handleMouseEnter = () =>
+        this.setState({ showInstances: hasRunningInstances })
+      const tooltipProps = {
+        onMouseEnter: handleMouseEnter,
+      }
+
       return React.createElement(
         Hyper,
         Object.assign({}, props, {
@@ -34,7 +43,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
-                onMouseEnter: () => this.setState({ showInstances: true }),
                 onMouseLeave: () => this.setState({ showInstances: false }),
                 className: componentClassName,
                 ...(!hasRunningInstances && {
@@ -45,7 +53,10 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               },
               React.createElement(
                 'div',
-                { className: 'component_item' },
+                {
+                  ...tooltipProps,
+                  className: 'component_item',
+                },
                 hasRunningInstances
                   ? React.createElement(
                       'div',
@@ -95,8 +106,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               ),
               showInstances
                 ? React.createElement(
-                    'div',
-                    { className: 'meine_tooltip' },
+                    Tooltip,
+                    tooltipProps,
                     openSshInstances.flatMap(([instanceName, instances]) =>
                       React.createElement(
                         'ol',

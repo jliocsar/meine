@@ -1,78 +1,6 @@
-'use strict'
-// Future versions of Hyper may add additional config options,
-// which will not automatically be merged into this file.
-// See https://hyper.is#cfg for all currently supported options.
-const MEINE_COMPONENT_CLASS_NAME = 'meine_component'
-
-const px = size => size + 'px'
-const componentClassName = className =>
-  `${MEINE_COMPONENT_CLASS_NAME} ${className}`
-const classNameToSelector = names =>
-  names
-    .split(' ')
-    .map(className => `.${className}`)
-    .join('')
-
-const JIRA_LINK_COMPONENT_CLASS_NAME = componentClassName('component_jira_link')
-const USD_BRL_CONVERSION_COMPONENT_CLASS_NAME = componentClassName(
-  'component_usd_brl_conv',
-)
-const SSH_COMPONENT_CLASS_NAME = componentClassName('component_ssh')
-const DOCKER_COMPOSE_COMPONENT_CLASS_NAME = componentClassName(
-  'component_docker_compose',
-)
-const IP_ADDRESS_COMPONENT_CLASS_NAME = componentClassName(
-  'component_ip_address',
-)
-const YARN_COMMAND_COMPONENT_CLASS_NAME =
-  componentClassName('component_ip_yarn')
-const GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME = componentClassName(
-  'component_git_branches_history',
-)
-
-const plugins = [
-  'hyper-statusline',
-  'hyper-hide-scroll',
-  'hyperminimal',
-  'hyperterm-safepaste',
-]
-const localPlugins = ['hypermeine']
-const MeineComponentClassNameMap = {
-  Jira: JIRA_LINK_COMPONENT_CLASS_NAME,
-  UsdBrlConversion: USD_BRL_CONVERSION_COMPONENT_CLASS_NAME,
-  Ssh: SSH_COMPONENT_CLASS_NAME,
-  DockerCompose: DOCKER_COMPOSE_COMPONENT_CLASS_NAME,
-  IpAddress: IP_ADDRESS_COMPONENT_CLASS_NAME,
-  Yarn: YARN_COMMAND_COMPONENT_CLASS_NAME,
-  GitBranchesHistory: GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME,
-}
-const Color = {
-  black: '#1F1F28',
-  red: '#E46A78',
-  green: '#98BC6D',
-  yellow: '#E5C283',
-  blue: '#7EB3C9',
-  magenta: '#957FB8',
-  cyan: '#7EB3C9',
-  white: '#DDD8BB',
-  lightBlack: '#3C3C51',
-  lightRed: '#EC818C',
-  lightGreen: '#9EC967',
-  lightYellow: '#F1C982',
-  lightBlue: '#7BC2DF',
-  lightMagenta: '#A98FD2',
-  lightCyan: '#7BC2DF',
-  lightWhite: '#A8A48D',
-  limeGreen: '#9EC967',
-  lightCoral: '#A98FD2',
-}
-
-module.exports.MEINE_COMPONENT_CLASS_NAME = MEINE_COMPONENT_CLASS_NAME
-module.exports.MeineComponentClassNameMap = MeineComponentClassNameMap
-module.exports.plugins = plugins
-module.exports.localPlugins = localPlugins
-module.exports.Color = Color
-module.exports.classNameToSelector = classNameToSelector
+const { MeineComponentClassNameMap } = require('./constants')
+const { classNameToSelector, px } = require('./utils')
+const { KanagawaTheme } = require('./themes')
 
 const FONT_SIZE = 14
 const FONT_FAMILY = '"Cascadia Code", "Symbols Nerd Font", monospace'
@@ -159,9 +87,8 @@ module.exports.baseConfig = {
     backdrop-filter: blur(4px);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    pointer-events: none;
     transform: translateX(4px);
-    user-select: all;
+    user-select: none;
   }
 
   .footer_footer {
@@ -195,6 +122,7 @@ module.exports.baseConfig = {
 
     .arg_arg {
       color: ${Color.green};
+      user-select: all;
     }
 
     .conversion_text {
@@ -202,8 +130,18 @@ module.exports.baseConfig = {
       margin-left: 8px;
     }
 
-    ${classNameToSelector(MeineComponentClassNameMap.IpAddress)} {
+    ${classNameToSelector(MeineComponentClassNameMap.ComponentToggler)} {
       padding-left: 0;
+
+      .component_icon {
+        cursor: pointer;
+        transition: color 200ms ease-in-out;
+        color: ${Color.lightBlack};
+
+        &:hover {
+          color: ${Color.white};
+        }
+      }
     }
 
     ${classNameToSelector(MeineComponentClassNameMap.GitBranchesHistory)} {
@@ -228,10 +166,6 @@ module.exports.baseConfig = {
       div {
         color: #FFF;
       }
-
-      @media (max-width: ${px(960)}) {
-        display: none;
-      }
     }
 
     ${classNameToSelector(MeineComponentClassNameMap.Ssh)} {
@@ -239,10 +173,6 @@ module.exports.baseConfig = {
 
       div {
         color: #FFF;
-      }
-
-      @media (max-width: ${px(1060)}) {
-        display: none;
       }
     }
 
@@ -252,10 +182,6 @@ module.exports.baseConfig = {
       div {
         color: #FFF;
       }
-
-      @media (max-width: ${px(1128)}) {
-        display: none;
-      }
     }
 
     ${classNameToSelector(MeineComponentClassNameMap.Yarn)} {
@@ -263,10 +189,6 @@ module.exports.baseConfig = {
 
       div {
         color: #FFF;
-      }
-
-      @media (max-width: ${px(1480)}) {
-        display: none;
       }
     }
   }
@@ -287,7 +209,7 @@ module.exports.baseConfig = {
   // the full list. if you're going to provide the full color palette,
   // including the 6 x 6 color cubes and the grayscale map, just provide
   // an array here instead of a color map object
-  colors: Color,
+  colors: KanagawaTheme,
   // Supported Options:
   //  1. 'SOUND' -> Enables the bell as a sound
   //  2. false: turns off the bell

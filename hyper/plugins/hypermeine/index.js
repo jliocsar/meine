@@ -20,6 +20,9 @@ const {
 const {
   decorateHyper: decorateHyperWithGitBranchesHistory,
 } = require('../hyper-statusline-git-branches-history')
+const {
+  decorateHyper: decorateHyperWithMeineComponentToggler,
+} = require('../hyper-statusline-meine-component-toggler')
 
 const decorate =
   (...decorators) =>
@@ -33,6 +36,7 @@ module.exports = {
   decorateConfig,
   decorateHyper: (Hyper, args) =>
     decorate(
+      decorateHyperWithMeineComponentToggler,
       decorateHyperWithIpAddress,
       decorateHyperWithUsdBrlConversion,
       decorateHyperWithGitBranchesHistory,

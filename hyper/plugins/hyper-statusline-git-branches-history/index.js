@@ -1,15 +1,17 @@
 const { exec } = require('child_process')
 
 const {
-  MeineComponentClassNameMap,
   classNameToSelector,
-} = require('../../hyper-base')
-const { getExistingCustomChildren } = require('../utils')
+  getExistingCustomChildren,
+} = require('../../utils')
+const { buildTooltip } = require('../../components/tooltip')
+const { MeineComponentClassNameMap } = require('../../constants')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
   const componentClassName = `component_component ${MeineComponentClassNameMap.GitBranchesHistory}`
   const componentSelector = classNameToSelector(componentClassName)
+  const Tooltip = buildTooltip({ React })
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
     constructor(props) {
@@ -26,6 +28,12 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const { history, showHistory } = this.state
       const existingChildren = getExistingCustomChildren(props)
 
+      const handleMouseEnter = () =>
+        this.setState({ showHistory: !!history?.length })
+      const tooltipProps = {
+        onMouseEnter: handleMouseEnter,
+      }
+
       return React.createElement(
         Hyper,
         Object.assign({}, props, {
@@ -33,7 +41,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
-                onMouseEnter: () => this.setState({ showHistory: true }),
                 onMouseLeave: () => this.setState({ showHistory: false }),
                 className: componentClassName,
                 ...(!history.length && {
@@ -45,6 +52,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               React.createElement(
                 'div',
                 {
+                  ...tooltipProps,
                   style: {
                     display: 'flex',
                     alignItems: 'center',
@@ -65,8 +73,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               ),
               showHistory
                 ? React.createElement(
-                    'div',
-                    { className: 'meine_tooltip' },
+                    Tooltip,
+                    tooltipProps,
                     React.createElement(
                       'ol',
                       { style: { listStyleType: 'none' } },

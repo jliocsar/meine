@@ -1,10 +1,10 @@
 const { shell } = require('electron')
 
 const {
-  MeineComponentClassNameMap,
   classNameToSelector,
-} = require('../../hyper-base')
-const { getExistingCustomChildren } = require('../utils')
+  getExistingCustomChildren,
+} = require('../../utils')
+const { MeineComponentClassNameMap } = require('../../constants')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
@@ -24,6 +24,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const props = this.props
       const { card } = this.state
       const existingChildren = getExistingCustomChildren(props)
+
       return React.createElement(
         Hyper,
         Object.assign({}, props, {

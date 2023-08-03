@@ -1,4 +1,4 @@
-const { MEINE_COMPONENT_CLASS_NAME } = require('../hyper-base')
+const { MeineComponentClassNameMap } = require('./constants')
 
 module.exports.getExistingCustomChildren = props => {
   const { customChildren } = props
@@ -18,13 +18,23 @@ module.exports.queryLeftFooterGroup = () =>
   document.querySelector(leftFooterGroupSelector)
 module.exports.queryRightFooterGroup = () =>
   document.querySelector(rightFooterGroupSelector)
-module.exports.queryMeineComponents = ({ filterClassNames = [] } = {}) => {
+module.exports.queryMeineComponents = ({
+  filterClassNames = [],
+  filterHidden = true,
+} = {}) => {
   const components = Array.from(
-    document.querySelectorAll(`.${MEINE_COMPONENT_CLASS_NAME}`),
+    document.querySelectorAll(`.${MeineComponentClassNameMap.Default}`),
   )
   return components.filter(
     component =>
-      component.style.display !== 'none' &&
+      (filterHidden && component.style.display !== 'none') ||
       !filterClassNames.includes(component.className),
   )
 }
+
+module.exports.classNameToSelector = names =>
+  names
+    .split(' ')
+    .map(className => `.${className}`)
+    .join('')
+module.exports.px = size => size + 'px'

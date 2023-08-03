@@ -1,10 +1,12 @@
 const { shell } = require('electron')
 
 const {
-  MeineComponentClassNameMap,
   classNameToSelector,
-} = require('../../hyper-base')
-const { getExistingCustomChildren, queryMeineComponents } = require('../utils')
+  getExistingCustomChildren,
+  queryMeineComponents,
+} = require('../../utils')
+const { MeineComponentClassNameMap } = require('../../constants')
+const { buildTooltip } = require('../../components/tooltip')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
@@ -21,20 +23,21 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       this.state = {
         usdBrlConversion: 0,
         lastConversion: null,
-        shouldRender: false,
         showLastConversion: false,
       }
     }
 
     render() {
       const props = this.props
-      const {
-        usdBrlConversion,
-        lastConversion,
-        shouldRender,
-        showLastConversion,
-      } = this.state
+      const { usdBrlConversion, lastConversion, showLastConversion } =
+        this.state
       const existingChildren = getExistingCustomChildren(props)
+      const Tooltip = buildTooltip({ React })
+
+      const handleMouseEnter = () => this.setState({ showLastConversion: true })
+      const tooltipProps = {
+        onMouseEnter: handleMouseEnter,
+      }
 
       return React.createElement(
         Hyper,
@@ -43,30 +46,20 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
-                onMouseEnter: () => this.setState({ showLastConversion: true }),
                 onMouseLeave: () =>
                   this.setState({ showLastConversion: false }),
                 className: componentClassName,
-                ...(!shouldRender && {
-                  style: {
-                    display: 'none',
-                  },
-                }),
               },
               React.createElement(
                 'div',
                 {
+                  ...tooltipProps,
                   className: 'component_item item_clickable',
                   onClick: this.handleConversionClick.bind(this),
                 },
                 React.createElement(
                   'span',
-                  {
-                    ...(lastConversion && {
-                      title: `Last conversion at ${lastConversion.toLocaleTimeString()}`,
-                    }),
-                    className: 'component_icon logo_icon',
-                  },
+                  { className: 'component_icon logo_icon' },
                   '🇺🇸🇧🇷',
                 ),
                 'R$',
@@ -74,9 +67,9 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               ),
               lastConversion && showLastConversion
                 ? React.createElement(
-                    'div',
+                    Tooltip,
                     {
-                      className: 'meine_tooltip',
+                      ...tooltipProps,
                       style: { flexDirection: 'row' },
                     },
                     'Last conversion at',
@@ -110,13 +103,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
     componentDidMount() {
       this.fetchUsdBrlConversion()
-      this.renderInterval = setInterval(() => {
-        const currentMeineComponents = queryMeineComponents({
-          filterClassNames: [componentClassName],
-        })
-        const shouldRender = currentMeineComponents.length < 3
-        this.setState({ shouldRender })
-      }, 100)
       this.fetchInterval = setInterval(
         this.fetchUsdBrlConversion.bind(this),
         conversionInterval,
@@ -124,7 +110,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
     }
 
     componentWillUnmount() {
-      clearInterval(this.renderInterval)
       clearInterval(this.fetchInterval)
     }
   }
