@@ -7,22 +7,33 @@ const {
 const { MeineComponentClassNameMap } = require('../../constants')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
+const grepDockerCompose = store =>
+  exec('ps -ef | grep "docker-compose up"', (err, stdout) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    const [isRunning] = stdout
+      .split('\n')
+      .filter(line => line && !line.includes('grep'))
+    return store.dispatch({
+      type: this.GREP_DOCKER_COMPOSE_RESULT,
+      data: {
+        isRunning: !!isRunning,
+      },
+    })
+  })
+
+module.exports.GREP_DOCKER_COMPOSE_RESULT = 'GREP_DOCKER_COMPOSE_RESULT'
+module.exports.grepDockerCompose = grepDockerCompose
 module.exports.decorateHyper = (Hyper, { React }) => {
   const componentClassName = `component_component ${MeineComponentClassNameMap.DockerCompose}`
   const componentSelector = classNameToSelector(componentClassName)
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
-    constructor(props) {
-      super(props)
-
-      this.state = {
-        isRunning: false,
-      }
-    }
-
     render() {
       const props = this.props
-      const { isRunning } = this.state
+      const { dockerComposeCommand: { isRunning } = {} } = store.getState().ui
       const existingChildren = getExistingCustomChildren(props)
 
       return React.createElement(
@@ -69,27 +80,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
           ),
         }),
       )
-    }
-
-    grepDockerCompose() {
-      exec('ps -ef | grep "docker-compose up"', (err, stdout) => {
-        if (err) {
-          console.error(err)
-          return
-        }
-        const [isRunning] = stdout
-          .split('\n')
-          .filter(line => line && !line.includes('grep'))
-        this.setState({ isRunning: !!isRunning })
-      })
-    }
-
-    componentDidMount() {
-      this.interval = setInterval(this.grepDockerCompose.bind(this), 100)
-    }
-
-    componentWillUnmount() {
-      clearInterval(this.interval)
     }
   }
 }

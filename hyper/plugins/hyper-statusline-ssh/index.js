@@ -8,6 +8,36 @@ const { MeineComponentClassNameMap } = require('../../constants')
 const { buildTooltip } = require('../../components/tooltip')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
+const grepSsh = () =>
+  exec('ps -ef | grep "ssh .*"', (err, stdout) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    const ssh = {}
+    const openSshInstances = stdout
+      .split('\n')
+      .filter(line => line && !line.includes('grep'))
+    if (openSshInstances) {
+      for (const instance of openSshInstances) {
+        const parts = instance.split(' ')
+        const lastPart = parts[parts.length - 1].replace(/'/g, '')
+        const sshCommand = instance.replace(/.*(?=ssh)/, '')
+        if (ssh[lastPart]) {
+          ssh[lastPart].push(sshCommand)
+        } else {
+          ssh[lastPart] = [sshCommand]
+        }
+      }
+    }
+    return store.dispatch({
+      type: this.GREP_SSH_RESULT,
+      data: { ssh },
+    })
+  })
+
+module.exports.GREP_SSH_RESULT = 'GREP_SSH_RESULT'
+module.exports.grepSsh = grepSsh
 module.exports.decorateHyper = (Hyper, { React }) => {
   const componentClassName = `component_component ${MeineComponentClassNameMap.Ssh}`
   const componentSelector = classNameToSelector(componentClassName)
@@ -17,14 +47,14 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       super(props)
 
       this.state = {
-        ssh: {},
         showInstances: false,
       }
     }
 
     render() {
       const props = this.props
-      const { ssh, showInstances } = this.state
+      const { ssh = {} } = store.getState().ui
+      const { showInstances } = this.state
       const Tooltip = buildTooltip({ React })
       const existingChildren = getExistingCustomChildren(props)
       const openSshInstances = Object.entries(ssh)
@@ -133,40 +163,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
           ),
         }),
       )
-    }
-
-    grepSsh() {
-      exec('ps -ef | grep "ssh .*"', (err, stdout) => {
-        if (err) {
-          console.error(err)
-          return
-        }
-        const ssh = {}
-        const openSshInstances = stdout
-          .split('\n')
-          .filter(line => line && !line.includes('grep'))
-        if (openSshInstances) {
-          for (const instance of openSshInstances) {
-            const parts = instance.split(' ')
-            const lastPart = parts[parts.length - 1].replace(/'/g, '')
-            const sshCommand = instance.replace(/.*(?=ssh)/, '')
-            if (ssh[lastPart]) {
-              ssh[lastPart].push(sshCommand)
-            } else {
-              ssh[lastPart] = [sshCommand]
-            }
-          }
-        }
-        return this.setState({ ssh })
-      })
-    }
-
-    componentDidMount() {
-      this.interval = setInterval(this.grepSsh.bind(this), 100)
-    }
-
-    componentWillUnmount() {
-      clearInterval(this.interval)
     }
   }
 }

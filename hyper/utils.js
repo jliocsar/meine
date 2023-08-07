@@ -1,4 +1,14 @@
-const { MeineComponentClassNameMap } = require('./constants')
+const { debounce: debounceFn } = require('debounce')
+
+const {
+  MeineComponentClassNameMap,
+  LEFT_FOOTER_GROUP_SELECTOR,
+  RIGHT_FOOTER_GROUP_SELECTOR,
+} = require('./constants')
+
+const DEBOUNCE_TIME = 100
+
+module.exports.debounce = (fn, time = DEBOUNCE_TIME) => debounceFn(fn, time)
 
 module.exports.getExistingCustomChildren = props => {
   const { customChildren } = props
@@ -10,14 +20,10 @@ module.exports.getExistingCustomChildren = props => {
   return existingChildren
 }
 
-const footerSelector = '.footer_footer'
-const leftFooterGroupSelector = `${footerSelector} .footer_group:first-child`
-const rightFooterGroupSelector = `${footerSelector} .footer_group:last-child`
-
 module.exports.queryLeftFooterGroup = () =>
-  document.querySelector(leftFooterGroupSelector)
+  document.querySelector(LEFT_FOOTER_GROUP_SELECTOR)
 module.exports.queryRightFooterGroup = () =>
-  document.querySelector(rightFooterGroupSelector)
+  document.querySelector(RIGHT_FOOTER_GROUP_SELECTOR)
 module.exports.queryMeineComponents = ({
   filterClassNames = [],
   filterHidden = true,

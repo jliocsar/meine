@@ -1,4 +1,4 @@
-module.exports.KanagawaTheme = {
+module.exports.Kanagawa = {
   black: '#1F1F28',
   red: '#E46A78',
   green: '#98BC6D',
@@ -17,4 +17,24 @@ module.exports.KanagawaTheme = {
   lightWhite: '#A8A48D',
   limeGreen: '#9EC967',
   lightCoral: '#A98FD2',
+}
+module.exports.Default = {
+  black: '#000000',
+  red: '#C51E14',
+  green: '#1DC121',
+  yellow: '#C7C329',
+  blue: '#0A2FC4',
+  magenta: '#C839C5',
+  cyan: '#20C5C6',
+  white: '#C7C7C7',
+  lightBlack: '#686868',
+  lightRed: '#FD6F6B',
+  lightGreen: '#67F86F',
+  lightYellow: '#FFFA72',
+  lightBlue: '#6A76FB',
+  lightMagenta: '#FD7CFC',
+  lightCyan: '#68FDFE',
+  lightWhite: '#FFFFFF',
+  limeGreen: '#32CD32',
+  lightCoral: '#F08080',
 }

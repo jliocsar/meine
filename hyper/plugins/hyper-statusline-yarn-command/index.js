@@ -3,12 +3,43 @@ const { exec } = require('child_process')
 const {
   classNameToSelector,
   getExistingCustomChildren,
-  queryMeineComponents,
 } = require('../../utils')
 const { MeineComponentClassNameMap } = require('../../constants')
 const { buildTooltip } = require('../../components/tooltip')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
+const grepYarn = store =>
+  exec('ps -ef | grep "/bin/yarn"', (error, stdout) => {
+    if (error) {
+      console.error(error)
+      return
+    }
+    const [runningCommandMatch] = stdout
+      .split('\n')
+      .filter(line => line && !line.includes('grep'))
+    if (!runningCommandMatch) {
+      return store.dispatch({
+        type: this.GREP_YARN_RESULT,
+        data: {
+          command: '',
+          commandArgs: [],
+        },
+      })
+    }
+    const [command, ...commandArgs] = runningCommandMatch
+      .replace(/.*\/bin\/yarn\s/, '')
+      .split(' ')
+    return store.dispatch({
+      type: this.GREP_YARN_RESULT,
+      data: {
+        command,
+        commandArgs,
+      },
+    })
+  })
+
+module.exports.GREP_YARN_RESULT = 'GREP_YARN_RESULT'
+module.exports.grepYarn = grepYarn
 module.exports.decorateHyper = (Hyper, { React }) => {
   const MAX_COMMAND_CHARACTERS_LENGTH = 26
   const componentClassName = `component_component ${MeineComponentClassNameMap.Yarn}`
@@ -19,15 +50,14 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       super(props)
 
       this.state = {
-        command: '',
-        commandArgs: [],
         showCommandArgs: false,
       }
     }
 
     render() {
       const props = this.props
-      const { command, commandArgs, showCommandArgs } = this.state
+      const { yarnCommand: { command, commandArgs } = {} } = store.getState().ui
+      const { showCommandArgs } = this.state
       const existingChildren = getExistingCustomChildren(props)
       const Tooltip = buildTooltip({ React })
 
@@ -119,34 +149,12 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       )
     }
 
-    grepYarn() {
-      exec('ps -ef | grep "/bin/yarn"', (error, stdout) => {
-        if (error) {
-          console.error(error)
-          return
-        }
-        const [runningCommandMatch] = stdout
-          .split('\n')
-          .filter(line => line && !line.includes('grep'))
-        if (!runningCommandMatch) {
-          return this.setState({ command: '' })
-        }
-        const [command, ...commandArgs] = runningCommandMatch
-          .replace(/.*\/bin\/yarn\s/, '')
-          .split(' ')
-        return this.setState({
-          command,
-          commandArgs,
-        })
-      })
-    }
+    // componentDidMount() {
+    //   this.grepInterval = setInterval(grepYarn.bind(this), 1000)
+    // }
 
-    componentDidMount() {
-      this.grepInterval = setInterval(this.grepYarn.bind(this), 100)
-    }
-
-    componentWillUnmount() {
-      clearInterval(this.grepInterval)
-    }
+    // componentWillUnmount() {
+    //   clearInterval(this.grepInterval)
+    // }
   }
 }

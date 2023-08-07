@@ -14,13 +14,6 @@ const GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME =
 const MEINE_COMPONENT_TOGGLER_COMPONENT_CLASS_NAME =
   'component_meine_component_toggler'
 
-module.exports.plugins = [
-  'hyper-statusline',
-  'hyper-hide-scroll',
-  'hyperminimal',
-  'hyperterm-safepaste',
-]
-module.exports.localPlugins = ['hypermeine']
 module.exports.MeineComponentClassNameMap = {
   Default: MEINE_COMPONENT_CLASS_NAME,
   Jira: componentClassName(JIRA_LINK_COMPONENT_CLASS_NAME),
@@ -45,3 +38,7 @@ module.exports.MeineComponentLabelMap = {
   [YARN_COMMAND_COMPONENT_CLASS_NAME]: 'Yarn Command',
   [USD_BRL_CONVERSION_COMPONENT_CLASS_NAME]: 'USD/BRL Conversion',
 }
+
+module.exports.FOOTER_SELECTOR = '.footer_footer'
+module.exports.LEFT_FOOTER_GROUP_SELECTOR = `${this.FOOTER_SELECTOR} .footer_group:first-child`
+module.exports.RIGHT_FOOTER_GROUP_SELECTOR = `${this.FOOTER_SELECTOR} .footer_group:last-child`

@@ -8,6 +8,37 @@ const { buildTooltip } = require('../../components/tooltip')
 const { MeineComponentClassNameMap } = require('../../constants')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
+const COMMAND_MATCH = 'gc[ob]'
+
+const grepGitBranchesHistory = () =>
+  exec(`cat ~/.zsh_history | grep ":0;${COMMAND_MATCH}"`, (err, stdout) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    const gitBranchesCommands = stdout.split('\n')
+    const history = gitBranchesCommands.reduce((acc, commandHistory, index) => {
+      const commandMatchRegex = new RegExp(`^${COMMAND_MATCH}`)
+      const command = commandHistory.replace(/:\s\d+:0;/, '')
+      const isGitBranchCommand = commandMatchRegex.test(command)
+      if (isGitBranchCommand) {
+        const branchName = command.replace(commandMatchRegex, '').trim()
+        if (branchName && !/^-/.test(branchName)) {
+          acc.push({ branchName, index })
+        }
+      }
+      return acc
+    }, [])
+    return store.dispatch({
+      type: this.GREP_GIT_BRANCHES_RESULT,
+      data: {
+        history: history.slice(history.length - 10),
+      },
+    })
+  })
+
+module.exports.GREP_GIT_BRANCHES_RESULT = 'GREP_GIT_BRANCHES_RESULT'
+module.exports.grepGitBranchesHistory = grepGitBranchesHistory
 module.exports.decorateHyper = (Hyper, { React }) => {
   const componentClassName = `component_component ${MeineComponentClassNameMap.GitBranchesHistory}`
   const componentSelector = classNameToSelector(componentClassName)
@@ -18,14 +49,14 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       super(props)
 
       this.state = {
-        history: [],
         showHistory: false,
       }
     }
 
     render() {
       const props = this.props
-      const { history, showHistory } = this.state
+      const { gitBranches: { history } = {} } = store.getState().ui
+      const { showHistory } = this.state
       const existingChildren = getExistingCustomChildren(props)
 
       const handleMouseEnter = () =>
@@ -43,7 +74,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               {
                 onMouseLeave: () => this.setState({ showHistory: false }),
                 className: componentClassName,
-                ...(!history.length && {
+                ...(!history?.length && {
                   style: {
                     display: 'none',
                   },
@@ -98,42 +129,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
           ),
         }),
       )
-    }
-
-    grepGitBranchesHistory(commandMatch = 'gc[ob]') {
-      exec(`cat ~/.zsh_history | grep ":0;${commandMatch}"`, (err, stdout) => {
-        if (err) {
-          console.error(err)
-          return
-        }
-        const gitBranchesCommands = stdout.split('\n')
-        const history = gitBranchesCommands.reduce(
-          (acc, commandHistory, index) => {
-            const commandMatchRegex = new RegExp(`^${commandMatch}`)
-            const command = commandHistory.replace(/:\s\d+:0;/, '')
-            const isGitBranchCommand = commandMatchRegex.test(command)
-            if (isGitBranchCommand) {
-              const branchName = command.replace(commandMatchRegex, '').trim()
-              if (branchName && !/^-/.test(branchName)) {
-                acc.push({ branchName, index })
-              }
-            }
-            return acc
-          },
-          [],
-        )
-        return this.setState({
-          history: history.slice(history.length - 10),
-        })
-      })
-    }
-
-    componentDidMount() {
-      this.interval = setInterval(this.grepGitBranchesHistory.bind(this), 100)
-    }
-
-    componentWillUnmount() {
-      clearInterval(this.interval)
     }
   }
 }

@@ -21,35 +21,55 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       this.state = {
         components: null,
         showToggleableComponents: false,
+        toggled: {},
       }
     }
 
     render() {
       const props = this.props
-      const { showToggleableComponents } = this.state
+      const { showToggleableComponents, toggled } = this.state
       const existingChildren = getExistingCustomChildren(props)
       const Tooltip = buildTooltip({ React })
 
       const handleInput = event => {
-        console.log(event)
         const { name } = event.target
         const { components } = this
         const component = components.find(component =>
           component.classList.contains(name),
         )
         const display = component.style.display
-        component.style.display = display === 'flex' ? 'none' : 'flex'
-        this.setState({ components })
+        component.style.display = display === 'none' ? 'flex' : 'none'
+        this.setState({
+          toggled: {
+            ...this.state.toggled,
+            [name]: !this.state.toggled[name],
+          },
+        })
       }
       const handleClick = event => {
         event.stopPropagation()
+        let initialToggled
         if (!this.components) {
           this.components = queryMeineComponents({
             filterClassNames: [componentClassName],
             filterHidden: false,
           })
+          initialToggled = this.components.reduce((initial, component) => {
+            const toggleableComponentClassName = component.className.replace(
+              /.*\s/,
+              '',
+            )
+            return {
+              ...initial,
+              [toggleableComponentClassName]:
+                component.style.display !== 'none',
+            }
+          }, {})
         }
-        this.setState({ showToggleableComponents: true })
+        this.setState({
+          showToggleableComponents: !this.state.showToggleableComponents,
+          ...(initialToggled && { toggled: initialToggled }),
+        })
       }
       const tooltipProps = {}
 
@@ -102,7 +122,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                               React.createElement('input', {
                                 type: 'checkbox',
                                 name: toggleableComponentClassName,
-                                checked: component.style.display !== 'none',
+                                checked: toggled[toggleableComponentClassName],
                                 onInput: handleInput,
                                 style: {
                                   marginRight: 4,
