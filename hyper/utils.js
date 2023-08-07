@@ -24,17 +24,14 @@ module.exports.queryLeftFooterGroup = () =>
   document.querySelector(LEFT_FOOTER_GROUP_SELECTOR)
 module.exports.queryRightFooterGroup = () =>
   document.querySelector(RIGHT_FOOTER_GROUP_SELECTOR)
-module.exports.queryMeineComponents = ({
-  filterClassNames = [],
-  filterHidden = true,
-} = {}) => {
+module.exports.queryMeineComponents = ({ classNames = [] } = {}) => {
   const components = Array.from(
     document.querySelectorAll(`.${MeineComponentClassNameMap.Default}`),
   )
   return components.filter(
     component =>
-      (filterHidden && component.style.display !== 'none') ||
-      !filterClassNames.includes(component.className),
+      classNames.length &&
+      classNames.some(className => component.classList.contains(className)),
   )
 }
 

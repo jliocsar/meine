@@ -3,7 +3,6 @@ const { shell } = require('electron')
 const {
   classNameToSelector,
   getExistingCustomChildren,
-  queryMeineComponents,
 } = require('../../utils')
 const { MeineComponentClassNameMap } = require('../../constants')
 const { buildTooltip } = require('../../components/tooltip')

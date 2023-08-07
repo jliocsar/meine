@@ -112,6 +112,9 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                       className: 'component_icon logo_icon',
                       style: {
                         fontSize: 20,
+                        ...(!command && {
+                          marginRight: 0,
+                        }),
                       },
                     },
                     '',
@@ -148,13 +151,5 @@ module.exports.decorateHyper = (Hyper, { React }) => {
         }),
       )
     }
-
-    // componentDidMount() {
-    //   this.grepInterval = setInterval(grepYarn.bind(this), 1000)
-    // }
-
-    // componentWillUnmount() {
-    //   clearInterval(this.grepInterval)
-    // }
   }
 }

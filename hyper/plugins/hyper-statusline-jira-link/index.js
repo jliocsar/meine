@@ -45,18 +45,19 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                   className: 'component_item item_clickable',
                   onClick: this.handleJiraCardClick.bind(this),
                 },
-                card
-                  ? React.createElement(
-                      'div',
-                      {},
-                      React.createElement(
-                        'span',
-                        { className: 'component_icon logo_icon' },
-                        '󰌃',
-                      ),
-                      card,
-                    )
-                  : null,
+                React.createElement(
+                  'div',
+                  {},
+                  React.createElement(
+                    'span',
+                    {
+                      className: 'component_icon logo_icon',
+                      ...(!card && { style: { marginRight: 0 } }),
+                    },
+                    '󰌃',
+                  ),
+                  card,
+                ),
               ),
             ),
           ),

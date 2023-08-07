@@ -87,26 +87,29 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                   ...tooltipProps,
                   className: 'component_item',
                 },
-                hasRunningInstances
-                  ? React.createElement(
-                      'div',
-                      {
-                        style: {
-                          display: 'flex',
-                          alignItems: 'center',
-                        },
+                React.createElement(
+                  'div',
+                  {
+                    style: {
+                      display: 'flex',
+                      alignItems: 'center',
+                    },
+                  },
+                  React.createElement(
+                    'span',
+                    {
+                      className: 'component_icon logo_icon',
+                      style: {
+                        fontSize: 28,
+                        ...(!hasRunningInstances && {
+                          marginRight: 0,
+                        }),
                       },
-                      React.createElement(
-                        'span',
-                        {
-                          className: 'component_icon logo_icon',
-                          style: {
-                            fontSize: 28,
-                          },
-                        },
-                        '󰣀',
-                      ),
-                      openSshInstances.map(([sshInstance, instances], index) =>
+                    },
+                    '󰣀',
+                  ),
+                  hasRunningInstances
+                    ? openSshInstances.map(([sshInstance, instances], index) =>
                         React.createElement(
                           'p',
                           {
@@ -130,9 +133,9 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                             ')',
                           ),
                         ),
-                      ),
-                    )
-                  : null,
+                      )
+                    : null,
+                ),
               ),
               showInstances
                 ? React.createElement(

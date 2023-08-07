@@ -53,28 +53,29 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               React.createElement(
                 'div',
                 { className: 'component_item' },
-                isRunning
-                  ? React.createElement(
-                      'div',
-                      {
-                        style: {
-                          display: 'flex',
-                          alignItems: 'center',
-                        },
+                React.createElement(
+                  'div',
+                  {
+                    style: {
+                      display: 'flex',
+                      alignItems: 'center',
+                    },
+                  },
+                  React.createElement(
+                    'span',
+                    {
+                      className: 'component_icon logo_icon',
+                      style: {
+                        fontSize: 22,
+                        ...(!isRunning && {
+                          marginRight: 0,
+                        }),
                       },
-                      React.createElement(
-                        'span',
-                        {
-                          className: 'component_icon logo_icon',
-                          style: {
-                            fontSize: 22,
-                          },
-                        },
-                        '󰡨',
-                      ),
-                      'dcup',
-                    )
-                  : null,
+                    },
+                    '󰡨',
+                  ),
+                  isRunning ? 'dcup' : null,
+                ),
               ),
             ),
           ),

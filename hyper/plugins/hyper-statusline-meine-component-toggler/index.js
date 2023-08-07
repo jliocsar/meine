@@ -6,13 +6,25 @@ const {
 const {
   MeineComponentClassNameMap,
   MeineComponentLabelMap,
+  IP_ADDRESS_COMPONENT_CLASS_NAME,
+  USD_BRL_CONVERSION_COMPONENT_CLASS_NAME,
+  GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME,
 } = require('../../constants')
 const { buildTooltip } = require('../../components/tooltip')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
+const TOGGLEABLE_COMPONENTS = [
+  IP_ADDRESS_COMPONENT_CLASS_NAME,
+  USD_BRL_CONVERSION_COMPONENT_CLASS_NAME,
+  GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME,
+]
+
 module.exports.decorateHyper = (Hyper, { React }) => {
   const componentClassName = `component_component ${MeineComponentClassNameMap.ComponentToggler}`
   const componentSelector = classNameToSelector(componentClassName)
+
+  const getToggleableComponentClassName = className =>
+    className.replace(/.*\s/g, '')
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
     constructor(props) {
@@ -51,17 +63,13 @@ module.exports.decorateHyper = (Hyper, { React }) => {
         let initialToggled
         if (!this.components) {
           this.components = queryMeineComponents({
-            filterClassNames: [componentClassName],
-            filterHidden: false,
+            classNames: TOGGLEABLE_COMPONENTS,
           })
+          console.log(this.components, TOGGLEABLE_COMPONENTS)
           initialToggled = this.components.reduce((initial, component) => {
-            const toggleableComponentClassName = component.className.replace(
-              /.*\s/,
-              '',
-            )
             return {
               ...initial,
-              [toggleableComponentClassName]:
+              [getToggleableComponentClassName(component.className)]:
                 component.style.display !== 'none',
             }
           }, {})
@@ -114,15 +122,16 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                             },
                           },
                           this.components.map(component => {
-                            const toggleableComponentClassName =
-                              component.className.replace(/.*\s/, '')
+                            const className = getToggleableComponentClassName(
+                              component.className,
+                            )
                             return React.createElement(
                               'li',
                               {},
                               React.createElement('input', {
                                 type: 'checkbox',
-                                name: toggleableComponentClassName,
-                                checked: toggled[toggleableComponentClassName],
+                                name: className,
+                                checked: toggled[className],
                                 onInput: handleInput,
                                 style: {
                                   marginRight: 4,
@@ -130,9 +139,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                                   zIndex: 2,
                                 },
                               }),
-                              MeineComponentLabelMap[
-                                toggleableComponentClassName
-                              ],
+                              MeineComponentLabelMap[className],
                             )
                           }),
                         )
