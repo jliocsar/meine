@@ -8,9 +8,9 @@ const { MeineComponentClassNameMap } = require('../../constants')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 const grepDockerCompose = store =>
-  exec('ps -ef | grep "docker-compose up"', (err, stdout) => {
-    if (err) {
-      console.error(err)
+  exec('ps -ef | grep "docker-compose up"', (error, stdout) => {
+    if (error) {
+      console.error(error)
       return
     }
     const [isRunning] = stdout

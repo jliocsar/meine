@@ -14,6 +14,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
   const conversionInterval = SECOND * 30
   const componentClassName = `component_component ${MeineComponentClassNameMap.UsdBrlConversion}`
   const componentSelector = classNameToSelector(componentClassName)
+  const Tooltip = buildTooltip({ React })
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
     constructor(props) {
@@ -31,7 +32,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const { usdBrlConversion, lastConversion, showLastConversion } =
         this.state
       const existingChildren = getExistingCustomChildren(props)
-      const Tooltip = buildTooltip({ React })
 
       const handleMouseEnter = () => this.setState({ showLastConversion: true })
       const tooltipProps = {
@@ -62,7 +62,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                   '🇺🇸🇧🇷',
                 ),
                 'R$',
-                Number(usdBrlConversion).toFixed(2),
+                Number(usdBrlConversion).toFixed(4),
               ),
               lastConversion && showLastConversion
                 ? React.createElement(

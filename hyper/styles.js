@@ -7,13 +7,13 @@ module.exports.FONT_FAMILY = '"Cascadia Code", "Symbols Nerd Font", monospace'
 
 const MeineComponentsStyle = {
   [MeineComponentClassNameMap.GitBranchesHistory]: {
-    background: 'linear-gradient(to top, #252A2F, #333A41)',
+    background: /* css */ `linear-gradient(to top, #252A2F, #333A41)`,
     iconColor: '#959DA5',
     color: '#FFF',
   },
   [MeineComponentClassNameMap.UsdBrlConversion]: {
-    backgroundColor: '#181c3d',
-    color: '#b1b6e6',
+    background: '#171e45',
+    color: '#acb6e8',
   },
   [MeineComponentClassNameMap.Jira]: {
     backgroundColor: '#0052CC',
@@ -38,7 +38,27 @@ const css = /* css */ `
   margin-top: 0 !important;
 } */
 
+header {
+  .header_shape {
+    width: 38px !important;
+  }
+
+  .header_shape,
+  .header_windowHeader {
+    height: 32px !important;
+  }
+
+  .header_appTitle {
+    visibility: hidden;
+  }
+}
+
+.footer_footer .item_icon:before {
+  background-color: #c7c7c7 !important;
+}
+
 & {
+  --footer-background-color: #161616;
   --gtk-border-color: #454445;
   --component-margin-size: 12px;
 
@@ -86,9 +106,8 @@ const css = /* css */ `
   }
 
   .footer_footer {
-    /* background: rgba(0, 0, 0, .2); */
-    background: rgba(255, 255, 255, .05);
     opacity: 1;
+    background: var(--footer-background-color);
     border-right: 1px solid var(--gtk-border-color);
     border-left: 1px solid var(--gtk-border-color);
     border-bottom: 1px solid var(--gtk-border-color);
@@ -107,6 +126,7 @@ const css = /* css */ `
       margin-right: 8px;
     }
 
+    .component_cwd,
     .meine_component {
       padding: 0 var(--component-margin-size);
     }
@@ -161,9 +181,9 @@ const css = /* css */ `
     }
 
     ${classNameToSelector(MeineComponentClassNameMap.UsdBrlConversion)} {
-      background-color: ${
+      background: ${
         MeineComponentsStyle[MeineComponentClassNameMap.UsdBrlConversion]
-          .backgroundColor
+          .background
       };
 
       div {

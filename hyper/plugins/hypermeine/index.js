@@ -21,6 +21,9 @@ const {
   decorateHyper: decorateHyperWithGitBranchesHistory,
 } = require('../hyper-statusline-git-branches-history')
 const {
+  decorateHyper: decorateHyperWithLocalhostActivePorts,
+} = require('../hyper-statusline-localhost-ports')
+const {
   decorateHyper: decorateHyperWithMeineComponentToggler,
 } = require('../hyper-statusline-meine-component-toggler')
 
@@ -75,9 +78,10 @@ module.exports = {
   decorateHyper: (Hyper, args) =>
     decorate(
       decorateHyperWithMeineComponentToggler,
+      decorateHyperWithLocalhostActivePorts,
       decorateHyperWithIpAddress,
-      decorateHyperWithUsdBrlConversion,
       decorateHyperWithGitBranchesHistory,
+      decorateHyperWithUsdBrlConversion,
       decorateHyperWithJiraCard,
       decorateHyperWithSshStatus,
       decorateHyperWithDockerComposeStatus,

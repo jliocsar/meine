@@ -1,26 +1,30 @@
 const { queryLeftFooterGroup, queryRightFooterGroup } = require('../utils')
 
-module.exports.HypermeineStatusline = ({ React, componentSelector }) => {
+module.exports.HypermeineStatusline = ({
+  React,
+  componentSelector,
+  prepend,
+}) => {
   return class extends React.PureComponent {
     constructor(props) {
       super(props)
     }
 
     componentDidUpdate() {
-      if (this.hasAppended) {
+      if (this.wasHandled) {
         return
       }
       const footerGroup = this.leftFooterGroup
       const components = document.querySelectorAll(componentSelector)
       if (footerGroup && components.length) {
         const [component, ...rest] = components
-        footerGroup.appendChild(component)
+        footerGroup[prepend ? 'prepend' : 'appendChild'](component)
         // TODO: Figure out why this is necessary
         for (const extraRenders of rest) {
           extraRenders.remove()
         }
       }
-      this.hasAppended = true
+      this.wasHandled = true
     }
 
     get leftFooterGroup() {

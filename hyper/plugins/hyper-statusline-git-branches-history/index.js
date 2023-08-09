@@ -10,10 +10,10 @@ const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 const COMMAND_MATCH = 'gc[ob]'
 
-const grepGitBranchesHistory = () =>
-  exec(`cat ~/.zsh_history | grep ":0;${COMMAND_MATCH}"`, (err, stdout) => {
-    if (err) {
-      console.error(err)
+const grepGitBranchesHistory = store =>
+  exec(`cat ~/.zsh_history | grep ":0;${COMMAND_MATCH}"`, (error, stdout) => {
+    if (error) {
+      console.error(error)
       return
     }
     const gitBranchesCommands = stdout.split('\n')
@@ -96,11 +96,11 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                     className: 'component_icon logo_icon',
                     style: {
                       fontSize: 20,
+                      marginRight: 0,
                     },
                   },
                   '󰘬',
                 ),
-                'Branches',
               ),
               showHistory
                 ? React.createElement(

@@ -8,10 +8,10 @@ const { MeineComponentClassNameMap } = require('../../constants')
 const { buildTooltip } = require('../../components/tooltip')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
-const grepSsh = () =>
-  exec('ps -ef | grep "ssh .*"', (err, stdout) => {
-    if (err) {
-      console.error(err)
+const grepSsh = store =>
+  exec('ps -ef | grep "ssh .*"', (error, stdout) => {
+    if (error) {
+      console.error(error)
       return
     }
     const ssh = {}
@@ -41,6 +41,7 @@ module.exports.grepSsh = grepSsh
 module.exports.decorateHyper = (Hyper, { React }) => {
   const componentClassName = `component_component ${MeineComponentClassNameMap.Ssh}`
   const componentSelector = classNameToSelector(componentClassName)
+  const Tooltip = buildTooltip({ React })
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
     constructor(props) {
@@ -55,7 +56,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const props = this.props
       const { ssh = {} } = store.getState().ui
       const { showInstances } = this.state
-      const Tooltip = buildTooltip({ React })
       const existingChildren = getExistingCustomChildren(props)
       const openSshInstances = Object.entries(ssh)
       const hasRunningInstances = !!openSshInstances?.length

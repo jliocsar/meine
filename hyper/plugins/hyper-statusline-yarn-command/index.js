@@ -44,6 +44,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
   const MAX_COMMAND_CHARACTERS_LENGTH = 26
   const componentClassName = `component_component ${MeineComponentClassNameMap.Yarn}`
   const componentSelector = classNameToSelector(componentClassName)
+  const Tooltip = buildTooltip({ React })
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
     constructor(props) {
@@ -59,7 +60,6 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const { yarnCommand: { command, commandArgs } = {} } = store.getState().ui
       const { showCommandArgs } = this.state
       const existingChildren = getExistingCustomChildren(props)
-      const Tooltip = buildTooltip({ React })
 
       const handleMouseEnter = () =>
         this.setState({ showCommandArgs: !!commandArgs.length })

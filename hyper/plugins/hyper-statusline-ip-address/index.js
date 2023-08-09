@@ -6,7 +6,10 @@ const {
   classNameToSelector,
   getExistingCustomChildren,
 } = require('../../utils')
-const { MeineComponentClassNameMap } = require('../../constants')
+const {
+  MeineComponentClassNameMap,
+  COMPONENT_CWD_CLASS_NAME,
+} = require('../../constants')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
 
 module.exports.decorateHyper = (Hyper, { React }) => {
@@ -15,9 +18,10 @@ module.exports.decorateHyper = (Hyper, { React }) => {
   const publicIpUrl = 'ifconfig.me'
   const nets = networkInterfaces()
   delete nets.lo
-  const { address: ip } = Object.values(nets)
-    .flat()
-    .find(({ family }) => family === 'IPv4')
+  const { address: ip } =
+    Object.values(nets)
+      .flat()
+      .find(({ family }) => family === 'IPv4') ?? {}
 
   return class extends HypermeineStatusline({ React, componentSelector }) {
     constructor(props) {
@@ -130,7 +134,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
     hideCwdComponent() {
       const component = document.querySelector(
-        '.component_component.component_cwd',
+        `.component_component.${COMPONENT_CWD_CLASS_NAME}`,
       )
       if (component) {
         component.style.display = 'none'
