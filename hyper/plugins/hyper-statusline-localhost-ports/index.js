@@ -12,13 +12,17 @@ const { HypermeineStatusline } = require('../base-hypermeine-status')
 const grepActivePorts = store =>
   exec('ss -nltp | grep pid', (error, stdout) => {
     if (error) {
-      console.error(error)
       return
     }
 
-    const activePorts = Array.from(stdout.match(/127\.0\.0\.1:\d+/)).map(
-      address => Number(address.replace('127.0.0.1:', '')),
-    )
+    const activePorts = stdout.split('\n').reduce((ports, proc) => {
+      const match = proc.match(/127\.0\.0\.1:(\d+)/)
+      if (!match) {
+        return ports
+      }
+      const [, port] = match
+      return ports.concat(Number(port))
+    }, [])
     store.dispatch({
       type: this.GREP_ACTIVE_PORTS_RESULT,
       data: { activePorts },
@@ -46,6 +50,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       const { activePorts = [] } = store.getState().ui
       const { showActivePorts } = this.state
       const existingChildren = getExistingCustomChildren(props)
+      const hasPorts = !!activePorts.length
 
       const handleMouseEnter = () => this.setState({ showActivePorts: true })
       const tooltipProps = {
@@ -59,11 +64,13 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
+                ...(!hasPorts && {
+                  style: {
+                    display: 'none',
+                  },
+                }),
                 onMouseLeave: () => this.setState({ showActivePorts: false }),
                 className: componentClassName,
-                style: {
-                  display: 'none',
-                },
               },
               React.createElement(
                 'div',
@@ -75,25 +82,54 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                   'span',
                   {
                     className: 'component_icon logo_icon',
-                    style: { marginRight: 0 },
+                    style: {
+                      fontSize: 20,
+                      marginRight: 0,
+                      marginBottom: 1,
+                    },
                   },
                   '󱠞',
                 ),
               ),
-              showActivePorts
+              hasPorts && showActivePorts
                 ? React.createElement(
                     Tooltip,
                     tooltipProps,
                     React.createElement(
                       'ul',
-                      {},
+                      {
+                        style: {
+                          listStyleType: 'none',
+                        },
+                      },
                       activePorts.map(port =>
                         React.createElement(
                           'li',
                           {
+                            className: 'item_clickable',
+                            style: {
+                              display: 'flex',
+                              alignItems: 'center',
+                            },
                             onClick: () => this.handleActivePortClick(port),
                           },
-                          port,
+                          React.createElement(
+                            'p',
+                            { className: 'arg_num' },
+                            'localhost:',
+                            port,
+                            React.createElement(
+                              'span',
+                              {
+                                className: 'arg_default',
+                                style: {
+                                  fontSize: 12,
+                                  marginLeft: 4,
+                                },
+                              },
+                              '',
+                            ),
+                          ),
                         ),
                       ),
                     ),

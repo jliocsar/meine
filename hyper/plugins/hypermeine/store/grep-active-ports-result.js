@@ -1,7 +1,8 @@
+const { debounce } = require('../../../utils')
 const { grepActivePorts } = require('../../hyper-statusline-localhost-ports')
 
 module.exports = {
-  dispatcher: grepActivePorts,
+  dispatcher: debounce(grepActivePorts),
   handler: (state, action) => {
     const { activePorts } = action.data
     return state.set('activePorts', activePorts)

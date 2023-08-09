@@ -6,21 +6,11 @@ const {
 const {
   MeineComponentClassNameMap,
   MeineComponentLabelMap,
-  IP_ADDRESS_COMPONENT_CLASS_NAME,
-  USD_BRL_CONVERSION_COMPONENT_CLASS_NAME,
-  GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME,
   COMPONENT_CWD_CLASS_NAME,
-  LOCALHOST_PORTS_COMPONENT_CLASS_NAME,
+  TOGGLEABLE_COMPONENTS,
 } = require('../../constants')
 const { buildTooltip } = require('../../components/tooltip')
 const { HypermeineStatusline } = require('../base-hypermeine-status')
-
-const TOGGLEABLE_COMPONENTS = [
-  IP_ADDRESS_COMPONENT_CLASS_NAME,
-  USD_BRL_CONVERSION_COMPONENT_CLASS_NAME,
-  GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME,
-  LOCALHOST_PORTS_COMPONENT_CLASS_NAME,
-]
 
 module.exports.decorateHyper = (Hyper, { React }) => {
   const componentClassName = `component_component ${MeineComponentClassNameMap.ComponentToggler}`

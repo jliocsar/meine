@@ -23,6 +23,13 @@ module.exports.MEINE_COMPONENT_TOGGLER_COMPONENT_CLASS_NAME =
 module.exports.COMPONENT_CWD_CLASS_NAME = 'component_cwd'
 // #endregion
 
+module.exports.TOGGLEABLE_COMPONENTS = [
+  this.IP_ADDRESS_COMPONENT_CLASS_NAME,
+  this.USD_BRL_CONVERSION_COMPONENT_CLASS_NAME,
+  this.GIT_BRANCHES_HISTORY_COMPONENT_CLASS_NAME,
+  this.LOCALHOST_PORTS_COMPONENT_CLASS_NAME,
+]
+
 module.exports.MeineComponentClassNameMap = {
   Default: this.MEINE_COMPONENT_CLASS_NAME,
   Cwd: this.COMPONENT_CWD_CLASS_NAME,
@@ -52,6 +59,12 @@ module.exports.MeineComponentLabelMap = {
   [this.USD_BRL_CONVERSION_COMPONENT_CLASS_NAME]: 'USD/BRL Conversion',
   [this.LOCALHOST_PORTS_COMPONENT_CLASS_NAME]: 'Localhost Ports',
   [this.COMPONENT_CWD_CLASS_NAME]: 'Current folder',
+}
+module.exports.defaultHyperMeineConfig = {
+  ipAddress: true,
+  usdBrlConversion: true,
+  gitBranches: true,
+  ssh: true,
 }
 
 module.exports.FOOTER_SELECTOR = '.footer_footer'

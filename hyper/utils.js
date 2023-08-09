@@ -6,7 +6,8 @@ const {
   RIGHT_FOOTER_GROUP_SELECTOR,
 } = require('./constants')
 
-const DEBOUNCE_TIME = 100
+const SECOND = 1000
+const DEBOUNCE_TIME = SECOND
 
 module.exports.debounce = (fn, time = DEBOUNCE_TIME) => debounceFn(fn, time)
 

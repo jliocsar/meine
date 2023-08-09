@@ -6,14 +6,18 @@ module.exports.FONT_SIZE = 14
 module.exports.FONT_FAMILY = '"Cascadia Code", "Symbols Nerd Font", monospace'
 
 const MeineComponentsStyle = {
+  [MeineComponentClassNameMap.LocalhostPorts]: {
+    background: `${Theme.red}22`,
+    color: Theme.lightRed,
+  },
   [MeineComponentClassNameMap.GitBranchesHistory]: {
     background: /* css */ `linear-gradient(to top, #252A2F, #333A41)`,
     iconColor: '#959DA5',
     color: '#FFF',
   },
   [MeineComponentClassNameMap.UsdBrlConversion]: {
-    background: '#171e45',
-    color: '#acb6e8',
+    background: `${Theme.blue}22`,
+    color: Theme.lightWhite,
   },
   [MeineComponentClassNameMap.Jira]: {
     backgroundColor: '#0052CC',
@@ -39,13 +43,25 @@ const css = /* css */ `
 } */
 
 header {
+  .tabs_nav {
+    top: 26px !important;
+  }
+
   .header_shape {
-    width: 38px !important;
+    padding: 8px 12px !important;
+    width: 32px !important;
+  }
+
+  .header_windowControls {
+    top: 2px !important;
+    right: 2px !important;
+    width: 93px !important;
   }
 
   .header_shape,
+  .header_windowControls,
   .header_windowHeader {
-    height: 32px !important;
+    height: 24px !important;
   }
 
   .header_appTitle {
@@ -54,7 +70,7 @@ header {
 }
 
 .footer_footer .item_icon:before {
-  background-color: #c7c7c7 !important;
+  background-color: ${Theme.white} !important;
 }
 
 & {
@@ -135,9 +151,17 @@ header {
       padding-right: var(--component-margin-size);
     }
 
+    .arg_default {
+      color: ${Theme.white};
+    }
+
     .arg_arg {
       color: ${Theme.green};
       user-select: all;
+    }
+
+    .arg_num {
+      color: ${Theme.cyan};
     }
 
     .conversion_text {
@@ -156,6 +180,19 @@ header {
         &:hover {
           color: ${Theme.white};
         }
+      }
+    }
+
+    ${classNameToSelector(MeineComponentClassNameMap.LocalhostPorts)} {
+      background: ${
+        MeineComponentsStyle[MeineComponentClassNameMap.LocalhostPorts]
+          .background
+      };
+
+      .component_icon {
+        color: ${
+          MeineComponentsStyle[MeineComponentClassNameMap.LocalhostPorts].color
+        };
       }
     }
 
