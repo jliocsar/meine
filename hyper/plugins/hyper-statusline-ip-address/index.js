@@ -34,6 +34,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
     render() {
       const props = this.props
+      const { meineConfig = {} } = store.getState().ui
       const { publicIp } = this.state
       const existingChildren = getExistingCustomChildren(props)
 
@@ -45,7 +46,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               'div',
               {
                 className: componentClassName,
-                ...((!ip || !publicIp) && {
+                ...((!meineConfig.ipAddress || !ip || !publicIp) && {
                   style: {
                     display: 'none',
                   },

@@ -54,7 +54,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
     render() {
       const props = this.props
-      const { ssh = {} } = store.getState().ui
+      const { ssh = {}, meineConfig = {} } = store.getState().ui
       const { showInstances } = this.state
       const existingChildren = getExistingCustomChildren(props)
       const openSshInstances = Object.entries(ssh)
@@ -75,7 +75,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               {
                 onMouseLeave: () => this.setState({ showInstances: false }),
                 className: componentClassName,
-                ...(!hasRunningInstances && {
+                ...((!meineConfig.ssh || !hasRunningInstances) && {
                   style: {
                     display: 'none',
                   },

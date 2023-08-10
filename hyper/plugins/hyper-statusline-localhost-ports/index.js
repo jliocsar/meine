@@ -16,12 +16,15 @@ const grepActivePorts = store =>
     }
 
     const activePorts = stdout.split('\n').reduce((ports, proc) => {
-      const match = proc.match(/127\.0\.0\.1:(\d+)/)
+      const match = proc.match(/127\.0\.0\.1:(\d+).*"(.*)",pid=/)
       if (!match) {
         return ports
       }
-      const [, port] = match
-      return ports.concat(Number(port))
+      const [, port, command] = match
+      return ports.concat({
+        command,
+        port: Number(port),
+      })
     }, [])
     store.dispatch({
       type: this.GREP_ACTIVE_PORTS_RESULT,
@@ -102,7 +105,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                           listStyleType: 'none',
                         },
                       },
-                      activePorts.map(port =>
+                      activePorts.map(({ port, command }) =>
                         React.createElement(
                           'li',
                           {
@@ -118,6 +121,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
                             { className: 'arg_num' },
                             'localhost:',
                             port,
+                            ` (${command})`,
                             React.createElement(
                               'span',
                               {

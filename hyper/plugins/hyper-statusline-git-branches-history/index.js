@@ -55,7 +55,8 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
     render() {
       const props = this.props
-      const { gitBranches: { history } = {} } = store.getState().ui
+      const { gitBranches: { history } = {}, meineConfig = {} } =
+        store.getState().ui
       const { showHistory } = this.state
       const existingChildren = getExistingCustomChildren(props)
 
@@ -74,7 +75,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               {
                 onMouseLeave: () => this.setState({ showHistory: false }),
                 className: componentClassName,
-                ...(!history?.length && {
+                ...((!meineConfig.gitBranches || !history?.length) && {
                   style: {
                     display: 'none',
                   },

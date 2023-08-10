@@ -57,7 +57,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
       }
       const handleClick = event => {
         event.stopPropagation()
-        let initialToggled
+        let patchedToggled
         if (!this.components) {
           this.components = queryMeineComponents({
             classNames: TOGGLEABLE_COMPONENTS,
@@ -66,17 +66,15 @@ module.exports.decorateHyper = (Hyper, { React }) => {
               `.component_component.${COMPONENT_CWD_CLASS_NAME}`,
             ),
           )
-          initialToggled = this.components.reduce((initial, component) => {
-            return {
-              ...initial,
-              [getToggleableComponentClassName(component.className)]:
-                component.style.display !== 'none',
-            }
-          }, {})
         }
+        patchedToggled = this.components.reduce((patch, component) => {
+          patch[getToggleableComponentClassName(component.className)] =
+            component.style.display !== 'none'
+          return patch
+        }, {})
         this.setState({
           showToggleableComponents: !this.state.showToggleableComponents,
-          ...(initialToggled && { toggled: initialToggled }),
+          ...(patchedToggled && { toggled: patchedToggled }),
         })
       }
       const tooltipProps = {}

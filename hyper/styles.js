@@ -52,6 +52,10 @@ header {
     width: 32px !important;
   }
 
+  .header_windowHeader  {
+    border: unset !important;
+  }
+
   .header_windowControls {
     top: 2px !important;
     right: 2px !important;

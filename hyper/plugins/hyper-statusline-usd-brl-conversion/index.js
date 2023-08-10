@@ -29,6 +29,7 @@ module.exports.decorateHyper = (Hyper, { React }) => {
 
     render() {
       const props = this.props
+      const { meineConfig = {} } = store.getState().ui
       const { usdBrlConversion, lastConversion, showLastConversion } =
         this.state
       const existingChildren = getExistingCustomChildren(props)
@@ -45,6 +46,9 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             React.createElement(
               'div',
               {
+                ...(!meineConfig.usdBrlConversion && {
+                  style: { display: 'none' },
+                }),
                 onMouseLeave: () =>
                   this.setState({ showLastConversion: false }),
                 className: componentClassName,

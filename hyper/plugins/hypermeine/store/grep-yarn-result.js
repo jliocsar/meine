@@ -3,7 +3,7 @@ const { grepYarn } = require('../../hyper-statusline-yarn-command')
 
 module.exports = {
   dispatcher: debounce(grepYarn),
-  handler: (state, action) => {
+  reducer: (state, action) => {
     const { command, commandArgs } = action.data
     return state.set('yarnCommand', {
       command,

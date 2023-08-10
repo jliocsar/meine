@@ -5,7 +5,7 @@ const {
 
 module.exports = {
   dispatcher: debounce(grepGitBranchesHistory),
-  handler: (state, action) => {
+  reducer: (state, action) => {
     const { history } = action.data
     return state.set('gitBranches', { history })
   },
