@@ -8,6 +8,7 @@ const {
   decorateHyperWithSshStatus,
   decorateHyperWithDockerComposeStatus,
   decorateHyperWithRunningYarnCommand,
+  decorateHyperWithGraphQLInspector,
 } = require('..')
 const { decorateConfig } = require('../hypermeine-config')
 const { middleware, reduceUI, mapHyperState } = require('./store')
@@ -25,6 +26,7 @@ module.exports = {
     decorate(
       decorateHyperWithMeineComponentToggler,
       decorateHyperWithLocalhostActivePorts,
+      decorateHyperWithGraphQLInspector,
       decorateHyperWithIpAddress,
       decorateHyperWithGitBranchesHistory,
       decorateHyperWithUsdBrlConversion,

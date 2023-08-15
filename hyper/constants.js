@@ -17,6 +17,7 @@ module.exports.LOCALHOST_PORTS_COMPONENT_CLASS_NAME =
   'component_localhost_ports'
 module.exports.MEINE_COMPONENT_TOGGLER_COMPONENT_CLASS_NAME =
   'component_meine_component_toggler'
+module.exports.GRAPHQL_INSPECTOR_COMPONENT_CLASS_NAME = 'component_graphql'
 // #endregion
 
 // #region Other components
@@ -48,6 +49,9 @@ module.exports.MeineComponentClassNameMap = {
     this.MEINE_COMPONENT_TOGGLER_COMPONENT_CLASS_NAME,
   ),
   LocalhostPorts: componentClassName(this.LOCALHOST_PORTS_COMPONENT_CLASS_NAME),
+  GraphQLInspector: componentClassName(
+    this.GRAPHQL_INSPECTOR_COMPONENT_CLASS_NAME,
+  ),
 }
 module.exports.MeineComponentLabelMap = {
   [this.DOCKER_COMPOSE_COMPONENT_CLASS_NAME]: 'docker-compose',
@@ -59,12 +63,13 @@ module.exports.MeineComponentLabelMap = {
   [this.USD_BRL_CONVERSION_COMPONENT_CLASS_NAME]: 'USD/BRL Conversion',
   [this.LOCALHOST_PORTS_COMPONENT_CLASS_NAME]: 'Localhost Ports',
   [this.COMPONENT_CWD_CLASS_NAME]: 'Current folder',
+  [this.GRAPHQL_INSPECTOR_COMPONENT_CLASS_NAME]: 'GraphQL Schema Inspector',
 }
 module.exports.defaultHyperMeineConfig = {
   ipAddress: true,
   usdBrlConversion: true,
   gitBranches: true,
-  ssh: true,
+  graphqlInspector: true,
 }
 
 module.exports.FOOTER_SELECTOR = '.footer_footer'

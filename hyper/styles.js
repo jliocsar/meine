@@ -35,6 +35,9 @@ const MeineComponentsStyle = {
     backgroundColor: '#2C8EBB',
     color: '#FFF',
   },
+  [MeineComponentClassNameMap.GraphQLInspector]: {
+    iconColor: '#E10098',
+  },
 }
 
 const css = /* css */ `
@@ -178,7 +181,7 @@ header {
 
       .component_icon {
         cursor: pointer;
-        transition: color 200ms ease-in-out;
+        transition: 150ms ease-in-out color;
         color: ${Theme.lightBlack};
 
         &:hover {
@@ -218,6 +221,57 @@ header {
           MeineComponentsStyle[MeineComponentClassNameMap.GitBranchesHistory]
             .color
         };
+      }
+    }
+
+    ${classNameToSelector(MeineComponentClassNameMap.GraphQLInspector)} {
+      .logo_icon {
+        color: ${
+          MeineComponentsStyle[MeineComponentClassNameMap.GraphQLInspector]
+            .iconColor
+        };
+      }
+
+      label {
+        margin-bottom: 4px;
+      }
+
+      form {
+        input,
+        button {
+          font-family: ${this.FONT_FAMILY};
+          appearance: none;
+          transition: 150ms ease;
+        }
+
+        button {
+          background: #2e7d32;
+          color: ${Theme.lightWhite}bb;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+          padding: 4px 8px;
+          cursor: pointer;
+          margin-top: 8px;
+
+          &:hover {
+            background: #1b5e20;
+          }
+        }
+
+        input {
+          background: ${Theme.black};
+          border: 1px solid var(--gtk-border-color);
+          margin-bottom: 8px;
+          padding: 8px;
+          color: ${Theme.white};
+          min-width: 200px;
+          width: 25vw;
+          max-width: 400px;
+
+          &:focus {
+            outline: none;
+            border-color: ${Theme.yellow};
+          }
+        }
       }
     }
 

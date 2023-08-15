@@ -48,12 +48,12 @@ module.exports.decorateHyper = (Hyper, { React }) => {
         )
         const display = component.style.display
         component.style.display = display === 'none' ? 'flex' : 'none'
-        this.setState({
+        this.setState(oldState => ({
           toggled: {
-            ...this.state.toggled,
-            [name]: !this.state.toggled[name],
+            ...oldState.toggled,
+            [name]: !oldState.toggled[name],
           },
-        })
+        }))
       }
       const handleClick = event => {
         event.stopPropagation()
@@ -72,10 +72,10 @@ module.exports.decorateHyper = (Hyper, { React }) => {
             component.style.display !== 'none'
           return patch
         }, {})
-        this.setState({
-          showToggleableComponents: !this.state.showToggleableComponents,
+        this.setState(oldState => ({
+          showToggleableComponents: !oldState.showToggleableComponents,
           ...(patchedToggled && { toggled: patchedToggled }),
-        })
+        }))
       }
       const tooltipProps = {}
 

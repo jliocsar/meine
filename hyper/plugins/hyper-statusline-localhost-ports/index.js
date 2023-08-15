@@ -12,9 +12,11 @@ const { HypermeineStatusline } = require('../base-hypermeine-status')
 const grepActivePorts = store =>
   exec('ss -nltp | grep pid', (error, stdout) => {
     if (error) {
-      return
+      return store.dispatch({
+        type: this.GREP_ACTIVE_PORTS_RESULT,
+        data: { activePorts: [] },
+      })
     }
-
     const activePorts = stdout.split('\n').reduce((ports, proc) => {
       const match = proc.match(/127\.0\.0\.1:(\d+).*"(.*)",pid=/)
       if (!match) {

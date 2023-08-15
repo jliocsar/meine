@@ -16,4 +16,6 @@ module.exports = {
     require('./hyper-statusline-localhost-ports').decorateHyper,
   decorateHyperWithMeineComponentToggler:
     require('./hyper-statusline-meine-component-toggler').decorateHyper,
+  decorateHyperWithGraphQLInspector:
+    require('./hyper-statusline-graphql-inspector').decorateHyper,
 }

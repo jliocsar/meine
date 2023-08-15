@@ -1,0 +1,16 @@
+{
+  "name": "hyper-statusline-graphql-inspector",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "hyper",
+    "hyperterm",
+    "hyper-statusline",
+    "statusline"
+  ],
+  "dependencies": {}
+}
