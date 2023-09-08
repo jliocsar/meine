@@ -11,5 +11,8 @@ module.exports.decorateConfig = config => {
   if (config.colors) {
     updatedConfig.colors = Object.assign({}, config.colors, baseConfig.colors)
   }
+  if (config.fontSize) {
+    updatedConfig.fontSize = config.fontSize
+  }
   return updatedConfig
 }

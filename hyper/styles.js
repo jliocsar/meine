@@ -112,6 +112,10 @@ header {
     background: ${Theme.lightBlack}44;
   }
 
+  .splitpane_divider {
+    background-color: var(--gtk-border-color) !important;
+  }
+
   .meine_tooltip {
     display: flex;
     flex-direction: column;
