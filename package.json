@@ -1,8 +1,14 @@
 {
+  "scripts": {
+    "setup": "./install.mjs"
+  },
   "dependencies": {
     "debounce": "^1.2.1",
     "hyper-hide-scroll": "^1.0.0",
     "hyper-statusline": "^1.7.6",
     "hyperminimal": "^0.1.0"
+  },
+  "devDependencies": {
+    "zx": "^7.2.3"
   }
 }
