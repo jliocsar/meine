@@ -1,5 +1,3 @@
-. $HOME/.meine/utils.zsh
-
 CUSTOM_ZSH_IMPORT_PATH="$HOME/.meine/zsh"
 source $CUSTOM_ZSH_IMPORT_PATH/zsh_spaceship.zsh
 source $CUSTOM_ZSH_IMPORT_PATH/zsh_alias.zsh

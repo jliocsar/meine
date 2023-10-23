@@ -37,6 +37,10 @@ if (await ensureCommand('nvim')) {
   await $`chmod u+x ./nvim.appimage`
   await $`sudo mv ./nvim.appimage /usr/bin/nvim`
 }
+await $`echo "require 'meine'" > ${HOME}/.config/nvim/init.lua`
+await $`sudo rm -rf /usr/local/share/lua/5.1/meine`
+await $`sudo mkdir -p /usr/local/share/lua/5.1/meine`
+await $`sudo ln -s ${HOME}/.meine/vim/* /usr/local/share/lua/5.1/meine`
 
 if (await ensureHomeDir('.nvm')) {
   mecho`nvm already installed.`

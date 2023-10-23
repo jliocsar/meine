@@ -11,7 +11,7 @@ alias szh='source $HOME/.zshrc'
 ## apt
 alias update='sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y'
 
-## npm/yarn
+## npm/yarn/bun
 alias ys='yarn start'
 alias yb='yarn build'
 alias yd='yarn dev'
@@ -22,20 +22,18 @@ alias yawd='yarn add -WD'
 alias nr='npm run'
 alias ni='npm install'
 alias nid='npm install --save-dev'
+alias b='bun'
+alias ba='bun add'
+alias bd='bun dev'
+alias bi='bun install'
+alias bu='bun upgrade'
+alias bs='bun start'
 
 ## docker
 alias dc='docker-compose'
 alias dcup='docker-compose up'
 
 # bash
-if command_exists "nvim"; then
-  alias vim="nvim"
-fi
-
-if command_exists "tree"; then
-  alias t='tree -L 1'
-fi
-
-if command_exists "bat"; then 
-  alias cat='bat'
-fi
+alias vim="nvim"
+alias t='tree -L 1'
+alias cat='bat'
