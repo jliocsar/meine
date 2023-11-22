@@ -4,10 +4,7 @@ import {
   ensureCommand,
   ensureHomeDir,
   mecho,
-  HOME,
-  ensureHomeFile,
 } from './utils.mjs'
-import { plugins, localPlugins } from './hyper/plugins.js'
 
 const aptdeps = ['zsh', 'bat', 'tree', 'python3-venv']
 
@@ -37,10 +34,6 @@ if (await ensureCommand('nvim')) {
   await $`chmod u+x ./nvim.appimage`
   await $`sudo mv ./nvim.appimage /usr/bin/nvim`
 }
-await $`echo "require 'meine'" > ${HOME}/.config/nvim/init.lua`
-await $`sudo rm -rf /usr/local/share/lua/5.1/meine`
-await $`sudo mkdir -p /usr/local/share/lua/5.1/meine`
-await $`sudo ln -s ${HOME}/.meine/vim/* /usr/local/share/lua/5.1/meine`
 
 if (await ensureHomeDir('.nvm')) {
   mecho`nvm already installed.`
@@ -57,6 +50,7 @@ echo`https://github.com/microsoft/cascadia-code`
 await $`sed -i '/zsh_custom_config/d' $HOME/.zshrc`
 await $`echo 'source $HOME/.meine/zsh_custom_config.zsh' >> $HOME/.zshrc`
 
+/** Hyper section, only used when using Hyper too
 mecho`Creating shared Hyper stuff...`
 const hyperLocalPluginsPath = path.resolve(HOME, '.hyper_plugins', 'local')
 await $`rm -rf ${hyperLocalPluginsPath}`
@@ -77,7 +71,6 @@ if (hyperJsPath) {
     $`sed -i ${localPluginsMatch} ${hyperJsPath}`,
   ])
 }
-
-// TODO: Add nvim section
+**/
 
 mecho`All done!`
