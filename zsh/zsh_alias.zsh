@@ -1,5 +1,5 @@
 ## git
-alias glog='git log --graph --decorate --stat'
+alias glog='git log --abbrev-commit --first-parent --oneline'
 alias gdiff='function __gdf() { git diff --name-only --diff-filter=d $1^ | xargs bat --diff }; __gdf'
 alias gdh='gdiff HEAD'
 alias gsl='git switch -'
