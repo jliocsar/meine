@@ -38,5 +38,15 @@ alias dcup='docker-compose up'
 
 # bash
 alias vim="nvim"
-alias t='tree -L 1'
+alias t='tree -i -L 1'
 alias cat='bat'
+
+# i3wm related
+if [[ $DESKTOP_SESSION == "i3" ]]; then
+    alias volume="alsamixer"
+    alias brightness="brightnessctl"
+    alias brightness:inc="sudo brightnessctl set +20%"
+    alias brightness:dec="sudo brightnessctl set 20%-"
+    alias keyboard:us="setxkbmap us"
+    alias keyboard:br="setxkbmap br"
+fi
