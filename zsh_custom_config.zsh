@@ -1,4 +1,9 @@
-CUSTOM_ZSH_IMPORT_PATH="$HOME/.meine/zsh"
-source $CUSTOM_ZSH_IMPORT_PATH/zsh_alias.zsh
-source $CUSTOM_ZSH_IMPORT_PATH/zsh_hooks.zsh
-source $CUSTOM_ZSH_IMPORT_PATH/zinit_plugins.zsh
+MEINE_ROOT=$(dirname $0)/zsh
+
+function meine_require() {
+  source $MEINE_ROOT/$1    
+}
+
+meine_require zsh_alias.zsh
+meine_require zsh_hooks.zsh
+meine_require zinit_plugins.zsh

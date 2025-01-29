@@ -17,20 +17,19 @@ else
   bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 fi
 
-if [ -f /usr/bin/nvim ]; then
-  echo "nvim already installed."
+if [ -d /usr/bin/code ]; then
+  echo "VS Code already installed."
 else
-  echo "nvim not found, installing..."
-  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-  chmod u+x ./nvim.appimage
-  sudo mv ./nvim.appimage /usr/bin/nvim
+  echo "Installing VS Code..."
+  curl -o /tmp/code.deb -L https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+  sudo dpkg -i /tmp/code.deb
 fi
 
 if [ -d ~/.nvm ]; then
   echo "nvm already installed."
 else
   echo "Installing nvm..."
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 fi
 
 sed -i '/zsh_custom_config/d' $HOME/.zshrc
