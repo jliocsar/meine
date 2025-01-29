@@ -1,3 +1,4 @@
 /home/jliocsar/.i3status-wrapper/wrapper.pl > .meine/dotstorage/.i3status-wrapper/wrapper.pl
 /home/jliocsar/.i3status.conf > .meine/dotstorage/.i3status.conf
 /home/jliocsar/.config/i3/config > .meine/dotstorage/.config/i3/config
+/home/jliocsar/.wezterm.lua > /home/jliocsar/.meine/dotstorage/.wezterm.lua
