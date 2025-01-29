@@ -37,7 +37,7 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
     # Since `date` is the last block...
     my $last_block = pop @blocks;
     @blocks = (@blocks, {
-        full_text => "keyboard $keyboard_layout",
+        full_text => "$keyboard_layout",
         name => "keyboard"
     }, $last_block);
 

@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Iosevka 14
+font pango:Iosevka 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -210,7 +210,7 @@ bar {
     status_command i3status | ~/.i3status-wrapper/wrapper.pl
     separator_symbol " < "
 
-     colors {
+    colors {
         background #272727
         statusline #cccccc
         separator  #484848
@@ -219,5 +219,5 @@ bar {
         inactive_workspace #444444 #222222 #999999
         urgent_workspace   #E56A54 #E56A54 #292929
         binding_mode       #E56A54 #E56A54 #292929
-     }
+    }
 }
