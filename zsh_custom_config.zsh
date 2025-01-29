@@ -1,7 +1,7 @@
 MEINE_ROOT=$(dirname $0)/zsh
 
 function meine_require() {
-  source $MEINE_ROOT/$1    
+  source $MEINE_ROOT/$1
 }
 
 meine_require zsh_alias.zsh

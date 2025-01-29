@@ -41,9 +41,20 @@ alias vim="nvim"
 alias t='tree -i -L 1'
 alias cat='bat'
 
+# meine
+alias dotfiles="perl $HOME/.meine/dotfiles.pl"
+alias meine:sync="perl $HOME/.meine/dotfiles.pl sync \
+&& cd $HOME/.meine \
+&& git add . \
+&& git commit -m 'sync' \
+&& git push \
+&& cd -"
+
 # i3wm related
 if [[ $DESKTOP_SESSION == "i3" ]]; then
     alias volume="alsamixer"
+    alias volume:up="amixer -D pulse sset Master 5%+"
+    alias volume:down="amixer -D pulse sset Master 5%-"
     alias brightness="brightnessctl"
     alias brightness:inc="sudo brightnessctl set +20%"
     alias brightness:dec="sudo brightnessctl set 20%-"
