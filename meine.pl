@@ -3,8 +3,12 @@ use strict;
 use warnings;
 
 my $op_type = $ARGV[0];
-unless (defined $op_type) {
+sub meine_print_help {
     print "Usage: meine <sync|open|dotfiles>\n";
+}
+
+unless (defined $op_type) {
+    meine_print_help();
     exit 1;
 }
 
@@ -12,16 +16,7 @@ my $HOME = $ENV{HOME};
 my $ROOT = "$HOME/.meine";
 my $DOTSTORAGE = "$ROOT/dotstorage";
 
-# Asserts that the "$HOME/.meine" folder exists
-sub assert_meine {
-    unless (-e $ROOT) {
-        print "Root directory $ROOT does not exist\n";
-        exit 1;
-    }
-}
-
 sub meine_sync {
-    assert_meine();
     print "Syncing meine to Git...\n";
     `cd $ROOT && git add . && git commit -m 'sync' && git push`;
     print "All done!\n";
@@ -29,7 +24,6 @@ sub meine_sync {
 }
 
 sub meine_open {
-    assert_meine();
     print "Opening meine in VS Code...\n";
     `code $ROOT`;
     exit 0;
@@ -112,23 +106,28 @@ sub meine_dotfiles {
         `code $DOTSTORAGE`;
         exit 0;
     }
-
-    my $dotfile_op_type = $ARGV[1];
-    unless (defined $dotfile_op_type) {
+    
+    sub meine_dotfiles_print_help {
         print "Usage: meine dotfiles <link|unlink|list|edit>\n";
+    }
+
+    my $dotfiles_op_type = $ARGV[1];
+    unless (defined $dotfiles_op_type) {
+        meine_dotfiles_print_help();
         exit 1;
     }
 
-    if ($dotfile_op_type eq "link") {
+    if ($dotfiles_op_type eq "link") {
         meine_dotfiles_link();
-    } elsif ($dotfile_op_type eq "list") {
+    } elsif ($dotfiles_op_type eq "list") {
         meine_dotfiles_list();
-    } elsif ($dotfile_op_type eq "unlink") {
+    } elsif ($dotfiles_op_type eq "unlink") {
         meine_dotfiles_unlink();
-    } elsif ($dotfile_op_type eq "edit") {
+    } elsif ($dotfiles_op_type eq "edit") {
         meine_dotfiles_edit();
     } else {
         print "Invalid operation type\n";
+        meine_dotfiles_print_help();
         exit 1;
     }
 }
@@ -141,5 +140,6 @@ if ($op_type eq "sync") {
     meine_dotfiles();
 } else {
     print "Invalid operation type\n";
+    meine_print_help();
     exit 1;
 }
