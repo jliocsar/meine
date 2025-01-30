@@ -2,14 +2,15 @@
 use strict;
 use warnings;
 
+my $SEPARATOR = " > ";
+my $HOME = $ENV{HOME};
+
 chomp(my $root = `dirname $0`);
-my $home = $ENV{HOME};
-my $dotfiles_link_file = "$root/dotfiles";
+my $meine_dotfile_buffer = "$root/dotfiles";
 my $dotstorage = "$root/dotstorage";
-my $separator = " > ";
 
 my $op_type = $ARGV[0];
-my $rel_dotfile_path = $ARGV[1];
+my $arg_dotfile_path = $ARGV[1];
 
 sub meine_dotfiles_sync {
     # Create dotfiles storage if it does not exist
@@ -19,23 +20,23 @@ sub meine_dotfiles_sync {
     }
 
     # Sync dotfiles from dotfiles file
-    open(my $fh, "<", $dotfiles_link_file) or die "Could not open file $dotfiles_link_file";
+    open(my $fh, "<", $meine_dotfile_buffer) or die "Could not open file $meine_dotfile_buffer";
     while (my $line = <$fh>) {
         # Remove newline character
         chomp($line);
 
         # Split line into linked and dotfile paths
-        my ($linked_abs_dotfile_path, $linked_rel_dotfile_path) = split($separator, $line);
-        my $target_dir = `dirname $linked_rel_dotfile_path`;
-        my $dotfile_path = "$dotstorage/$linked_rel_dotfile_path";
+        my ($meine_stored_abs_dotfile_path, $meine_stored_internal_rel_dotfile_path) = split($SEPARATOR, $line);
+        my $meine_stored_internal_dotfile_dir = `dirname $meine_stored_internal_rel_dotfile_path`;
+        my $meine_dotstorage_dotfile_path = "$dotstorage/$meine_stored_internal_rel_dotfile_path";
 
         # Create target directory if it does not exist
-        `mkdir -p $dotstorage/$target_dir`;
+        `mkdir -p $dotstorage/$meine_stored_internal_dotfile_dir`;
 
         # Sync dotfile
-        `cp $linked_abs_dotfile_path $dotfile_path`;
+        `cp $meine_stored_abs_dotfile_path $meine_dotstorage_dotfile_path`;
 
-        print "Synced $linked_abs_dotfile_path to $dotfile_path\n";
+        print "Synced $meine_stored_abs_dotfile_path to $meine_dotstorage_dotfile_path\n";
     }
 
     # Close file handle
@@ -51,45 +52,45 @@ sub meine_dotfiles_eternalsync {
 
 sub meine_dotfiles_add {
     # We use the absolute path to the dotfile
-    chomp(my $abs_dotfile_path = `readlink -f $rel_dotfile_path`);
+    chomp(my $abs_arg_dotfile_path = `readlink -f $arg_dotfile_path`);
 
     # Check if dotfile path is valid and in home directory
-    unless ($abs_dotfile_path =~ m/^$home/) {
-        print "Dotfile $abs_dotfile_path is not in home directory\n";
+    unless ($abs_arg_dotfile_path =~ m/^$HOME/) {
+        print "Dotfile $abs_arg_dotfile_path is not in home directory\n";
         exit 1;
     }
 
     # Check if dotfile exists
-    unless (-e $abs_dotfile_path) {
-        print "File $abs_dotfile_path does not exist\n";
+    unless (-e $abs_arg_dotfile_path) {
+        print "File $abs_arg_dotfile_path does not exist\n";
         exit 1;
     }
 
     # Get dotfile relative path from the home directory
-    my $dotfile_name = $abs_dotfile_path =~ s/(\.|$home)\///r;
+    my $arg_dotfile_name = $abs_arg_dotfile_path =~ s/(\.|$HOME)\///r;
 
     # Create dotfiles storage if it does not exist
-    unless (-e $dotfiles_link_file) {
-        print "Creating dotfiles storage at $dotfiles_link_file\n";
-        `touch $dotfiles_link_file`;
+    unless (-e $meine_dotfile_buffer) {
+        print "Creating dotfiles storage at $meine_dotfile_buffer\n";
+        `touch $meine_dotfile_buffer`;
     }
 
     # Check if dotfile is already added to dotfiles file
-    open(my $fh, "<", $dotfiles_link_file) or die "Could not open file $dotfiles_link_file";
+    open(my $fh, "<", $meine_dotfile_buffer) or die "Could not open file $meine_dotfile_buffer";
     while (my $line = <$fh>) {
         chomp($line);
-        my ($linked_abs_dotfile_path) = split($separator, $line);
-        if ($linked_abs_dotfile_path eq $abs_dotfile_path) {
-            print "Dotfile $dotfile_name already added to $dotfiles_link_file\n";
+        my ($meine_stored_abs_dotfile_path) = split($SEPARATOR, $line);
+        if ($meine_stored_abs_dotfile_path eq $abs_arg_dotfile_path) {
+            print "Dotfile $arg_dotfile_name already added to $meine_dotfile_buffer\n";
             exit 0;
         }
     }
     close($fh);
 
     # Add dotfile to dotfiles file
-    `echo '$abs_dotfile_path$separator$dotfile_name' >> $dotfiles_link_file`;
+    `echo '$abs_arg_dotfile_path$SEPARATOR$arg_dotfile_name' >> $meine_dotfile_buffer`;
 
-    print "Dotfile $dotfile_name added to $dotfiles_link_file\n";
+    print "Dotfile $arg_dotfile_name added to $meine_dotfile_buffer\n";
     print "Resyncing dotfiles...\n";
 
     meine_dotfiles_sync();
@@ -97,36 +98,36 @@ sub meine_dotfiles_add {
 
 sub meine_dotfiles_remove {
     # Check if dotfiles link file exists
-    unless (-e $dotfiles_link_file) {
+    unless (-e $meine_dotfile_buffer) {
         print "Dotfiles link file does not exist. Add files first.\n";
         exit 1;
     }
 
     # We use the absolute path to the dotfile
-    chomp(my $abs_dotfile_path = `readlink -f $rel_dotfile_path`);
+    chomp(my $abs_arg_dotfile_path = `readlink -f $arg_dotfile_path`);
 
     # Check if dotfile path exists
-    unless (-e $abs_dotfile_path) {
-        print "File $abs_dotfile_path does not exist\n";
+    unless (-e $abs_arg_dotfile_path) {
+        print "File $abs_arg_dotfile_path does not exist\n";
         exit 1;
     }
 
     # Remove dotfile from dotfiles file
-    open(my $read_fh, "<", $dotfiles_link_file)
-       or die qq(Can't open file "$dotfiles_link_file" for reading: $!\n);
+    open(my $read_fh, "<", $meine_dotfile_buffer)
+       or die qq(Can't open file "$meine_dotfile_buffer" for reading: $!\n);
 
     my @file_lines = <$read_fh>;
     close($read_fh);
 
-    open(my $write_fh, ">", $dotfiles_link_file)
-        or die qq(Can't open file "$dotfiles_link_file" for writing: $!\n);
+    open(my $write_fh, ">", $meine_dotfile_buffer)
+        or die qq(Can't open file "$meine_dotfile_buffer" for writing: $!\n);
 
     foreach my $line (@file_lines) {
-        if ($line =~ /$abs_dotfile_path/) {
-            my ($linked_abs_dotfile_path, $dotfile_path) = split($separator, $line);
-            my $abs_dotfile_path = "$dotstorage/$dotfile_path";
+        if ($line =~ /$abs_arg_dotfile_path/) {
+            my ($meine_stored_abs_dotfile_path, $dotfile_path) = split($SEPARATOR, $line);
+            my $meine_dotstorage_dotfile_path = "$dotstorage/$dotfile_path";
             # Unlink doesn't work for some reason
-            `rm $abs_dotfile_path`;
+            `rm $meine_dotstorage_dotfile_path`;
         } else { 
             print {$write_fh} $line;
         }
@@ -138,18 +139,18 @@ sub meine_dotfiles_remove {
     # Close file handles
     close($write_fh);
 
-    print "Dotfile $abs_dotfile_path removed from $dotfiles_link_file\n";
+    print "Dotfile $abs_arg_dotfile_path removed from $meine_dotfile_buffer\n";
 }
 
 sub meine_dotfiles_list {
     # Check if dotfiles link file exists
-    unless (-e $dotfiles_link_file) {
+    unless (-e $meine_dotfile_buffer) {
         print "Dotfiles link file does not exist. Add files first.\n";
         exit 1;
     }
 
     # List dotfiles from dotfiles file
-    open(my $fh, "<", $dotfiles_link_file) or die "Could not open file $dotfiles_link_file";
+    open(my $fh, "<", $meine_dotfile_buffer) or die "Could not open file $meine_dotfile_buffer";
     while (my $line = <$fh>) {
         print $line;
     }
@@ -183,7 +184,7 @@ if ($op_type eq "remove") {
     exit 0;
 }
 
-unless ($op_type eq "add" and $rel_dotfile_path) {
+unless ($op_type eq "add" and $arg_dotfile_path) {
     print "Usage: dotfiles.pl <add|remove|list|sync|eternalsync> <dotfile_path>\n";
     exit 1;
 }
