@@ -4,7 +4,7 @@ use warnings;
 
 my $op_type = $ARGV[0];
 unless (defined $op_type) {
-    print "Usage: dotfiles_v2.pl <link|unlink|list|edit>\n";
+    print "Usage: dotfiles <link|unlink|list|edit>\n";
     exit 1;
 }
 
