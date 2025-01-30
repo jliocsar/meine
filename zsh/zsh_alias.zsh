@@ -46,12 +46,6 @@ alias __assert_meine="if [[ ! -d $HOME/.meine ]]; then echo '~/.meine not found'
 
 alias dotfiles="__assert_meine && $HOME/.meine/dotfiles.pl"
 alias meine="$HOME/.meine/meine.pl"
-# alias meine:open="__assert_meine && code $HOME/.meine"
-# alias meine:sync="__assert_meine && cd $HOME/.meine \
-# && git add . \
-# && git commit -m 'sync' \
-# && git push \
-# && cd -"
 
 # i3wm related
 if [[ $DESKTOP_SESSION == "i3" ]]; then
