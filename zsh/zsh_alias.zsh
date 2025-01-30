@@ -42,10 +42,11 @@ alias t='tree -i -L 1'
 alias cat='bat'
 
 # meine
-alias dotfiles="$HOME/.meine/dotfiles.pl"
-alias __assert_meine="if [[ ! -d $HOME/.meine ]]; then echo 'Meine not found'; return 1; fi"
+alias __assert_meine="if [[ ! -d $HOME/.meine ]]; then echo '~/.meine not found'; return 1; fi"
+
+alias dotfiles="__assert_meine && $HOME/.meine/dotfiles.pl"
 alias meine:open="__assert_meine && code $HOME/.meine"
-alias meine:sync="__assert_meine &&cd $HOME/.meine \
+alias meine:sync="__assert_meine && cd $HOME/.meine \
 && git add . \
 && git commit -m 'sync' \
 && git push \
