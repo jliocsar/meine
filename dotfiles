@@ -1,4 +1,3 @@
 /home/jliocsar/.config/i3/config > .config/i3/config
 /home/jliocsar/.i3status.conf > .i3status.conf
-/home/jliocsar/.i3status-wrapper/wrapper.pl > .i3status-wrapper/wrapper.pl
 /home/jliocsar/.wezterm.lua > .wezterm.lua

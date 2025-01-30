@@ -207,7 +207,7 @@ client.background       #303030
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-    status_command i3status | ~/.i3status-wrapper/wrapper.pl
+    status_command i3status | ~/.meine/i3status_wrapper.pl
     separator_symbol " < "
 
     colors {

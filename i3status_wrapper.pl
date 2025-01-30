@@ -56,10 +56,41 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
         }, @blocks);
     }
 
-    @blocks = ({
-        full_text => "need coffee",
-        name => "node"
-    }, @blocks);
+    # Check for running SSM sessions
+    chomp(my $sessions_list = `ps -ef | grep "session-manager-plugin AWS_SSM_START_SESSION_RESPONSE" | grep -v grep`);
+
+    unless ($sessions_list eq "") {
+        # Splits the list by newline into an array
+        my @sessions_list = split /\n/, $sessions_list;
+        my $prod_sessions_count = 0;
+        my $dev_sessions_count = 0;
+
+        for my $session (@sessions_list) {
+            # Replaces everything until the "StartSession " string with nothing (including the string)
+            $session =~ s/.*StartSession //;
+
+            # Replaces everything after the " " string with nothing (including the string)
+            $session =~ s/ .*$//;
+            chomp $session;
+
+            # Checks if the session is a production session
+            if ($session =~ /prod/) {
+                $prod_sessions_count++;
+            } elsif ($session =~ /dev/) {
+                $dev_sessions_count++;
+            }
+        }
+
+        @blocks = ({
+            full_text => "aws ssm [prod $prod_sessions_count] [dev $dev_sessions_count]",
+            name => "node"
+        }, @blocks);
+    }
+
+    # @blocks = ({
+    #     full_text => "need coffee",
+    #     name => "coffee"
+    # }, @blocks);
 
     # Output the line as JSON.
     print encode_json(\@blocks) . ",\n";

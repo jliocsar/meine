@@ -6,7 +6,7 @@ use warnings;
 chomp(my $root = `dirname $0`);
 my $home = $ENV{HOME};
 my $dotfiles_link_file = "$root/dotfiles";
-my $dotfiles_sync_dir = "$root/dotstorage";
+my $dotstorage = "$root/dotstorage";
 my $separator = " > ";
 
 my $op_type = $ARGV[0];
@@ -14,9 +14,9 @@ my $rel_dotfile_path = $ARGV[1];
 
 sub meine_dotfiles_sync {
     # Create dotfiles storage if it does not exist
-    unless (-e $dotfiles_sync_dir) {
-        print "Creating dotfiles storage at $dotfiles_sync_dir\n";
-        `mkdir $dotfiles_sync_dir`;
+    unless (-e $dotstorage) {
+        print "Creating dotfiles storage at $dotstorage\n";
+        `mkdir $dotstorage`;
     }
 
     # Sync dotfiles from dotfiles file
@@ -28,10 +28,10 @@ sub meine_dotfiles_sync {
         # Split line into linked and dotfile paths
         my ($linked_abs_dotfile_path, $linked_rel_dotfile_path) = split($separator, $line);
         my $target_dir = `dirname $linked_rel_dotfile_path`;
-        my $dotfile_path = "$dotfiles_sync_dir/$linked_rel_dotfile_path";
+        my $dotfile_path = "$dotstorage/$linked_rel_dotfile_path";
 
         # Create target directory if it does not exist
-        `mkdir -p $dotfiles_sync_dir/$target_dir`;
+        `mkdir -p $dotstorage/$target_dir`;
 
         # Sync dotfile
         `cp $linked_abs_dotfile_path $dotfile_path`;
@@ -125,13 +125,16 @@ sub meine_dotfiles_remove {
     foreach my $line (@file_lines) {
         if ($line =~ /$abs_dotfile_path/) {
             my ($linked_abs_dotfile_path, $dotfile_path) = split($separator, $line);
-            my $abs_dotfile_path = "$dotfiles_sync_dir/$dotfile_path";
+            my $abs_dotfile_path = "$dotstorage/$dotfile_path";
             # Unlink doesn't work for some reason
             `rm $abs_dotfile_path`;
         } else { 
             print {$write_fh} $line;
         }
     }
+
+    # Check for empty directories (recursively) within dotfiles storage and remove them
+    `find $dotstorage -type d -empty -delete`;
 
     # Close file handles
     close($write_fh);
