@@ -116,6 +116,7 @@ if ($dotfiles_op_type eq "link") {
     exit 0;
 }
 
+# Unlink a dotfile if requested
 if ($dotfiles_op_type eq "unlink") {
     # Check if a file to unlink is provided and exit if not
     my $file_to_unlink = $ARGV[2];
@@ -139,6 +140,7 @@ if ($dotfiles_op_type eq "unlink") {
     exit 0;
 }
 
+# Edit dotfiles in dotstorage with VS Code if requested
 if ($dotfiles_op_type eq "edit") {
     `code $DOTSTORAGE`;
     exit 0;
