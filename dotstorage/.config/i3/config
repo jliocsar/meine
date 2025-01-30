@@ -162,7 +162,7 @@ exec --no-startup-id xinput set-prop "DLL09D9:00 04F3:3146 Touchpad" "libinput N
 exec --no-startup-id /usr/libexec/gsd-xsettings
 
 # run dotfiles storage
-exec_always --no-startup-id $HOME/.meine/dotfiles.pl eternalsync
+# exec_always --no-startup-id $HOME/.meine/dotfiles.pl eternalsync
 
 # apply wallpaper via feh
 exec --no-startup-id feh --bg-fill $HOME/.wallpapers/orion_nebula.jpg
