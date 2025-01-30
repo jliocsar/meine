@@ -2,6 +2,8 @@
 use strict;
 use warnings;
 
+use constant ROOT => ".meine";
+
 # Check for a command and exit printing help if none is provided
 my $op_type = $ARGV[0];
 sub meine_print_help {
@@ -15,21 +17,21 @@ unless (defined $op_type) {
 
 # Define constants
 my $HOME = $ENV{HOME};
-my $ROOT = "$HOME/.meine";
-my $DOTSTORAGE = "$ROOT/dotstorage";
+my $MY_ROOT = "$HOME/".ROOT;
+my $DOTSTORAGE = "$MY_ROOT/dotstorage";
 
 # Perform sync if requested
 if ($op_type eq "sync") {
     print "Syncing meine to Git...\n";
-    `cd $ROOT && git add . && git commit -m 'sync' && git push`;
+    `cd $MY_ROOT && git add . && git commit -m 'sync' && git push`;
     print "All done!\n";
     exit 0;
 }
 
 # Open meine in VS Code if requested
 if ($op_type eq "open") {
-    print "Opening meine in VS Code...\n";
-    `code $ROOT`;
+    print "Opening ~/".ROOT." in VS Code...\n";
+    `code $MY_ROOT`;
     exit 0;
 }
 
@@ -58,8 +60,8 @@ if ($dotfiles_op_type eq "list") {
     my @dotfiles = split("\n", $dotfiles);
 
     for my $dotfile (@dotfiles) {
-        # Replaces `$ROOT/dotstorage/` with nothing
-        $dotfile =~ s/^$ROOT\/dotstorage\///;
+        # Replaces `$MY_ROOT/dotstorage/` with nothing
+        $dotfile =~ s/^$MY_ROOT\/dotstorage\///;
         print "$dotfile\n";
     }
 
@@ -82,7 +84,7 @@ if ($dotfiles_op_type eq "link") {
     for my $dotfile (@dotfiles) {
         # Replaces the `./dotstorage/` with `$HOME/`
         my $dotfile_home_path = $dotfile;
-        $dotfile_home_path =~ s/^$ROOT\/dotstorage/$HOME/;
+        $dotfile_home_path =~ s/^$MY_ROOT\/dotstorage/$HOME/;
         
         # Check if link already exists and that it's actually a link
         if (-e $dotfile_home_path) {
@@ -125,8 +127,8 @@ if ($dotfiles_op_type eq "unlink") {
         exit 1;
     }
 
-    # Replace `$ROOT/dotstorage` with `$HOME` in the provided file path
-    $file_to_unlink =~ s/^$ROOT\/dotstorage/$HOME/;
+    # Replace `$MY_ROOT/dotstorage` with `$HOME` in the provided file path
+    $file_to_unlink =~ s/^$MY_ROOT\/dotstorage/$HOME/;
 
     # Unlink the provided file if it exists and is a link
     if (-e $file_to_unlink and -l $file_to_unlink) {
