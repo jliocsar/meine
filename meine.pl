@@ -21,12 +21,15 @@ sub assert_meine {
 
 sub meine_sync {
     assert_meine();
+    print "Syncing meine to Git...\n";
     `cd $ROOT && git add . && git commit -m 'sync' && git push`;
+    print "All done!\n";
     exit 0;
 }
 
 sub meine_open {
     assert_meine();
+    print "Opening meine in VS Code...\n";
     `code $ROOT`;
     exit 0;
 }
