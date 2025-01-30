@@ -43,9 +43,9 @@ alias cat='bat'
 
 # meine
 alias dotfiles="$HOME/.meine/dotfiles.pl"
-alias meine:open="code $HOME/.meine"
-alias meine:sync="$HOME/.meine/dotfiles.pl link \
-&& cd $HOME/.meine \
+alias __assert_meine="if [[ ! -d $HOME/.meine ]]; then echo 'Meine not found'; return 1; fi"
+alias meine:open="__assert_meine && code $HOME/.meine"
+alias meine:sync="__assert_meine &&cd $HOME/.meine \
 && git add . \
 && git commit -m 'sync' \
 && git push \
