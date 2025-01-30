@@ -43,7 +43,8 @@ alias cat='bat'
 
 # meine
 alias dotfiles="$HOME/.meine/dotfiles.pl"
-alias meine:sync="$HOME/.meine/dotfiles.pl sync \
+alias meine:open="code $HOME/.meine"
+alias meine:sync="$HOME/.meine/dotfiles.pl link \
 && cd $HOME/.meine \
 && git add . \
 && git commit -m 'sync' \
