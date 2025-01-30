@@ -44,6 +44,7 @@ alias cat='bat'
 # meine
 alias __assert_meine="if [[ ! -d $HOME/.meine ]]; then echo '~/.meine not found'; return 1; fi"
 alias meine="__assert_meine && $HOME/.meine/meine.pl"
+alias dotfiles="__assert_meine && $HOME/.meine/meine.pl dotfiles"
 
 # i3wm related
 if [[ $DESKTOP_SESSION == "i3" ]]; then
