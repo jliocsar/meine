@@ -47,7 +47,7 @@ sub meine_dotfiles_eternalsync {
     # Just eternally sync by sleeping and recursively calling sync
     meine_dotfiles_sync();
     sleep 300;
-    meine_dotfiles_eternalsync();
+    return meine_dotfiles_eternalsync();
 }
 
 sub meine_dotfiles_add {
