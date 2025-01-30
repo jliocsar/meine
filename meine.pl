@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 
+# Check for a command and exit printing help if none is provided
 my $op_type = $ARGV[0];
 sub meine_print_help {
     print "Usage: meine <sync|open|dotfiles>\n";
@@ -12,37 +13,35 @@ unless (defined $op_type) {
     exit 1;
 }
 
+# Define constants
 my $HOME = $ENV{HOME};
 my $ROOT = "$HOME/.meine";
 my $DOTSTORAGE = "$ROOT/dotstorage";
 
-sub meine_sync {
+# Perform sync if requested
+if ($op_type eq "sync") {
     print "Syncing meine to Git...\n";
     `cd $ROOT && git add . && git commit -m 'sync' && git push`;
     print "All done!\n";
+    exit 0;
 }
 
-sub meine_open {
+# Open meine in VS Code if requested
+if ($op_type eq "open") {
     print "Opening meine in VS Code...\n";
     `code $ROOT`;
-}
-
-if ($op_type eq "sync") {
-    meine_sync();
-    exit 0;
-} 
-
-if ($op_type eq "open") {
-    meine_open();
     exit 0;
 }
 
+# From here on only dotfiles operations are allowed
+# Exit if invalid operation type is provided
 unless ($op_type eq "dotfiles") {
     print "Invalid operation type\n";
     meine_print_help();
     exit 1;
 }
 
+# Check for a dotfiles operation and exit printing help if none is provided
 sub meine_dotfiles_print_help {
     print "Usage: meine dotfiles <link|unlink|list|edit>\n";
 }
@@ -53,7 +52,8 @@ unless (defined $dotfiles_op_type) {
     exit 1;
 }
 
-sub meine_dotfiles_list {
+# List all dotfiles in dotstorage if requested
+if ($dotfiles_op_type eq "list") {
     my $dotfiles = `find $DOTSTORAGE -type f`;
     my @dotfiles = split("\n", $dotfiles);
 
@@ -62,14 +62,13 @@ sub meine_dotfiles_list {
         $dotfile =~ s/^$ROOT\/dotstorage\///;
         print "$dotfile\n";
     }
-}
 
-if ($dotfiles_op_type eq "list") {
-    meine_dotfiles_list();
+    # Exit after listing all dotfiles
     exit 0;
 }
 
-sub meine_dotfiles_link {
+# Link dotfiles in dotstorage to $HOME if requested
+if ($dotfiles_op_type eq "link") {
     # Create dotfiles storage if it does not exist
     unless (-e $DOTSTORAGE) {
         print "Creating dotfiles storage at $DOTSTORAGE\n";
@@ -106,47 +105,42 @@ sub meine_dotfiles_link {
         }
         chomp $response;
 
+        # Link the dotfile if user confirms
         if ($response eq "y") {
             `ln -s $dotfile $dotfile_home_path`;
             print "Linked $dotfile to $dotfile_home_path\n";
         }
     }
-}
 
-if ($dotfiles_op_type eq "link") {
-    meine_dotfiles_link();
+    # Exit after linking all dotfiles
     exit 0;
 }
 
-sub meine_dotfiles_unlink {
+if ($dotfiles_op_type eq "unlink") {
+    # Check if a file to unlink is provided and exit if not
     my $file_to_unlink = $ARGV[2];
     unless (defined $file_to_unlink) {
         print "Usage: meine dotfiles unlink <file>\n";
         exit 1;
     }
 
+    # Replace `$ROOT/dotstorage` with `$HOME` in the provided file path
     $file_to_unlink =~ s/^$ROOT\/dotstorage/$HOME/;
 
+    # Unlink the provided file if it exists and is a link
     if (-e $file_to_unlink and -l $file_to_unlink) {
         print "Unlinking $file_to_unlink\n";
         unlink $file_to_unlink or die "Could not unlink $file_to_unlink: $!";
     } else {
         print "No link at $file_to_unlink\n";
     }
-}
 
-if ($dotfiles_op_type eq "unlink") {
-    meine_dotfiles_unlink();
-    exit 0;
-}
-
-sub meine_dotfiles_edit {
-    `code $DOTSTORAGE`;
+    # Exit after unlinking the provided file
     exit 0;
 }
 
 if ($dotfiles_op_type eq "edit") {
-    meine_dotfiles_edit();
+    `code $DOTSTORAGE`;
     exit 0;
 }
 
