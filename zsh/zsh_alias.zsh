@@ -42,8 +42,8 @@ alias t='tree -i -L 1'
 alias cat='bat'
 
 # meine
-alias dotfiles="perl $HOME/.meine/dotfiles.pl"
-alias meine:sync="perl $HOME/.meine/dotfiles.pl sync \
+alias dotfiles="$HOME/.meine/dotfiles.pl"
+alias meine:sync="$HOME/.meine/dotfiles.pl sync \
 && cd $HOME/.meine \
 && git add . \
 && git commit -m 'sync' \
