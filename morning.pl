@@ -112,3 +112,4 @@ if ($message eq "") {
 open(my $fh, '>>', $MORNING_BUFFER_FILE) or die "Failed to open $MORNING_BUFFER_FILE: $!";
 print $fh "$message\n";
 close $fh;
+output_reminders();
