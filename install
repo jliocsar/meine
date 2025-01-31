@@ -1,7 +1,8 @@
 #!/bin/bash
 echo "Installing dependencies..."
 
-sudo apt install -y zsh bat tree python3-venv libjson-perl > /dev/null
+sudo apt install -y zsh bat vi tree python3-venv i3-wm perl libjson-perl > /dev/null
+pip install --user i3-swallow
 
 if [ -d ~/.oh-my-zsh ]; then
   echo "oh-my-zsh already installed."

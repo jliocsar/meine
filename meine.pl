@@ -31,7 +31,7 @@ if ($op_type eq "sync") {
 # Open meine in VS Code if requested
 if ($op_type eq "open") {
     print "Opening ~/".ROOT." in VS Code...\n";
-    `code $MY_ROOT`;
+    `swallow code $MY_ROOT`;
     exit 0;
 }
 
@@ -144,7 +144,7 @@ if ($dotfiles_op_type eq "unlink") {
 
 # Edit dotfiles in dotstorage with VS Code if requested
 if ($dotfiles_op_type eq "edit") {
-    `code $DOTSTORAGE`;
+    `swallow code $DOTSTORAGE`;
     exit 0;
 }
 

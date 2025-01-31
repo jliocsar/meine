@@ -4,6 +4,15 @@ alias gdiff='function __gdf() { git diff --name-only --diff-filter=d $1^ | xargs
 alias gdh='gdiff HEAD'
 alias gsl='git switch -'
 
+ginit() {
+    g init
+    ga .
+    gb -M main
+    gcmsg 'source files'
+    gr add origin git@github.com:jliocsar/$1.git
+    gp -u origin main
+}
+
 ## zsh
 alias j='jump'
 alias szh='source $HOME/.zshrc'
