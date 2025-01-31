@@ -56,11 +56,16 @@ sub print_good_morning_msg {
         exit 0;
     }
 
-    print "# Reminders:\n\n";
     open(my $fh, '<', $MORNING_BUFFER_FILE) or die "Failed to open $MORNING_BUFFER_FILE: $!";
     my @lines = <$fh>;
     close $fh;
-    my $message = join("", @lines);
+    chomp(my $message = join("", @lines));
+
+    if ($message eq "") {
+        exit 0;
+    }
+
+    print "# Reminders:\n\n";
     print $message;
     print "\n";
 }
