@@ -161,8 +161,8 @@ exec --no-startup-id xinput set-prop "DLL09D9:00 04F3:3146 Touchpad" "libinput N
 # allow gnome-tweaks changes to be applied
 exec --no-startup-id /usr/libexec/gsd-xsettings
 
-# run dotfiles storage
-# exec_always --no-startup-id $HOME/.meine/dotfiles.pl eternalsync
+# set keyboard to us
+exec --no-startup-id setxkbmap us
 
 # apply wallpaper via feh
 exec --no-startup-id feh --bg-fill $HOME/.wallpapers/orion_nebula.jpg
