@@ -13,7 +13,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Iosevka 12
+font pango:Victor Mono SemiBold 12
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -164,8 +164,18 @@ exec --no-startup-id /usr/libexec/gsd-xsettings
 # set keyboard to us
 exec --no-startup-id setxkbmap us
 
+# set good morning message
+exec --no-startup-id $HOME/.meine/morning.pl --cron
+
 # apply wallpaper via feh
 exec --no-startup-id feh --bg-fill $HOME/.wallpapers/orion_nebula.jpg
+
+# hide title bar for certain windows
+for_window [class="^code$"] border none
+
+# gaps config
+gaps inner 20
+smart_gaps on
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

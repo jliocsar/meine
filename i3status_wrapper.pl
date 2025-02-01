@@ -37,13 +37,12 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
     # Since `date` is the last block...
     my $last_block = pop @blocks;
     @blocks = (@blocks, {
-        full_text => "$keyboard_layout",
+        full_text => "⌨️ $keyboard_layout",
         name => "keyboard"
     }, $last_block);
 
     # Run the brightnessctl command and capture its output
     my $brightness = `brightnessctl`;
-
     # Match the pattern to extract the percentage
     if ($brightness =~ /Current brightness: \S+ \((\d+)%\)/) {
         # Store the matched percentage in a variable
@@ -51,7 +50,7 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
 
         # Prefix our own information (you could also suffix or insert in the middle).
         @blocks = ({
-            full_text => "brightness $brightness_percentage%",
+            full_text => "🖥️ brightness $brightness_percentage%",
             name => "brightness"
         }, @blocks);
     }
@@ -92,6 +91,7 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
     #     name => "coffee"
     # }, @blocks);
 
-    # Output the line as JSON.
+    # Output the line as JSON, making sure it keeps emojis and such intact.
+    utf8::decode($_->{full_text}) for @blocks;
     print encode_json(\@blocks) . ",\n";
 }

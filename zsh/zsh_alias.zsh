@@ -64,6 +64,8 @@ if [[ $DESKTOP_SESSION == "i3" ]]; then
     alias brightness="brightnessctl"
     alias brightness:inc="sudo brightnessctl set +20%"
     alias brightness:dec="sudo brightnessctl set 20%-"
+    alias brightness:full="sudo brightnessctl set 100%"
+    alias brightness:dim="sudo brightnessctl set 50%"
     alias keyboard:us="setxkbmap us"
     alias keyboard:br="setxkbmap br"
 fi
