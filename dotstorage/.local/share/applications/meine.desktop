@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=meine
+Comment=My desktop manager
+Exec=open_meine
+Terminal=true
+Type=Application
+Categories=Utility;
