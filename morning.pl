@@ -38,20 +38,21 @@ unless (-d $MORNING_DIR) {
 
 sub print_good_morning_msg {
     my $quote_response = `curl -s "https://zenquotes.io/api/today"`;
-    my @parsed_quote_response = @{decode_json($quote_response)};
+    my @parsed_quote_response = $quote_response ? @{decode_json($quote_response)} : ();
     chomp(my $day_of_week = `date +%A`);
 
     my $temperature_response = `curl -s "https://api.open-meteo.com/v1/forecast?latitude=-29.36&longitude=-50.86&current=temperature_2m,wind_speed_10m"`;
-    my $parsed_temperature_response = decode_json($temperature_response);
-    my $temperature = $parsed_temperature_response->{current}->{temperature_2m};
-    my $current_time = `date +%H:%M`;
+    my $parsed_temperature_response = $temperature_response ? decode_json($temperature_response) : 0;
+    my $temperature = $parsed_temperature_response ? $parsed_temperature_response->{current}->{temperature_2m} . "°C" : "Unknown";
+    chomp(my $current_time = `date +%H:%M`);
+    my $quote = $parsed_quote_response[0]->{q};
 
     print "# Good morning!\n";
     print "# - Today is $day_of_week\n";
     print "# - It is now $current_time\n";
-    print "# - The temperature is $temperature°C outside\n#\n";
+    print "# - The temperature is $temperature outside\n#\n";
     print "# Quote of the day:\n";
-    print('# > ' . $parsed_quote_response[0]->{q});
+    print('# > ' . ($quote || "You need internet connection, son."));
     print "\n#\n";
 
     unless (-e $MORNING_BUFFER_FILE) {
