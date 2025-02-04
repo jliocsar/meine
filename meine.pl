@@ -33,7 +33,7 @@ if ($op_type eq "open") {
     my $opt = $ARGV[1];
     print "Opening ~/".ROOT." in VS Code...\n";
 
-    if ($opt eq "--no-swallow" or $opt eq "-n") {
+    if (defined $opt and ($opt eq "--no-swallow" or $opt eq "-n")) {
         `code $MY_ROOT`;
     } else {
         `swallow code $MY_ROOT`;
@@ -153,7 +153,7 @@ if ($dotfiles_op_type eq "unlink") {
 if ($dotfiles_op_type eq "edit") {
     my $opt = $ARGV[1];
 
-    if ($opt eq "--no-swallow" or $opt eq "-n") {
+    if (defined $opt and ($opt eq "--no-swallow" or $opt eq "-n")) {
         `code $DOTSTORAGE`;
     } else {
         `swallow code $DOTSTORAGE`;
