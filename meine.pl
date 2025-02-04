@@ -30,8 +30,15 @@ if ($op_type eq "sync") {
 
 # Open meine in VS Code if requested
 if ($op_type eq "open") {
+    my $opt = $ARGV[1];
     print "Opening ~/".ROOT." in VS Code...\n";
-    `swallow code $MY_ROOT`;
+
+    if ($opt eq "--no-swallow" or $opt eq "-n") {
+        `code $MY_ROOT`;
+    } else {
+        `swallow code $MY_ROOT`;
+    }
+
     exit 0;
 }
 
@@ -144,7 +151,14 @@ if ($dotfiles_op_type eq "unlink") {
 
 # Edit dotfiles in dotstorage with VS Code if requested
 if ($dotfiles_op_type eq "edit") {
-    `swallow code $DOTSTORAGE`;
+    my $opt = $ARGV[1];
+
+    if ($opt eq "--no-swallow" or $opt eq "-n") {
+        `code $DOTSTORAGE`;
+    } else {
+        `swallow code $DOTSTORAGE`;
+    }
+
     exit 0;
 }
 

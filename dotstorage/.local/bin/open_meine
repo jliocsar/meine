@@ -1,2 +1,2 @@
 #!/bin/bash
-$HOME/.meine/meine.pl open
+$HOME/.meine/meine.pl open -n
