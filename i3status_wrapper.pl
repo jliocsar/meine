@@ -35,11 +35,98 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
     $keyboard_layout = substr($keyboard_layout, 12, 2);
 
     # Since `date` is the last block...
-    my $last_block = pop @blocks;
-    @blocks = (@blocks, {
-        full_text => "  $keyboard_layout",
+    my $datetime_block = pop @blocks;
+
+    push @blocks, {
+        full_text => "󰌓 $keyboard_layout",
         name => "keyboard"
-    }, $last_block);
+    };
+
+    # Grab current battery
+    my $battery_path = "/sys/class/power_supply/BAT0";
+    if (-d $battery_path) {
+        chomp(my $battery_charge_full = `cat $battery_path/charge_full`);
+        chomp(my $battery_charge_now = `cat $battery_path/charge_now`);
+        chomp(my $battery_status = `cat $battery_path/status`);
+        my $battery_percentage = ((int($battery_charge_now) / int($battery_charge_full)) * 100);
+        $battery_percentage = sprintf("%.2f", $battery_percentage) + 0;
+        my $is_charging = $battery_status eq "Charging" ? 1 : 0;
+        my $battery_icon;
+
+
+        if ($is_charging) {
+            my $battery_icon_map = {
+                100 => "󰂅",
+                90  => "󰂋",
+                80  => "󰂊",
+                70  => "󰢞",
+                60  => "󰂉",
+                50  => "󰢝",
+                40  => "󰂈",
+                30  => "󰂇",
+                20  => "󰂆",
+                10  => "󰢜",
+                _   => "󰢟"
+            };
+            my $battery_percentage_step = int($battery_percentage - ($battery_percentage % 10));
+            $battery_icon = $battery_icon_map->{$battery_percentage_step} || $battery_icon_map->{_};
+        } else {
+            if ($battery_percentage < 5) {
+                $battery_icon = "󰂃";
+            } else {
+                my $battery_icon_map = {
+                    100 => "󰁹",
+                    90  => "󰂂",
+                    80  => "󰂁",
+                    70  => "󰂀",
+                    60  => "󰁿",
+                    50  => "󰁾",
+                    40  => "󰁽",
+                    30  => "󰁼",
+                    20  => "󰁻",
+                    10  => "󰁺",
+                    _   => "󰂃"
+                };
+                my $battery_percentage_step = int($battery_percentage - ($battery_percentage % 10));
+                $battery_icon = $battery_icon_map->{$battery_percentage_step} || $battery_icon_map->{_};
+            }
+        }
+
+        push @blocks, {
+            full_text => "$battery_icon $battery_percentage%",
+            name => "battery"
+        };
+    }
+
+    # Grab the current volume via Alsa
+    my $current_volumes = `amixer get Master | grep -oP '\\d+%'`;
+    my @volumes = split /\n/, $current_volumes;
+    my $volume = 0;
+
+    for my $vol (@volumes) {
+        $vol =~ s/%//;
+        $volume += $vol;
+    }
+
+    $volume = $volume / scalar @volumes;
+    my $volume_icon = "󰖁";
+
+    if ($volume > 0) {
+        my $volume_icon_map = {
+            4 => "󰕾",
+            3 => "󰕾",
+            2 => "󰖀",
+            1 => "󰖀",
+            0 => "󰕿"
+        };
+        my $volume_icon_step = int(($volume - ($volume % 25)) / 25);
+        $volume_icon = $volume_icon_map->{$volume_icon_step};
+    }
+
+    push @blocks, {
+        full_text => "$volume_icon  $volume%",
+        name => "volume"
+    };
 
     # Run the brightnessctl command and capture its output
     my $brightness = `brightnessctl`;
@@ -47,10 +134,25 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
     if ($brightness =~ /Current brightness: \S+ \((\d+)%\)/) {
         # Store the matched percentage in a variable
         my $brightness_percentage = $1;
+        my $brightness_icon_map = {
+            100 => "󱩖",
+            90  => "󱩖",
+            80  => "󱩕",
+            70  => "󱩔",
+            60  => "󱩓",
+            50  => "󱩒",
+            40  => "󱩑",
+            30  => "󱩐",
+            20  => "󱩏",
+            10  => "󱩎",
+            _   => "󱩎"
+        };
+        my $brightness_percentage_step = int($brightness_percentage - ($brightness_percentage % 10));
+        my $brightness_icon = $brightness_icon_map->{$brightness_percentage_step} || $brightness_icon_map->{_};
 
         # Prefix our own information (you could also suffix or insert in the middle).
         @blocks = ({
-            full_text => "  brightness $brightness_percentage%",
+            full_text => " $brightness_icon brightness $brightness_percentage%",
             name => "brightness"
         }, @blocks);
     }
@@ -81,10 +183,12 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
         }
         
         unshift @blocks, {
-            full_text => "aws ssm [prod $prod_sessions_count] [dev $dev_sessions_count]",
+            full_text => "  ssm [prod $prod_sessions_count] [dev $dev_sessions_count]",
             name => "aws_ssm"
         };
     }
+
+    push @blocks, $datetime_block;
 
     push @blocks, {
         full_text => " ",
