@@ -11,5 +11,5 @@ This repo is a collection of my personal configuration files for ZSH and other u
 Simply run the `install` script:
 
 ```bash
-./install
+./install.pl
 ```
