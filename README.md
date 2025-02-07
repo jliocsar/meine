@@ -13,3 +13,17 @@ Simply run the `install` script:
 ```bash
 ./install.pl
 ```
+
+### Requirements/Recommendations
+
+- [warp](https://www.warp.dev/)
+- [i3wm](https://i3wm.org/)
+- [fastcompmgr](https://github.com/tycho-kirchner/fastcompmgr)
+- [feh](https://github.com/derf/feh)
+- [zsh](https://www.zsh.org/)
+- [oh-my-zsh](https://ohmyz.sh/)
+- [zinit](https://github.com/zdharma-continuum/zinit)
+- [bat](https://github.com/sharkdp/bat)
+- [difftastic](https://github.com/Wilfred/difftastic)
+- [yazi](https://github.com/sxyazi/yazi)
+- [glow](https://github.com/charmbracelet/glow)
