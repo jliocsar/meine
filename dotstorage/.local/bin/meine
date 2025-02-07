@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-perl $HOME/.meine/meine.pl open -n
+code $HOME/.meine
