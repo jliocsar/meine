@@ -79,6 +79,12 @@ if ($op_type eq "sync") {
 
 # Open meine in VS Code if requested
 if ($op_type eq "open") {
+    my $open_opt = $ARGV[1];
+    if ($open_opt eq "-n" or $open_opt eq "--no-swallow") {
+        `code $MY_ROOT`;
+        exit 0;
+    }
+
     meine_print "Opening ~/".ROOT." in VS Code...", { fg_color => "green" };
     system("swallow code -w $MY_ROOT") == 0 or die "Failed to open ~/".ROOT." in VS Code: $!";
     exit 0;
@@ -154,7 +160,7 @@ if ($dotfiles_op_type eq "link") {
         }
 
         # Prompts user to confirm linking
-        meine_print "Link $dotfile to $dotfile_home_path? [y/n";
+        meine_print "Link $dotfile to $dotfile_home_path? [y/n]";
 
         my $response = <STDIN>;
         while ($response !~ m/^[yYnN]$/) {
