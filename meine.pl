@@ -115,6 +115,13 @@ if ($dotfiles_op_type eq "list") {
     my $dotfiles = `find $DOTSTORAGE -type f`;
     my @dotfiles = split("\n", $dotfiles);
 
+    if (scalar @dotfiles == 0) {
+        meine_print "No dotfiles in dotstorage", { fg_color => "yellow" };
+        exit 0;
+    }
+
+    meine_print "Dotstorage:", { fg_color => "green" };
+
     for my $dotfile (@dotfiles) {
         # Replaces `$MY_ROOT/dotstorage/` with nothing
         $dotfile =~ s/^$MY_ROOT\/dotstorage\///;
