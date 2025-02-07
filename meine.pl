@@ -61,7 +61,7 @@ sub meine_print {
         $formatted = "\e[1m" . $formatted . "\e[0m";
     }   
 
-    print $LABEL . $formatted . "\n";
+    print $LABEL . " " . $formatted . "\n";
 }
 
 # Define constants
