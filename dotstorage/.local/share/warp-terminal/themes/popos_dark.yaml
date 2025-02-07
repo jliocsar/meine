@@ -1,0 +1,24 @@
+name: PopOS Dark
+accent: "#2470a7"
+background: "#191919"
+foreground: "#ffffff"
+details: "darker"
+terminal_colors:
+  normal:
+    black: "#535353"
+    red: "#e95946"
+    green: "#98e64f"
+    yellow: "#e9e75e"
+    blue: "#5198d5"
+    magenta: "#db5ad9"
+    cyan: "#7c7dd8"
+    white: "#e6e6e6"
+  bright:
+    black: "#858585"
+    red: "#ff998e"
+    green: "#c7ff9c"
+    yellow: "#fffc65"
+    blue: "#a4d6ff"
+    magenta: "#ff9efd"
+    cyan: "#a6a9ff"
+    white: "#ffffff"

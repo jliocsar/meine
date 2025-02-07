@@ -15,6 +15,55 @@ unless (defined $op_type) {
     exit 1;
 }
 
+# Utils functions
+my %FgAnsiColor = (
+    red => "\e[31m",
+    green => "\e[32m",
+    yellow => "\e[33m",
+    blue => "\e[34m",
+    magenta => "\e[35m",
+    cyan => "\e[36m",
+    white => "\e[37m",
+    reset => "\e[0m",
+);
+my %BgAnsiColor = (
+    red => "\e[41m",
+    green => "\e[42m",
+    yellow => "\e[43m",
+    blue => "\e[44m",
+    magenta => "\e[45m",
+    cyan => "\e[46m",
+    white => "\e[47m",
+    reset => "\e[0m",
+);
+my $Bold = "\e[1m";
+my $Dim = "\e[2m";
+
+my $LABEL = $Bold . $Dim . "[🐗 meine]" . $FgAnsiColor{reset};
+
+sub meine_print {
+    my $msg = shift;
+    my $options = shift;
+    my $fg_color = $options->{fg_color};
+    my $bg_color = $options->{bg_color};
+    my $bold = $options->{bold};
+    my $formatted = $msg;
+
+    if (defined $fg_color) {
+        $formatted = $FgAnsiColor{$fg_color} . $formatted . $FgAnsiColor{reset};
+    }
+
+    if (defined $bg_color) {
+        $formatted = $BgAnsiColor{$bg_color} . $formatted . $BgAnsiColor{reset};
+    }
+
+    if ($bold) {
+        $formatted = "\e[1m" . $formatted . "\e[0m";
+    }   
+
+    print $LABEL . $formatted . "\n";
+}
+
 # Define constants
 my $HOME = $ENV{HOME};
 my $MY_ROOT = "$HOME/".ROOT;
@@ -22,16 +71,16 @@ my $DOTSTORAGE = "$MY_ROOT/dotstorage";
 
 # Perform sync if requested
 if ($op_type eq "sync") {
-    print "Syncing meine to Git...\n";
+    meine_print "Syncing meine to Git...";
     `cd $MY_ROOT && git add . && git commit -m 'sync' && git push`;
-    print "All done!\n";
+    meine_print "All done!", { fg_color => "green" };
     exit 0;
 }
 
 # Open meine in VS Code if requested
 if ($op_type eq "open") {
     my $opt = $ARGV[1];
-    print "Opening ~/".ROOT." in VS Code...\n";
+    meine_print "Opening ~/".ROOT." in VS Code...", { fg_color => "green" };
 
     if (defined $opt and ($opt eq "--no-swallow" or $opt eq "-n")) {
         `code $MY_ROOT`;
@@ -45,7 +94,7 @@ if ($op_type eq "open") {
 # From here on only dotfiles operations are allowed
 # Exit if invalid operation type is provided
 unless ($op_type eq "dotfiles") {
-    print "Invalid operation type\n";
+    meine_print "Invalid operation type", { fg_color => "red" };
     meine_print_help();
     exit 1;
 }
@@ -80,7 +129,7 @@ if ($dotfiles_op_type eq "list") {
 if ($dotfiles_op_type eq "link") {
     # Create dotfiles storage if it does not exist
     unless (-e $DOTSTORAGE) {
-        print "Creating dotfiles storage at $DOTSTORAGE\n";
+        meine_print "Creating dotfiles storage at $DOTSTORAGE";
         return `mkdir $DOTSTORAGE`;
     }
 
@@ -96,20 +145,20 @@ if ($dotfiles_op_type eq "link") {
         # Check if link already exists and that it's actually a link
         if (-e $dotfile_home_path) {
             if (-l $dotfile_home_path) {
-                print "Link already exists at $dotfile_home_path\n";
+                meine_print "Link already exists at $dotfile_home_path", { fg_color => "cyan" };
                 next;
             } else {
-                print "File already exists at $dotfile_home_path\n";
+                meine_print "File already exists at $dotfile_home_path", { fg_color => "cyan" };
                 next;
             }
         }
 
         # Prompts user to confirm linking
-        print "Link $dotfile to $dotfile_home_path? [y/n] ";
+        meine_print "Link $dotfile to $dotfile_home_path? [y/n";
 
         my $response = <STDIN>;
         while ($response !~ m/^[yYnN]$/) {
-            print "Invalid response. Please enter 'y' or 'n': ";
+            meine_print "Invalid response. Please enter 'y' or 'n'", { fg_color => "red" };
             $response = <STDIN>;
         }
         chomp $response;
@@ -117,7 +166,7 @@ if ($dotfiles_op_type eq "link") {
         # Link the dotfile if user confirms
         if ($response eq "y") {
             `ln -s $dotfile $dotfile_home_path`;
-            print "Linked $dotfile to $dotfile_home_path\n";
+            meine_print "Linked $dotfile to $dotfile_home_path", { fg_color => "green" };
         }
     }
 
@@ -139,10 +188,10 @@ if ($dotfiles_op_type eq "unlink") {
 
     # Unlink the provided file if it exists and is a link
     if (-e $file_to_unlink and -l $file_to_unlink) {
-        print "Unlinking $file_to_unlink\n";
+        meine_print "Unlinking $file_to_unlink";
         unlink $file_to_unlink or die "Could not unlink $file_to_unlink: $!";
     } else {
-        print "No link at $file_to_unlink\n";
+        meine_print "No link at $file_to_unlink", { fg_color => "yellow" };
     }
 
     # Exit after unlinking the provided file
@@ -162,6 +211,6 @@ if ($dotfiles_op_type eq "edit") {
     exit 0;
 }
 
-print "Invalid operation type\n";
+meine_print "Invalid operation type";
 meine_dotfiles_print_help();
 exit 1;

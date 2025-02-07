@@ -172,7 +172,8 @@ exec --no-startup-id setxkbmap us
 exec --no-startup-id $HOME/.meine/morning.pl --cron
 
 # apply wallpaper via feh
-exec --no-startup-id feh --bg-center $HOME/.wallpapers/system76.png
+# exec --no-startup-id feh --bg-fill /usr/share/backgrounds/pop/kate-hazen-fractal-mountains.png
+exec --no-startup-id feh --bg-fill ~/.wallpapers/photo-1475257026007-0753d5429e10.jpeg
 
 # hide title bar for certain windows
 # for_window [class="^.*"] floating enable
@@ -211,17 +212,17 @@ bindsym $mod+r mode "resize"
 # colors and themes and shit
 # PopOS Dark Theme
 # class                 border  bground text    indicator child_border
-# client.focused          #94EBEB #303030 #94EBEB #287781   #94EBEB
-# client.focused_inactive #444444 #222222 #CCCCCC #484E50   #222222
-# client.unfocused        #444444 #222222 #888888 #292D2E   #222222
-# client.urgent           #E56A54 #E56A54 #292929 #900000   #E56A54
-# client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
-# client.background       #303030
+client.focused          #94EBEB #303030 #94EBEB #287781   #94EBEB
+client.focused_inactive #444444 #222222 #CCCCCC #484E50   #222222
+client.unfocused        #444444 #222222 #888888 #292D2E   #222222
+client.urgent           #E56A54 #E56A54 #292929 #900000   #E56A54
+client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+client.background       #303030
 
 # Default+ Theme
-client.focused_inactive #444444 #181818 #666666 #666666   #181818
-client.unfocused        #444444 #181818 #666666 #666666   #181818
-client.background       #000000
+# client.focused_inactive #444444 #181818 #666666 #666666   #181818
+# client.unfocused        #444444 #181818 #666666 #666666   #181818
+# client.background       #000000
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -234,13 +235,13 @@ bar {
 
     colors {
         # PopOS Dark Theme
-        # background #272727
-        # statusline #cccccc
-        # separator  #484848
-        # focused_workspace  #94EBEB #303030 #94EBEB
-        # active_workspace   #444444 #222222 #999999
-        # inactive_workspace #444444 #222222 #999999
-        # urgent_workspace   #E56A54 #E56A54 #292929
-        # binding_mode       #E56A54 #E56A54 #292929
+        background #272727
+        statusline #cccccc
+        separator  #484848
+        focused_workspace  #94EBEB #303030 #94EBEB
+        active_workspace   #444444 #222222 #999999
+        inactive_workspace #444444 #222222 #999999
+        urgent_workspace   #E56A54 #E56A54 #292929
+        binding_mode       #E56A54 #E56A54 #292929
     }
 }

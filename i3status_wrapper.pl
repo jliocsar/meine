@@ -175,7 +175,7 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
         my $battery_percentage = ((int($battery_charge_now) / int($battery_charge_full)) * 100);
         my $battery_color;
         $battery_percentage = sprintf("%.2f", $battery_percentage) + 0;
-        my $is_charging = $battery_status eq "Charging" ? 1 : 0;
+        my $is_charging = ($battery_status eq "Charging" || $battery_status eq "Full") ? 1 : 0;
         my $battery_icon;
 
         if ($is_charging) {
@@ -252,7 +252,7 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
 
     $volume = $volume / scalar @volumes;
     my $volume_icon = "󰖁";
-    my $volume_color = $volume eq 0 && $Color{Muted};
+    my $volume_color = $volume eq 0 ? $Color{Muted} : $Color{Default};
 
     if ($volume > 0) {
         my $volume_icon_map = {
