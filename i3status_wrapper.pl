@@ -151,8 +151,6 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
 
         if ($wifi_percentage > 70) {
             $wifi_color = $Color{Good};
-        } elsif ($wifi_percentage > 40) {
-            $wifi_color = $Color{Default};
         } elsif ($wifi_percentage > 20) {
             $wifi_color = $Color{Unhealthy};
         } else {
@@ -216,10 +214,10 @@ while (my ($statusline) = (<STDIN> =~ /^,?(.*)/)) {
                 $battery_icon = $battery_icon_map->{$battery_percentage_step} || $battery_icon_map->{_};
             }
 
-            if ($battery_percentage < 50) {
-                $battery_color = $Color{Unhealthy};
-            } elsif ($battery_percentage < 20) {
+            if ($battery_percentage < 20) {
                 $battery_color = $Color{Bad};
+            } elsif ($battery_percentage < 50) {
+                $battery_color = $Color{Unhealthy};
             }
         }
 

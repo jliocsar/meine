@@ -79,15 +79,8 @@ if ($op_type eq "sync") {
 
 # Open meine in VS Code if requested
 if ($op_type eq "open") {
-    my $opt = $ARGV[1];
     meine_print "Opening ~/".ROOT." in VS Code...", { fg_color => "green" };
-
-    if (defined $opt and ($opt eq "--no-swallow" or $opt eq "-n")) {
-        `code $MY_ROOT`;
-    } else {
-        `swallow code $MY_ROOT`;
-    }
-
+    system("swallow code -w $MY_ROOT") == 0 or die "Failed to open ~/".ROOT." in VS Code: $!";
     exit 0;
 }
 
@@ -207,14 +200,7 @@ if ($dotfiles_op_type eq "unlink") {
 
 # Edit dotfiles in dotstorage with VS Code if requested
 if ($dotfiles_op_type eq "edit") {
-    my $opt = $ARGV[1];
-
-    if (defined $opt and ($opt eq "--no-swallow" or $opt eq "-n")) {
-        `code $DOTSTORAGE`;
-    } else {
-        `swallow code $DOTSTORAGE`;
-    }
-
+    system("swallow code -w $DOTSTORAGE") == 0 or die "Failed to open $DOTSTORAGE in VS Code: $!";
     exit 0;
 }
 
