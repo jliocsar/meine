@@ -113,7 +113,7 @@ if ($dotfiles_op_type eq "list") {
         exit 0;
     }
 
-    meine_print "Dotstorage:", { fg_color => "green" };
+    meine_print "🔒 Dotstorage:", { fg_color => "green" };
 
     for my $dotfile (@dotfiles) {
         # Replaces `$MY_ROOT/dotstorage/` with nothing
