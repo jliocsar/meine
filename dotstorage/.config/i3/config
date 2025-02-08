@@ -55,10 +55,10 @@ bindsym $mod+Shift+q kill
 bindsym $mod+x exec --no-startup-id "rofi -modi drun,run -theme Pop-Dark -show run"
 # bindsym $mod+x exec --no-startup-id "rofi -modi drun,run -theme glue_pro_blue -show run"
 # A more modern dmenu replacement is rofi:
-bindsym $mod+Tab exec --no-startup-id "rofi -modi drun,run -theme Pop-Dark -show drun"
+bindsym $mod+d exec --no-startup-id "rofi -modi drun,run -theme Pop-Dark -show drun"
 # bindsym $mod+Tab exec --no-startup-id "rofi -modi drun,run -theme glue_pro_blue -show drun"
 # show running windows with rofi
-bindsym $mod+d exec --no-startup-id "rofi -theme Pop-Dark -show window"
+bindsym $mod+Tab exec --no-startup-id "rofi -theme Pop-Dark -show window"
 # bindsym $mod+d exec --no-startup-id "rofi -theme glue_pro_blue -show window"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
@@ -116,16 +116,16 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:I"
-set $ws2 "2:II"
-set $ws3 "3:III"
-set $ws4 "4:IV"
-set $ws5 "5:V"
-set $ws6 "6:VI"
-set $ws7 "7:VII"
-set $ws8 "8:VIII"
-set $ws9 "9:IX"
-set $ws10 "10:X"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -172,37 +172,53 @@ exec --no-startup-id setxkbmap us
 exec --no-startup-id $HOME/.meine/morning.pl --cron
 
 # turn on lightweight compositor
-exec --no-startup-id fastcompmgr -cC -r 20
+exec --no-startup-id fastcompmgr -o 0.4 -r 12 -c -C
+
+# so we can send notifications
+exec --no-startup-id dunst -conf $HOME/.config/dunst/dunstrc
 
 # apply wallpaper via feh
 # exec --no-startup-id feh --bg-fill /usr/share/backgrounds/pop/kate-hazen-fractal-mountains.png
-exec --no-startup-id feh --bg-fill ~/.wallpapers/photo-1475257026007-0753d5429e10.jpeg
+exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d5429e10.jpeg
 
 # hide title bar for certain windows
-# for_window [class="^.*"] floating enable
+for_window [class="[.]*"] floating enable
+for_window [class="^Google-chrome$"] floating disabled
+for_window [title="[.]* - Visual Studio Code$"] floating disabled
 
 # gaps config
 gaps inner 6
 smart_gaps on
 
 # resize window (you can also use the mouse for that)
-mode "resize" {
+mode "󰙏" {
     # These bindings trigger as soon as you enter the resize mode
 
     # Pressing left will shrink the window’s width.
     # Pressing right will grow the window’s width.
     # Pressing up will shrink the window’s height.
     # Pressing down will grow the window’s height.
-    bindsym j resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink height 10 px or 10 ppt
-    bindsym ccedilla resize grow width 10 px or 10 ppt
+    bindsym j             resize shrink width  20 px or 20 ppt
+    bindsym $mod+j        resize shrink width  10 px or 10 ppt
+    bindsym k             resize grow   height 20 px or 20 ppt
+    bindsym $mod+k        resize grow   height 10 px or 10 ppt
+    bindsym l             resize shrink height 20 px or 20 ppt
+    bindsym $mod+l        resize shrink height 10 px or 10 ppt
+    bindsym ccedilla      resize grow   width  20 px or 20 ppt
+    bindsym $mod+ccedilla resize grow   width  10 px or 10 ppt
 
     # same bindings, but for the arrow keys
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym Left       resize shrink width  20 px or 20 ppt
+    bindsym $mod+Left  resize shrink width  10 px or 10 ppt
+    bindsym Down       resize grow   height 20 px or 20 ppt
+    bindsym $mod+Down  resize grow   height 10 px or 10 ppt
+    bindsym Up         resize shrink height 20 px or 20 ppt
+    bindsym $mod+Up    resize shrink height 10 px or 10 ppt
+    bindsym Right      resize grow   width  20 px or 20 ppt
+    bindsym $mod+Right resize grow   width  10 px or 10 ppt
+
+    # my shit when in edit mode
+    bindsym r exec --no-startup-id ~/.meine/i3/prompt.pl rename-ws
 
     # back to normal: Enter or Escape or $mod+r
     bindsym Return mode "default"
@@ -210,7 +226,7 @@ mode "resize" {
     bindsym $mod+r mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+r mode "󰙏"
 
 # colors and themes and shit
 # PopOS Dark Theme
@@ -231,10 +247,9 @@ client.background       #303030
 # finds out, if available)
 bar {
     i3bar_command i3bar -t
-    status_command i3status | ~/.meine/i3status_wrapper.pl
+    status_command i3status | ~/.meine/i3/status_wrapper.pl
     separator_symbol "|"
     position top
-    strip_workspace_numbers yes
 
     colors {
         # PopOS Dark Theme

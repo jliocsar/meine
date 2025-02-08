@@ -48,7 +48,6 @@ alias dcup='docker-compose up'
 # bash
 alias vim="nvim"
 alias t='tree -i -L 1'
-alias cat='bat'
 
 # meine
 alias __assert_meine="if [[ ! -d $HOME/.meine ]]; then echo '~/.meine not found'; return 1; fi"
@@ -58,8 +57,8 @@ alias morning="__assert_meine && $HOME/.meine/morning.pl"
 # i3wm related
 if [[ $DESKTOP_SESSION == "i3" ]]; then
     alias volume="alsamixer"
-    alias volume:up="amixer -D pulse sset Master 5%+"
-    alias volume:down="amixer -D pulse sset Master 5%-"
+    alias volume:up="amixer -D pulse sset Master 10%+"
+    alias volume:down="amixer -D pulse sset Master 10%-"
     alias brightness="brightnessctl"
     alias brightness:inc="sudo brightnessctl set +20%"
     alias brightness:dec="sudo brightnessctl set 20%-"

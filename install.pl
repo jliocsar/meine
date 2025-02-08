@@ -12,7 +12,7 @@ sub println {
 }
 
 println "Installing dependencies (`apt` + `pip`)...";
-run "sudo apt-get install -y zsh bat tree python3-venv i3-wm perl libjson-perl > /dev/null";
+run "sudo apt-get install -y zsh bat tree python3-venv i3-wm libnotify-bin dunst perl libjson-perl > /dev/null";
 run "pip install -q --user i3-swallow";
 
 if (-d "$HOME/.oh-my-zsh") {
