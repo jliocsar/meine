@@ -168,9 +168,6 @@ exec --no-startup-id /usr/libexec/gsd-xsettings
 # set keyboard to us
 exec --no-startup-id setxkbmap us
 
-# set good morning message
-exec --no-startup-id $HOME/.meine/morning.pl --cron
-
 # turn on lightweight compositor
 exec --no-startup-id fastcompmgr -o 0.4 -r 12 -c -C
 
