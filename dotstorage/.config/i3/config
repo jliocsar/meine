@@ -216,6 +216,7 @@ mode "󰙏" {
     bindsym $mod+Right resize grow   width  10 px or 10 ppt
 
     # my shit when in edit mode
+    # special workspace rename lil program
     bindsym r exec --no-startup-id ~/.meine/i3/prompt.pl rename-ws
 
     # back to normal: Enter or Escape or $mod+r
@@ -226,23 +227,26 @@ mode "󰙏" {
 
 bindsym $mod+r mode "󰙏"
 
-# colors and themes and shit
-# PopOS Dark Theme
-# class                 border  bground text    indicator child_border
-client.focused          #94EBEB #303030 #94EBEB #287781   #94EBEB
-client.focused_inactive #444444 #222222 #CCCCCC #484E50   #222222
-client.unfocused        #444444 #222222 #888888 #292D2E   #222222
-client.urgent           #E56A54 #E56A54 #292929 #900000   #E56A54
-client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
-client.background       #303030
+# Colors/theme
+set $bg_color           #222222
+set $fg_color           #999999
+set $dim_color          #292929
+set $active_bg_color    #303030
+set $border_color       #444444
+set $primary_color      #94EBEB
+set $primary_dark_color #287781
+set $error_color        #E56A54
 
-# Default+ Theme
-# client.focused_inactive #444444 #181818 #666666 #666666   #181818
-# client.unfocused        #444444 #181818 #666666 #666666   #181818
-# client.background       #000000
+# class                 border          bground           text            indicator            child_border
+# ------------------------------------------------------------------------------------------------------------
+client.focused          $primary_color  $active_bg_color  $primary_color  $primary_dark_color  $primary_color
+client.focused_inactive $border_color   $bg_color         $fg_color       #484E50              $bg_color
+client.unfocused        $border_color   $bg_color         $fg_color       #292D2E              $bg_color
+client.urgent           $error_color    $error_color      $dim_color      #900000              $error_color
+client.placeholder      #000000         #0C0C0C           #FFFFFF         #000000              #0C0C0C
+client.background       $active_bg_color
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
+# Start i3bar to display a workspace bar (plus the system information i3status, if available)
 bar {
     i3bar_command i3bar -t
     status_command i3status | ~/.meine/i3/status_wrapper.pl
@@ -250,14 +254,16 @@ bar {
     position top
 
     colors {
-        # PopOS Dark Theme
         background #27272799
         statusline #cccccc
         separator  #484848
-        focused_workspace  #94EBEB #303030 #94EBEB
-        active_workspace   #444444 #222222 #999999
-        inactive_workspace #444444 #222222 #999999
-        urgent_workspace   #E56A54 #E56A54 #292929
-        binding_mode       #E56A54 #E56A54 #292929
+        
+        # class            border         bground          text
+        # ---------------------------------------------------------------
+        focused_workspace  $primary_color $active_bg_color $primary_color
+        active_workspace   $border_color  $bg_color        $fg_color
+        inactive_workspace $border_color  $bg_color        $fg_color
+        urgent_workspace   $error_color   $error_color     $dim_color
+        binding_mode       $error_color   $error_color     $dim_color
     }
 }
