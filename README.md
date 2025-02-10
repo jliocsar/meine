@@ -27,3 +27,9 @@ Simply run the `install` script:
 - [difftastic](https://github.com/Wilfred/difftastic)
 - [yazi](https://github.com/sxyazi/yazi)
 - [glow](https://github.com/charmbracelet/glow)
+
+### To-do
+
+- [ ] centralize colors variables somewhere
+- [ ] make a generic thing for the zsh_custom_config replace (from sed)
+- [ ] finish rofi theme
