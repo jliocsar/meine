@@ -62,7 +62,7 @@ listview {
 element {
     border: 0;
     padding: 8;
-    border-radius: 2;
+    border-radius: 4;
 }
 element-text {
     background-color: inherit;
