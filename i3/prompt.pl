@@ -14,11 +14,11 @@ unless (defined $opt_type) {
     exit 1;
 }
 
-my $MEINE_DMENU_THEME = "Pop-Dark";
+my $MEINE_DMENU_THEME = "Meine-Pop-Dark";
 
 sub meine_i3_prompt {
     my $placeholder = shift;
-    chomp(my $result = `rofi -dmenu -theme $MEINE_DMENU_THEME  -theme-str 'listview { lines: 0; border: 1px; } entry { placeholder: ""; }' -p '$placeholder'`);
+    chomp(my $result = `rofi -dmenu -theme $MEINE_DMENU_THEME -theme-str 'listview { lines: 0; border: 1px; padding: 0; } entry { placeholder: ""; }' -p '$placeholder'`);
     return $result;
 }
 

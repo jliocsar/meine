@@ -165,6 +165,11 @@ if ($dotfiles_op_type eq "link") {
 
         # Link the dotfile if user confirms
         if ($response eq "y") {
+            chomp(my $dotfile_home_dir = `dirname $dotfile_home_path`);
+            unless (-e $dotfile_home_dir) {
+                meine_print "Creating directory $dotfile_home_dir";
+                `mkdir -p $dotfile_home_dir`;
+            }
             `ln -s $dotfile $dotfile_home_path`;
             meine_print "Linked $dotfile to $dotfile_home_path", { fg_color => "green" };
         }

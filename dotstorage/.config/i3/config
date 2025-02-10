@@ -52,13 +52,13 @@ bindsym $mod+Return exec --no-startup-id warp-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+x exec --no-startup-id "rofi -modi drun,run -theme Pop-Dark -show run"
+bindsym $mod+x exec --no-startup-id "rofi -modi drun,run -theme Meine-Pop-Dark -show run"
 # bindsym $mod+x exec --no-startup-id "rofi -modi drun,run -theme glue_pro_blue -show run"
 # A more modern dmenu replacement is rofi:
-bindsym $mod+d exec --no-startup-id "rofi -modi drun,run -theme Pop-Dark -show drun"
+bindsym $mod+d exec --no-startup-id "rofi -modi drun,run -theme Meine-Pop-Dark -show drun"
 # bindsym $mod+Tab exec --no-startup-id "rofi -modi drun,run -theme glue_pro_blue -show drun"
 # show running windows with rofi
-bindsym $mod+Tab exec --no-startup-id "rofi -theme Pop-Dark -show window"
+bindsym $mod+Tab exec --no-startup-id "rofi -theme Meine-Pop-Dark -show window"
 # bindsym $mod+d exec --no-startup-id "rofi -theme glue_pro_blue -show window"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
@@ -179,9 +179,10 @@ exec --no-startup-id dunst -conf $HOME/.config/dunst/dunstrc
 exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d5429e10.jpeg
 
 # hide title bar for certain windows
-for_window [class="[.]*"] floating enable
+for_window [class=".*"] floating enable
+for_window [class=".*"] border normal 1
 for_window [class="^Google-chrome$"] floating disabled
-for_window [title="[.]* - Visual Studio Code$"] floating disabled
+for_window [title=".* - Visual Studio Code$"] floating disabled
 
 # gaps config
 gaps inner 6
