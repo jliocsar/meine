@@ -27,6 +27,8 @@ Simply run the `install` script:
 - [difftastic](https://github.com/Wilfred/difftastic)
 - [yazi](https://github.com/sxyazi/yazi)
 - [glow](https://github.com/charmbracelet/glow)
+- [http](https://github.com/httpie/cli)
+- [fzf](https://github.com/junegunn/fzf)
 
 ### To-do
 
