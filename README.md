@@ -29,6 +29,8 @@ Simply run the `install` script:
 - [glow](https://github.com/charmbracelet/glow)
 - [http](https://github.com/httpie/cli)
 - [fzf](https://github.com/junegunn/fzf)
+- [harlequin](https://github.com/tconbeer/harlequin)
+
 
 ### To-do
 
