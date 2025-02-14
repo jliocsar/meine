@@ -262,6 +262,7 @@ sub print_good_morning_msg {
         exit 0;
     }
 
+    @lines = grep { $_ ne "\n" } @lines;
     my $lines_count = scalar @lines;
     println bold_text "Reminders ($lines_count):\n";
     print $message;
@@ -285,7 +286,7 @@ if ($good_morning_flag) {
 }
 
 if ($edit_flag) {
-    system("vi $MORNING_BUFFER_FILE");
+    system("nvim $MORNING_BUFFER_FILE");
     exit 0;
 }
 

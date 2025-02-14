@@ -39,7 +39,7 @@ my %BgAnsiColor = (
 my $Bold = "\e[1m";
 my $Dim = "\e[2m";
 
-my $LABEL = $Bold . $Dim . "[🐗 meine]" . $FgAnsiColor{reset};
+my $LABEL = $Dim . $Bold . "[🐗 meine]" . $FgAnsiColor{reset};
 
 sub meine_print {
     my $msg = shift;
@@ -107,18 +107,39 @@ unless (defined $dotfiles_op_type) {
 if ($dotfiles_op_type eq "list") {
     my $dotfiles = `find $DOTSTORAGE -type f`;
     my @dotfiles = split("\n", $dotfiles);
+    my @dotdirs = split("\n", `find $DOTSTORAGE -type d`);
 
-    if (scalar @dotfiles == 0) {
+    if (scalar @dotfiles == 0 || scalar @dotdirs == 0) {
         meine_print "No dotfiles in dotstorage", { fg_color => "yellow" };
         exit 0;
     }
 
-    meine_print "🔒 Dotstorage:", { fg_color => "green" };
+    sub print_title {
+        my $title = shift;
+        print($Bold . $FgAnsiColor{white} . $title . $FgAnsiColor{reset} . "\n");
+    }
 
+    meine_print "🔒 Dotstorage:\n", { fg_color => "green" };
+
+    print_title "📜 Directories:";
+    for my $dotdir (@dotdirs) {
+        # Replaces `$MY_ROOT/dotstorage/` with nothing
+        $dotdir =~ s/^$MY_ROOT\/dotstorage\///;
+        # Check if the dotdir is a symlink under $HOME
+        if (-l "$HOME/$dotdir") {
+            print "$dotdir\n";
+        }
+    }
+
+    print "\n";
+    print_title "📜 Files:";
     for my $dotfile (@dotfiles) {
         # Replaces `$MY_ROOT/dotstorage/` with nothing
         $dotfile =~ s/^$MY_ROOT\/dotstorage\///;
-        print "$dotfile\n";
+        # Check if the dotfile is a symlink under $HOME
+        if (-l "$HOME/$dotfile") {
+            print "$dotfile\n";
+        }
     }
 
     # Exit after listing all dotfiles
@@ -133,9 +154,53 @@ if ($dotfiles_op_type eq "link") {
         return `mkdir $DOTSTORAGE`;
     }
 
+    # Check if specific link path was provided
+    my $link_path = $ARGV[2];
+    if (defined $link_path) {
+        # Check if it exists inside dotstorage
+        my $dotfile = "$DOTSTORAGE/$link_path";
+
+        unless (-e $dotfile) {
+            meine_print "No file or directory at $dotfile", { fg_color => "red" };
+            exit 1;
+        }
+
+        # Link the directory/file to $HOME
+        my $dotfile_home_path = "$HOME/$link_path";
+        if (-e $dotfile_home_path) {
+            if (-l $dotfile_home_path) {
+                meine_print "Link already exists at $dotfile_home_path", { fg_color => "cyan" };
+                exit 0;
+            } else {
+                meine_print "File already exists at $dotfile_home_path", { fg_color => "cyan" };
+                exit 1;
+            }
+        } else {
+            # Prompts user to confirm linking
+            meine_print "Link $dotfile to $dotfile_home_path? [y/n]";
+
+            my $response = <STDIN>;
+            while ($response !~ m/^[yYnN]$/) {
+                meine_print "Invalid response. Please enter 'y' or 'n'", { fg_color => "red" };
+                $response = <STDIN>;
+            }
+            chomp $response;
+            $response = lc $response;
+
+            if ($response eq "y") {
+                `ln -s $dotfile $dotfile_home_path`;
+                meine_print "Linked $dotfile to $dotfile_home_path", { fg_color => "green" };
+            }
+        }
+
+        exit 0;
+    }
+
     # Create links for dotfiles in dotstorage
     my $dotfiles = `find $DOTSTORAGE -type f`;
     my @dotfiles = split("\n", $dotfiles);
+    my @dotdirs = split("\n", `find $DOTSTORAGE -type d`);
+    my %dotdirs_map = map { $_ => 1 } @dotdirs;
 
     for my $dotfile (@dotfiles) {
         # Replaces the `./dotstorage/` with `$HOME/`
@@ -162,6 +227,7 @@ if ($dotfiles_op_type eq "link") {
             $response = <STDIN>;
         }
         chomp $response;
+        $response = lc $response;
 
         # Link the dotfile if user confirms
         if ($response eq "y") {
