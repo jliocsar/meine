@@ -32,6 +32,10 @@ Simply run the `install` script:
 - [harlequin](https://github.com/tconbeer/harlequin)
 
 
+#### Neovim
+
+- [lspconfig](https://github.com/neovim/nvim-lspconfig)
+
 ### To-do
 
 - [ ] centralize colors variables somewhere
