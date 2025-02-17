@@ -1,0 +1,60 @@
+return {
+	"neovim/nvim-lspconfig",
+	lazy = false,
+	dependencies = {
+		{
+			"hrsh7th/nvim-cmp",
+			lazy = false,
+			priority = 100,
+			dependencies = {
+				"hrsh7th/cmp-nvim-lsp",
+				"hrsh7th/cmp-path",
+				"hrsh7th/cmp-buffer",
+				--"zbirenbaum/copilot.lua",
+				--"zbirenbaum/copilot-cmp",
+			},
+			config = function()
+				--require("copilot").setup {
+				--	suggestion = { enabled = false },
+				--	panel = { enabled = false },
+				--}
+
+				--require("copilot_cmp").setup()
+
+				require "custom.config.completion"
+			end,
+		},
+		{
+			-- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+			-- used for completion, annotations and signatures of Neovim apis
+			"folke/lazydev.nvim",
+			ft = "lua",
+			opts = {
+				library = {
+					-- Or relative, which means they will be resolved from the plugin dir.
+					"lazy.nvim",
+					-- always load the LazyVim library
+					"LazyVim",
+					-- Load the wezterm types when the `wezterm` module is required
+					-- Needs `justinsgithub/wezterm-types` to be installed
+					-- { path = "wezterm-types", mods = { "wezterm" } },
+				},
+				-- always enable unless `vim.g.lazydev_enabled = false`
+				-- This is the default
+				-- disable when a .luarc.json file is found
+				enabled = function(root_dir)
+					return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
+				end,
+			},
+		},
+	},
+	config = function()
+		local lspconfig = require "lspconfig"
+
+		lspconfig.lua_ls.setup {
+			server_capabilities = {
+				semanticTokensProvider = vim.NIL,
+			},
+		}
+	end,
+}

@@ -1,10 +1,11 @@
--- # Lazy, our plugin manager
---
--- Explicitly bootstrap lazy.nvim
--- hello yes this is dog
--- look at me being bootstrapped
---
+-- Make sure to setup `mapleader` and `maplocalleader` before
+-- loading lazy.nvim so that mappings are correct.
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+-- Bootstrap lazy
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     local lazyrepo = "https://github.com/folke/lazy.nvim.git"
     local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
@@ -18,17 +19,20 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
         os.exit(1)
     end
 end
+
+-- Add lazy to the `runtimepath`, this allows us to `require` it.
 vim.opt.rtp:prepend(lazypath)
 
--- ## Globals
---
--- Loads globals in the right order since the lazy config depends on them
-require "globals"
+-- Set up lazy and load the `lua/plugins/` folder
+local lazy = require("lazy")
 
--- ## Configs
---
---- Loads LSP related configurations
-require "config.lsp"
---- Loads and sets up `lazy`
-require "config.lazy"
-
+lazy.setup({
+    spec = {
+        { import = "custom/plugins/" }
+    },
+    -- Configure any other settings here. See the documentation for more details.
+    -- colorscheme that will be used when installing plugins.
+    -- install = { colorscheme = { "habamax" } },
+    -- automatically check for plugin updates
+    checker = { enabled = true },
+})
