@@ -30,7 +30,7 @@ Simply run the `install` script:
 - [http](https://github.com/httpie/cli)
 - [fzf](https://github.com/junegunn/fzf)
 - [harlequin](https://github.com/tconbeer/harlequin)
-
+- [lazygit](https://github.com/jesseduffield/lazygit)
 
 #### Neovim
 

@@ -15,7 +15,7 @@ g.netrw_banner = 0
 -- toggles files preview
 g.netrw_preview = 1
 -- g.netrw_liststyle = 3
-g.netrw_winsize = 30
+g.netrw_winsize = 28
 
 -- some stuff to make netrw feel like a true IDE file explorer 
 g.netrw_browse_split = 0
