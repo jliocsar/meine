@@ -18,8 +18,6 @@ Simply run the `install` script:
 
 - [warp](https://www.warp.dev/)
 - [i3wm](https://i3wm.org/)
-- [fastcompmgr](https://github.com/tycho-kirchner/fastcompmgr)
-- [feh](https://github.com/derf/feh)
 - [zsh](https://www.zsh.org/)
 - [oh-my-zsh](https://ohmyz.sh/)
 - [zinit](https://github.com/zdharma-continuum/zinit)
@@ -32,9 +30,11 @@ Simply run the `install` script:
 - [harlequin](https://github.com/tconbeer/harlequin)
 - [lazygit](https://github.com/jesseduffield/lazygit)
 
-#### Neovim
+#### For i3wm
 
-- [lspconfig](https://github.com/neovim/nvim-lspconfig)
+- [blueman]()
+- [feh](https://github.com/derf/feh)
+- [fastcompmgr](https://github.com/tycho-kirchner/fastcompmgr)
 
 ### To-do
 

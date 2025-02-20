@@ -2,15 +2,12 @@ return {
 	{ "williamboman/mason.nvim" },
 	{
 		"neovim/nvim-lspconfig",
-		lazy = false,
-		config = function ()
+		config = function()
 			require "custom.config.ls"
 		end,
 		dependencies = {
 			{
 				"hrsh7th/nvim-cmp",
-				lazy = false,
-				priority = 100,
 				dependencies = {
 					"hrsh7th/cmp-nvim-lsp",
 					"hrsh7th/cmp-path",
@@ -34,22 +31,25 @@ return {
 				-- used for completion, annotations and signatures of Neovim apis
 				"folke/lazydev.nvim",
 				ft = "lua",
+				dependencies = { "justinsgithub/wezterm-types" },
 				opts = {
 					library = {
 						-- Or relative, which means they will be resolved from the plugin dir.
 						"lazy.nvim",
 						-- always load the LazyVim library
 						"LazyVim",
+						-- Only load the lazyvim library when the `LazyVim` global is found
+						{ path = "LazyVim",       words = { "LazyVim" } },
 						-- Load the wezterm types when the `wezterm` module is required
 						-- Needs `justinsgithub/wezterm-types` to be installed
-						-- { path = "wezterm-types", mods = { "wezterm" } },
+						{ path = "wezterm-types", mods = { "wezterm" } },
 					},
 					-- always enable unless `vim.g.lazydev_enabled = false`
 					-- This is the default
 					-- disable when a .luarc.json file is found
-					enabled = function(root_dir)
-						return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
-					end,
+					-- enabled = function(root_dir)
+					-- 	return not vim.uv.fs_stat(root_dir .. "/.luarc.json")
+					-- end,
 				},
 			},
 		},

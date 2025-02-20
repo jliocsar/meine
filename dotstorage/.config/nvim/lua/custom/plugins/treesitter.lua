@@ -1,7 +1,7 @@
 return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
-  config = function ()
-		require "custom.config.treesitter"
+  config = function()
+    require "custom.config.treesitter"
   end,
 }

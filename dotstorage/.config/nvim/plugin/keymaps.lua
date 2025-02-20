@@ -4,7 +4,7 @@ local set = vim.keymap.set
 set('n', '<leader>fe', '<cmd>Ex<CR>', { desc = 'Open Netrw' })
 set('n', '<leader>se', '<cmd>Lex!<CR>', { desc = 'Open Netrw as a side explorer' })
 
-set('n', '<leader>se', function ()
+set('n', '<leader>sf', function ()
 	print(vim.api)
 end)
 
