@@ -30,9 +30,13 @@ Simply run the `install` script:
 - [harlequin](https://github.com/tconbeer/harlequin)
 - [lazygit](https://github.com/jesseduffield/lazygit)
 
+#### Useful External Libs
+
+- [luvit](https://luvit.io/install.html)
+
 #### For i3wm
 
-- [blueman]()
+- [blueman](https://github.com/blueman-project/blueman)
 - [feh](https://github.com/derf/feh)
 - [fastcompmgr](https://github.com/tycho-kirchner/fastcompmgr)
 

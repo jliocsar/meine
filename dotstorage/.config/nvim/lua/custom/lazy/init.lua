@@ -1,4 +1,29 @@
 return {
+	-- Themes/colors
+	{
+		"olimorris/onedarkpro.nvim",
+		priority = 1000, -- Ensure it loads first
+		config = function()
+			require 'custom.config.theme'
+		end
+	},
+	-- Search/grepping
+	{
+		'nvim-telescope/telescope.nvim',
+		tag = '0.1.8',
+		dependencies = { 'nvim-lua/plenary.nvim' },
+		config = function()
+			require "custom.config.telescope"
+		end,
+	},
+	-- LSP/autocomplete
+	{
+		'nvim-treesitter/nvim-treesitter',
+		build = ':TSUpdate',
+		config = function()
+			require "custom.config.treesitter"
+		end,
+	},
 	{ "williamboman/mason.nvim" },
 	{
 		"neovim/nvim-lspconfig",
