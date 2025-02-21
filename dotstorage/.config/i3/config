@@ -158,6 +158,7 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+# ## Custom startup commands.
 # turn on touchpad click
 exec --no-startup-id xinput set-prop "DLL09D9:00 04F3:3146 Touchpad" "libinput Tapping Enabled" 1
 exec --no-startup-id xinput set-prop "DLL09D9:00 04F3:3146 Touchpad" "libinput Natural Scrolling Enabled" 1
@@ -181,16 +182,22 @@ exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d54
 # run redshift to adjust screen color temperature
 exec --no-startup-id redshift-gtk
 
+# ## Windows' config.
 # hide title bar for certain windows
 for_window [class=".*"] floating enable
 for_window [class=".*"] border normal 1
 for_window [class="^Google-chrome$"] floating disabled
 for_window [title=".* - Visual Studio Code$"] floating disabled
+for_window [title=".* - Visual Studio Code$"] border pixel 1
+for_window [class="^Discord$"] border pixel 1
+for_window [class="^org.wezfurlong.wezterm$"] floating disabled
+for_window [class="^org.wezfurlong.wezterm$"] border pixel 1
 
-# gaps config
+# ## Gaps config.
 gaps inner 6
 smart_gaps on
 
+# ## Edit mode
 # resize window (you can also use the mouse for that)
 mode "󰙏" {
     # These bindings trigger as soon as you enter the resize mode
@@ -230,24 +237,34 @@ mode "󰙏" {
 
 bindsym $mod+r mode "󰙏"
 
-# Colors/theme
-set $bg_color           #222222
-set $fg_color           #999999
-set $dim_color          #292929
-set $active_bg_color    #303030
-set $border_color       #444444
-set $primary_color      #94EBEB
-set $primary_dark_color #287781
-set $error_color        #E56A54
+# ## Colors/theme
+set $bg_color                     #222222
+set $bar_bg_color                 #27272799
+set $bar_separator_color          #484848
+set $fg_color                     #cccccc
+set $dim_fg_color                 #999999
+set $dim_color                    #292929
+set $active_bg_color              #303030
+set $border_color                 #444444
+set $primary_color                #94EBEB
+set $primary_dark_color           #287781
+set $error_color                  #E56A54
+set $chill_border_color           #555555
 
-# class                 border          bground           text            indicator            child_border
-# ------------------------------------------------------------------------------------------------------------
-client.focused          $primary_color  $active_bg_color  $primary_color  $primary_dark_color  $primary_color
-client.focused_inactive $border_color   $bg_color         $fg_color       #484E50              $bg_color
-client.unfocused        $border_color   $bg_color         $fg_color       #292D2E              $bg_color
-client.urgent           $error_color    $error_color      $dim_color      #900000              $error_color
-client.placeholder      #000000         #0C0C0C           #FFFFFF         #000000              #0C0C0C
+# Classic PopOS Dark Scheme (with primary as border)
+# class                 border                 bground                     text                indicator            child_border
+# ---------------------------------------------------------------------------------------------------------------------------------------
+# client.focused          $primary_color         $active_bg_color            $primary_color      $primary_dark_color  $primary_color
+# client.focused_inactive $border_color          $bg_color                   $dim_fg_color       #484E50              $bg_color
+# client.unfocused        $border_color          $bg_color                   $dim_fg_color       #292D2E              $bg_color
+client.urgent           $error_color           $error_color                $dim_color          #900000              $error_color
+client.placeholder      #000000                #0C0C0C                     #FFFFFF             #000000              #0C0C0C
 client.background       $active_bg_color
+
+# More chill look
+client.focused          $chill_border_color    $dim_color                  $fg_color           $border_color        $chill_border_color
+client.focused_inactive $bg_color              $bg_color                   $dim_fg_color       #484E50              $bg_color
+client.unfocused        $bg_color              $bg_color                   $dim_fg_color       #292D2E              $bg_color
 
 # Start i3bar to display a workspace bar (plus the system information i3status, if available)
 bar {
@@ -257,16 +274,20 @@ bar {
     position top
 
     colors {
-        background #27272799
-        statusline #cccccc
-        separator  #484848
+        background $bar_bg_color
+        statusline $fg_color
+        separator  $bar_separator_color
         
-        # class            border         bground          text
-        # ---------------------------------------------------------------
-        focused_workspace  $primary_color $active_bg_color $primary_color
-        active_workspace   $border_color  $bg_color        $fg_color
-        inactive_workspace $border_color  $bg_color        $fg_color
-        urgent_workspace   $error_color   $error_color     $dim_color
-        binding_mode       $error_color   $error_color     $dim_color
+        # Classic PopOS Dark Scheme (with primary as border)
+        # class            border                   bground                   text
+        # ---------------------------------------------------------------------------------------
+        # focused_workspace  $primary_color           $active_bg_color          $primary_color
+        active_workspace   $border_color            $bg_color                 $dim_fg_color
+        inactive_workspace $border_color            $bg_color                 $dim_fg_color
+        urgent_workspace   $error_color             $error_color              $dim_color
+        binding_mode       $error_color             $error_color              $dim_color
+
+        # More chill look
+        focused_workspace  $chill_border_color      $active_bg_color          $fg_color
     }
 }

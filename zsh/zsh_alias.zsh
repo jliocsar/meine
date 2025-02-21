@@ -66,4 +66,5 @@ if [[ $DESKTOP_SESSION == "i3" ]]; then
     alias brightness:dim="sudo brightnessctl set 50%"
     alias keyboard:us="setxkbmap us"
     alias keyboard:br="setxkbmap br"
+    alias getclass="xprop | grep WM_CLASS | awk '{ print \$4 }'"
 fi

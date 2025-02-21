@@ -37,6 +37,13 @@ if (-e "/usr/bin/code") {
   run "sudo dpkg -i /tmp/code.deb";
 }
 
+if (-e "/usr/local/bin/lit") {
+  println "Lit already installed.";
+} else {
+  `curl -L https://github.com/luvit/lit/raw/master/get-lit.sh | sh`;
+  `sudo mv lit luvi luvit /usr/local/bin`;
+}
+
 if (-d "$HOME/.nvm") {
   println "nvm already installed.";
 } else {
