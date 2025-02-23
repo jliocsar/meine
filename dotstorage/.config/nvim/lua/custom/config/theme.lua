@@ -2,9 +2,8 @@ local onedarkpro = require 'onedarkpro'
 
 onedarkpro.setup {
   options = {
-    transparency = true
-  }
+    transparency = true,
+  },
 }
 
 vim.cmd.colorscheme 'onedark'
-

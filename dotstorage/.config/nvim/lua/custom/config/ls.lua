@@ -1,5 +1,5 @@
-local lspconfig = require "lspconfig"
-local mason = require "mason"
+local lspconfig = require 'lspconfig'
+local mason = require 'mason'
 
 mason.setup()
 

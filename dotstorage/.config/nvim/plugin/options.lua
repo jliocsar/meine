@@ -3,7 +3,7 @@ local opt = vim.opt
 ----- Interesting Options -----
 
 -- You have to turn this one on :)
-opt.inccommand = "split"
+opt.inccommand = 'split'
 
 -- Best search settings :)
 opt.smartcase = true
@@ -16,11 +16,11 @@ opt.relativenumber = true
 opt.splitbelow = true
 opt.splitright = true
 
-opt.signcolumn = "yes"
+opt.signcolumn = 'yes'
 opt.swapfile = false
 
 -- Don't have `o` add a comment
-opt.formatoptions:remove "o"
+opt.formatoptions:remove 'o'
 
 opt.wrap = true
 opt.linebreak = true
@@ -30,5 +30,4 @@ opt.shiftwidth = 4
 
 opt.more = false
 
-opt.foldmethod = "manual"
-
+opt.foldmethod = 'manual'
