@@ -1,12 +1,20 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 -- local plugin = wezterm.plugin
+local act = wezterm.action
 
 -- ## Font Configuration
 config.font_size = 11.0
 config.font = wezterm.font('Victor Mono', {
   weight = 'DemiBold',
 })
+
+config.key_tables = {
+	search_mode = {
+		-- This action is not bound by default in wezterm
+		{ key = 'e', mods = 'CTRL', action = act.CopyMode 'EditPattern' },
+	},
+}
 
 -- ## Colors
 config.color_scheme = 'Circus (base16)'
