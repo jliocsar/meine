@@ -184,10 +184,10 @@ exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d54
 for_window [class=".*"] floating enable
 for_window [class=".*"] border normal 1
 for_window [class="^Google-chrome$"] floating disabled
-for_window [title=".* - Visual Studio Code$"] floating disabled
+# for_window [title=".* - Visual Studio Code$"] floating disabled
 for_window [title=".* - Visual Studio Code$"] border pixel 1
 for_window [class="^Discord$"] border pixel 1
-for_window [class="^org.wezfurlong.wezterm$"] floating disabled
+# for_window [class="^org.wezfurlong.wezterm$"] floating disabled
 for_window [class="^org.wezfurlong.wezterm$"] border pixel 1
 
 # ## Gaps config.
@@ -260,8 +260,8 @@ client.background       $active_bg_color
 
 # More chill look
 client.focused          $chill_border_color    $dim_color                  $fg_color           $border_color        $chill_border_color
-client.focused_inactive $bg_color              $bg_color                   $dim_fg_color       #484E50              $bg_color
-client.unfocused        $bg_color              $bg_color                   $dim_fg_color       #292D2E              $bg_color
+client.focused_inactive $dim_color              $bg_color                   $dim_fg_color       #484E50              $dim_color
+client.unfocused        $dim_color              $bg_color                   $dim_fg_color       #292D2E              $dim_color
 
 # Start i3bar to display a workspace bar (plus the system information i3status, if available)
 bar {
