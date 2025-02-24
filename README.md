@@ -40,6 +40,12 @@ Simply run the `install` script:
 - [feh](https://github.com/derf/feh)
 - [fastcompmgr](https://github.com/tycho-kirchner/fastcompmgr)
 
+### Development
+
+#### nvim configs
+
+1. If you want to change the `nvim` config file via VSCode, make sure that the path in `workspace.library` inside the `.luarc.json` file is the same as the `$VIMRUNTIME` inside `nvim`
+
 ### To-do
 
 - [ ] centralize colors variables somewhere

@@ -4,5 +4,8 @@
     "version": "Lua 5.3",
     "path": ["dotstorage/?.lua"],
     "pathStrict": true
+  },
+  "workspace": {
+    "library": ["lua", "/opt/nvim-linux64/share/nvim/runtime"]
   }
 }
