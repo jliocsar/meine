@@ -11,6 +11,7 @@ wezterm.on('trigger-aether', function(window, pane)
   -- Open a new window running vim and tell it to open the file
   window:perform_action(
     act.SpawnCommandInNewTab {
+      label = 'Aether',
       args = { 'aether' },
       cwd = home .. '/Projects/aether',
       set_environment_variables = {
@@ -184,6 +185,49 @@ config.colors = {
 config.enable_tab_bar = true
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
+
+-- This function returns the suggested title for a tab.
+-- It prefers the title that was set via `tab:set_title()`
+-- or `wezterm cli set-tab-title`, but falls back to the
+-- title of the active pane in that tab.
+function custom_tab_title(title, foreground_process_name, working_dir)
+  -- Return a custom tab title when running Aether
+  if
+    foreground_process_name == '/usr/bin/perl'
+    and string.match(tostring(working_dir), '/Projects/aether$')
+  then
+    return 'aether'
+  end
+
+  return title
+end
+
+function tab_title(tab_info)
+  local title = tab_info.tab_title
+  -- if the tab title is explicitly set, take that
+  if title and #title > 0 then
+    return title
+  end
+
+  local tab_index = tab_info.tab_index + 1
+  local active_pane = tab_info.active_pane
+  local active_pane_foreground_process_name = active_pane.foreground_process_name
+  local active_pane_working_dir = active_pane.current_working_dir
+  local custom_title = custom_tab_title(
+    active_pane.title,
+    active_pane_foreground_process_name,
+    active_pane_working_dir
+  )
+
+  return tab_index .. ': ' .. custom_title
+end
+
+wezterm.on('format-tab-title', function(tab, tabs, panes, _config, hover, max_width)
+  local title = tab_title(tab)
+  return {
+    { Text = ' ' .. title .. ' ' },
+  }
+end)
 
 -- ## Plugins
 
