@@ -260,8 +260,8 @@ client.background       $active_bg_color
 
 # More chill look
 client.focused          $chill_border_color    $dim_color                  $fg_color           $border_color        $chill_border_color
-client.focused_inactive $dim_color              $bg_color                   $dim_fg_color       #484E50              $dim_color
-client.unfocused        $dim_color              $bg_color                   $dim_fg_color       #292D2E              $dim_color
+client.focused_inactive $active_bg_color       $bg_color                   $dim_fg_color       #484E50              $active_bg_color
+client.unfocused        $active_bg_color       $bg_color                   $dim_fg_color       #292D2E              $active_bg_color
 
 # Start i3bar to display a workspace bar (plus the system information i3status, if available)
 bar {

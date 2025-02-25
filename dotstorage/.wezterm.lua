@@ -3,17 +3,44 @@ local config = wezterm.config_builder()
 -- local plugin = wezterm.plugin
 local act = wezterm.action
 
+-- # Events
+wezterm.on('trigger-aether', function(window, pane)
+  -- Retrieve the text from the pane
+  -- local text = pane:get_lines_as_text(pane:get_dimensions().scrollback_rows)
+
+  -- Create a temporary file to pass to vim
+  -- local name = os.tmpname()
+  local home = os.getenv 'HOME'
+  local prompt = home .. '/Projects/aether/cli/rprompt.perl'
+  local GOOGLE_GENERATIVE_AI_API_KEY = os.getenv 'GOOGLE_GENERATIVE_AI_API_KEY'
+
+  -- Open a new window running vim and tell it to open the file
+  window:perform_action(
+    act.SpawnCommandInNewTab {
+      args = { prompt },
+      cwd = home .. '/Projects/aether',
+      set_environment_variables = {
+        EDITOR = 'nvim',
+        GOOGLE_GENERATIVE_AI_API_KEY = GOOGLE_GENERATIVE_AI_API_KEY,
+      },
+    },
+    pane
+  )
+end)
+
 -- ## Font Configuration
 config.font_size = 11.0
 config.font = wezterm.font('Victor Mono', {
   weight = 'DemiBold',
 })
 
-config.key_tables = {
-	search_mode = {
-		-- This action is not bound by default in wezterm
-		{ key = 'e', mods = 'CTRL', action = act.CopyMode 'EditPattern' },
-	},
+-- ## Key Bindings
+config.keys = {
+  {
+    key = 'i',
+    mods = 'CTRL',
+    action = act.EmitEvent 'trigger-aether',
+  },
 }
 
 -- ## Colors
