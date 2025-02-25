@@ -5,23 +5,16 @@ local act = wezterm.action
 
 -- # Events
 wezterm.on('trigger-aether', function(window, pane)
-  -- Retrieve the text from the pane
-  -- local text = pane:get_lines_as_text(pane:get_dimensions().scrollback_rows)
-
   -- Create a temporary file to pass to vim
-  -- local name = os.tmpname()
   local home = os.getenv 'HOME'
-  local prompt = home .. '/Projects/aether/cli/rprompt.perl'
-  local GOOGLE_GENERATIVE_AI_API_KEY = os.getenv 'GOOGLE_GENERATIVE_AI_API_KEY'
 
   -- Open a new window running vim and tell it to open the file
   window:perform_action(
     act.SpawnCommandInNewTab {
-      args = { prompt },
+      args = { 'aether' },
       cwd = home .. '/Projects/aether',
       set_environment_variables = {
         EDITOR = 'nvim',
-        GOOGLE_GENERATIVE_AI_API_KEY = GOOGLE_GENERATIVE_AI_API_KEY,
       },
     },
     pane
