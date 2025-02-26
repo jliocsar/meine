@@ -1,7 +1,5 @@
 local g = vim.g
 
--- ## Netrw configs
-
 -- set list style type to tree
 -- g.netrw_liststyle = 3
 
