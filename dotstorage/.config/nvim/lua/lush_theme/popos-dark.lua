@@ -6,20 +6,28 @@ local hsl = lush.hsl
 -- We return it for use in other files.
 return lush(function()
   return {
-    -- Define Vim's Normal highlight group.
-    -- You can provide values with hsl/hsluv or anything that responds to `tostring`
-    -- but be aware if you don't "wrap" your color in a hsl/hsluv call you
-    -- wont have chainable access to the color "operators" (darken, etc).
-    Normal { bg = 'NONE', fg = hsl '#A3CFF5' },
+    Normal { bg = 'NONE', fg = hsl '#cccccc' },
+    -- Whitespace { fg = Normal.fg.darken(40) },
+    CursorLine { bg = hsl '#333333' },
+    Constant { fg = hsl '#7dbea9', bold = true },
+    Comment { fg = hsl '#999999' },
+    Function { fg = hsl '#65c1d8', bold = true },
+    Keyword { fg = hsl '#e65959', bold = true, italic = true },
+    String { fg = hsl '#7fc954' },
+    Special { fg = hsl '#A0A0A0' },
+    Type { fg = hsl '#8cdad3' },
 
-    -- Make whitespace slightly darker than normal.
-    -- you must define Normal before deriving from it.
-    Whitespace { fg = Normal.fg.darken(40) },
+    Cursor { gui = styles.inverse },
+    Identifier { fg = hsl '#d7ba7d' },
 
-    -- Make comments look the same as whitespace, but with italic text
-    Comment { fg = '#666666', gui = 'italic' },
+    StatusLine { bg = 'NONE', fg = hsl '#A0A0A0' },
 
-    -- Clear all highlighting for CursorLine
-    CursorLine {},
+    -- Telescope Settings
+    TelescopeMatching { fg = hsl '#FFFFFF' },
+    TelescopeSelection { bg = hsl '#333333', fg = hsl '#FFFFFF' },
+    TelescopeResultsNormal { fg = hsl '#A0A0A0' },
+    TelescopePromptBorder { fg = hsl '#999999' },
+    TelescopeResultsBorder { fg = hsl '#999999' },
+    TelescopePreviewBorder { fg = hsl '#999999' },
   }
 end)
