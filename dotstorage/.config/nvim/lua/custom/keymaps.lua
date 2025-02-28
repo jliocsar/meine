@@ -6,14 +6,11 @@ set('n', '<c-k>', '<c-w><c-k>')
 set('n', '<c-l>', '<c-w><c-l>')
 set('n', '<c-h>', '<c-w><c-h>')
 
-set('n', '<leader>fe', '<cmd>Oil<CR>', { desc = 'Opens oil' })
-
 set('n', '<leader><leader>x', '<cmd>source %<CR>', { desc = 'Execute the current file' })
 
 -- Save/write/exit buffer
 set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save current buffer' })
-set('n', '<leader><leader>wq', '<cmd>wq<CR>', { desc = 'Save current buffer and quit vim' })
-set('n', '<leader><leader>q', '<cmd>q<CR>', { desc = 'Exit current buffer' })
+set('n', '<leader>q', '<cmd>q<CR>', { desc = 'Exit current buffer' })
 
 set('n', '<space>tt', function()
   vim.lsp.inlay_hint.enable(
