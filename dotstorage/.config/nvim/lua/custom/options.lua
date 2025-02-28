@@ -22,12 +22,17 @@ opt.swapfile = false
 -- Don't have `o` add a comment
 opt.formatoptions:remove 'o'
 
-opt.wrap = false
+opt.wrap = true
 opt.linebreak = true
 
-opt.tabstop = 4
-opt.shiftwidth = 4
+opt.tabstop = 2
+opt.shiftwidth = 2
 
 opt.more = false
 
 opt.foldmethod = 'manual'
+
+opt.title = true
+opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'
+
+opt.undofile = true

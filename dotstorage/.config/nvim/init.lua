@@ -1,7 +1,6 @@
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 vim.g.mapleader = ' '
-vim.g.maplocalleader = '\\'
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 
@@ -35,7 +34,12 @@ local lazy = require 'lazy'
 
 lazy.setup {
   spec = {
-    { import = 'custom/lazy/' },
+    { import = 'custom/plugins/' },
+  },
+  change_detection = {
+    -- automatically check for config file changes and reload the ui
+    enabled = true,
+    notify = true, -- get a notification when changes are found
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
@@ -43,3 +47,8 @@ lazy.setup {
   -- automatically check for plugin updates
   checker = { enabled = true },
 }
+
+-- Require any other file that's not auto imported by lazy
+require 'custom.keymaps'
+require 'custom.options'
+require 'custom.ui'

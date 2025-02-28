@@ -17,6 +17,9 @@ ginit() {
 alias j='jump'
 alias szh='source $HOME/.zshrc'
 
+## neovim
+alias nvim:cfg="nvim ~/.config/nvim"
+
 ## apt
 alias update='sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y'
 

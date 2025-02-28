@@ -32,7 +32,7 @@ config.font = wezterm.font('Victor Mono', {
 config.keys = {
   {
     key = 'i',
-    mods = 'CTRL',
+    mods = 'CTRL|SHIFT',
     action = act.EmitEvent 'trigger-aether',
   },
 }
