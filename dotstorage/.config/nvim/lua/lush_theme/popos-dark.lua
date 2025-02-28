@@ -1,6 +1,8 @@
 local lush = require 'lush'
 local hsl = lush.hsl
 
+local DEBUG_FG = hsl '#FF0000'
+
 -- lush() will parse the spec and
 -- return a table containing all color information.
 -- We return it for use in other files.
@@ -21,6 +23,16 @@ return lush(function()
     Identifier { fg = hsl '#d7ba7d' },
 
     StatusLine { bg = 'NONE', fg = hsl '#A0A0A0' },
+
+    -- Oil settings
+    OilDir { fg = hsl '#8cdad3' },
+
+    -- Express_line settings
+    -- ElVisual { bg = hsl '#d7ba7d', fg = hsl '#111111' },
+    -- ElVisualLine { bg = hsl '#e6da59', fg = hsl '#111111' },
+    -- ElNormal { bg = hsl '#65c1d8', fg = hsl '#111111' },
+    -- ElInsert { bg = hsl '#7fc954', fg = hsl '#111111' },
+    -- ElCommand { bg = hsl '#e69d59', fg = hsl '#111111' },
 
     -- Telescope Settings
     TelescopeMatching { fg = hsl '#FFFFFF' },
