@@ -34,7 +34,7 @@ local lazy = require 'lazy'
 
 lazy.setup {
   spec = {
-    { import = 'custom/plugins/' },
+    { import = 'custom/xplugins/' },
   },
   change_detection = {
     -- automatically check for config file changes and reload the ui
@@ -47,8 +47,3 @@ lazy.setup {
   -- automatically check for plugin updates
   checker = { enabled = true },
 }
-
--- Require any other file that's not auto imported by lazy
-require 'custom.keymaps'
-require 'custom.options'
-require 'custom.ui'

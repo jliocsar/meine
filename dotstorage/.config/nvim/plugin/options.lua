@@ -37,5 +37,3 @@ opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'
 opt.statusline = ''
 
 opt.undofile = true
-
-opt.termguicolors = true
