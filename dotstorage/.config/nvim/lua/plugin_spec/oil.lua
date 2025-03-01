@@ -2,7 +2,7 @@ return {
   {
     'stevearc/oil.nvim',
     dependencies = {
-      'echasnovski/mini.nvim',
+      'nvim-tree/nvim-web-devicons',
     },
   },
 }

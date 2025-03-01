@@ -4,6 +4,10 @@
     "version": "LuaJIT"
   },
   "workspace": {
-    "library": ["lua", "$VIMRUNTIME"]
+    "library": [
+			"lua",
+			"$VIMRUNTIME",
+			"$VIMRUNTIME/lua"
+		]
   }
 }

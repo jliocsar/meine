@@ -34,7 +34,7 @@ local lazy = require 'lazy'
 
 lazy.setup {
   spec = {
-    { import = 'custom/xplugins/' },
+    { import = 'plugin_spec/' },
   },
   change_detection = {
     -- automatically check for config file changes and reload the ui

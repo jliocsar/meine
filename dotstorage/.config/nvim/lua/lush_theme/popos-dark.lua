@@ -28,11 +28,11 @@ return lush(function()
     OilDir { fg = hsl '#8cdad3' },
 
     -- Express_line settings
-    -- ElVisual { bg = hsl '#d7ba7d', fg = hsl '#111111' },
-    -- ElVisualLine { bg = hsl '#e6da59', fg = hsl '#111111' },
-    -- ElNormal { bg = hsl '#65c1d8', fg = hsl '#111111' },
+    ElVisual { fg = hsl '#d7ba7d' },
+    ElVisualLine { bg = hsl '#e6da59', fg = hsl '#111111' },
+    ElNormal { fg = hsl '#65c1d8' },
     -- ElInsert { bg = hsl '#7fc954', fg = hsl '#111111' },
-    -- ElCommand { bg = hsl '#e69d59', fg = hsl '#111111' },
+    ElCommand { bg = hsl '#e69d59', fg = hsl '#111111' },
 
     -- Telescope Settings
     TelescopeMatching { fg = hsl '#FFFFFF' },

@@ -35,9 +35,9 @@ return {
         -- always enable unless `vim.g.lazydev_enabled = false`
         -- This is the default
         -- disable when a .luarc.json file is found
-        enabled = function(root_dir)
-          return not vim.uv.fs_stat(root_dir .. '/.luarc.json')
-        end,
+        -- enabled = function(root_dir)
+        --   return not vim.uv.fs_stat(root_dir .. '/.luarc.json')
+        -- end,
       },
     },
   },
