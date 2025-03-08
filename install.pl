@@ -29,14 +29,6 @@ if (-d "$HOME/.local/share/zinit") {
   run 'bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"';
 }
 
-if (-e "/usr/bin/code") {
-  println "VS Code already installed.";
-} else {
-  println "Installing VS Code...";
-  run "curl -o /tmp/code.deb -L https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64";
-  run "sudo dpkg -i /tmp/code.deb";
-}
-
 if (-e "/usr/local/bin/lit") {
   println "Lit already installed.";
 } else {

@@ -1,7 +1,7 @@
 local configs = require 'nvim-treesitter.configs'
 
 configs.setup {
-  ensure_installed = { 'lua', 'javascript', 'typescript', 'perl' },
+  ensure_installed = { 'lua', 'javascript', 'typescript', 'perl', 'tsx' },
   highlight = { enable = true },
   indent = { enable = true },
   sync_install = true,

@@ -189,6 +189,7 @@ for_window [title=".* - Visual Studio Code$"] border pixel 1
 for_window [class="^Discord$"] border pixel 1
 # for_window [class="^org.wezfurlong.wezterm$"] floating disabled
 for_window [class="^org.wezfurlong.wezterm$"] border pixel 1
+for_window [title="^Zen Browser$"] border pixel 1
 
 # ## Gaps config.
 gaps inner 6

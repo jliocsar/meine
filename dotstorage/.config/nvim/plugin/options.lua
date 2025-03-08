@@ -19,6 +19,8 @@ opt.splitright = true
 opt.signcolumn = 'yes'
 opt.swapfile = false
 
+opt.shada = { "'10", '<0', 's10', 'h' }
+
 -- Don't have `o` add a comment
 opt.formatoptions:remove 'o'
 

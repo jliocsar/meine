@@ -1,6 +1,6 @@
 ## git
 alias glog='git log --abbrev-commit --first-parent --oneline'
-alias gdiff='function __gdf() { git diff --name-only --diff-filter=d $1^ | xargs bat --diff }; __gdf'
+alias gdiff='git diff | bat --language diff --paging=always'
 alias gdh='gdiff HEAD'
 alias gsl='git switch -'
 

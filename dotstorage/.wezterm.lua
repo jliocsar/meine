@@ -22,18 +22,49 @@ wezterm.on('trigger-aether', function(window, pane)
   )
 end)
 
+config.inactive_pane_hsb = {
+  saturation = 0.9,
+  brightness = 0.2,
+}
+
 -- ## Font Configuration
-config.font_size = 11.0
+-- Turn off ligatures, shit's disgusting
+config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
+config.font_size = 11
+config.line_height = 1.05
+-- config.font = wezterm.font('Victor Mono', {
 config.font = wezterm.font('Victor Mono', {
-  weight = 'DemiBold',
+  weight = 500,
 })
 
 -- ## Key Bindings
 config.keys = {
+  -- Trigger Aether for prompting
   {
     key = 'i',
     mods = 'CTRL|SHIFT',
     action = act.EmitEvent 'trigger-aether',
+  },
+  -- Use Vim-like motions to scroll up and down
+  {
+    key = 'j',
+    mods = 'CTRL|SHIFT',
+    action = act.ScrollByPage(0.1),
+  },
+  {
+    key = 'k',
+    mods = 'CTRL|SHIFT',
+    action = act.ScrollByPage(-0.1),
+  },
+  {
+    key = 'd',
+    mods = 'CTRL|SHIFT',
+    action = act.ScrollByPage(0.5),
+  },
+  {
+    key = 'u',
+    mods = 'CTRL|SHIFT',
+    action = act.ScrollByPage(-0.5),
   },
 }
 

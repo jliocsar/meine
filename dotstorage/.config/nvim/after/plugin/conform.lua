@@ -4,8 +4,11 @@ conform.setup {
   formatters = {},
   formatters_by_ft = {
     lua = { 'stylua' },
-    typescript = { 'prettierd', 'prettier' },
-    javascript = { 'prettierd', 'prettier' },
+    typescript = { 'prettierd' },
+    typescriptreact = { 'prettierd' },
+    javascript = { 'prettierd' },
+    javascriptreact = { 'prettierd' },
+    perl = { 'perl' },
   },
   format_on_save = {
     -- These options will be passed to conform.format()
