@@ -50,7 +50,8 @@ alias dcup='docker-compose up'
 
 # bash
 alias t='tree -i -L 1'
-alias notes="EDITOR=nvim glow -a $HOME/.timov"
+alias notes="nvim $HOME/.timov"
+# alias notes="EDITOR=nvim glow -a $HOME/.timov"
 
 # meine
 alias __assert_meine="if [[ ! -d $HOME/.meine ]]; then echo '~/.meine not found'; return 1; fi"

@@ -39,6 +39,7 @@ Simply run the `install` script:
 - [blueman](https://github.com/blueman-project/blueman)
 - [feh](https://github.com/derf/feh)
 - [fastcompmgr](https://github.com/tycho-kirchner/fastcompmgr)
+  - alternatively, [picom](https://github.com/yshui/picom) with [flashfocus](https://github.com/fennerm/flashfocus)
 
 ### Development
 

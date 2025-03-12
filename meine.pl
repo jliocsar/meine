@@ -199,8 +199,6 @@ if ($dotfiles_op_type eq "link") {
     # Create links for dotfiles in dotstorage
     my $dotfiles = `find $DOTSTORAGE -type f`;
     my @dotfiles = split("\n", $dotfiles);
-    my @dotdirs = split("\n", `find $DOTSTORAGE -type d`);
-    my %dotdirs_map = map { $_ => 1 } @dotdirs;
 
     for my $dotfile (@dotfiles) {
         # Replaces the `./dotstorage/` with `$HOME/`

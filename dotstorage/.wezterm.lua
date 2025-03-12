@@ -31,7 +31,7 @@ config.inactive_pane_hsb = {
 -- Turn off ligatures, shit's disgusting
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.font_size = 11
-config.line_height = 1.05
+config.line_height = 1
 -- config.font = wezterm.font('Victor Mono', {
 config.font = wezterm.font('Victor Mono', {
   weight = 500,
@@ -101,8 +101,8 @@ config.window_background_gradient = {
   -- Accepts CSS style color specs, from named colors, through rgb
   -- strings and more
   colors = {
-    'hsla(230, 0.01, 0.04, 80%)',
-    'hsla(228, 0.012, 0.12, 100%)',
+    'hsla(230, 0.01, 0.04, 90%)',
+    'hsla(228, 0.012, 0.12, 90%)',
   },
 
   -- Instead of specifying `colors`, you can use one of a number of

@@ -3,6 +3,7 @@ local conform = require 'conform'
 conform.setup {
   formatters = {},
   formatters_by_ft = {
+    html = { 'prettierd' },
     lua = { 'stylua' },
     typescript = { 'prettierd' },
     typescriptreact = { 'prettierd' },

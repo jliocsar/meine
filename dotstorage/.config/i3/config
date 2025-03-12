@@ -65,10 +65,10 @@ bindsym $mod+Tab exec --no-startup-id "rofi -theme Meine-Pop-Dark -show window"
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+ccedilla focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -77,10 +77,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+ccedilla move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -88,11 +88,11 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+# Turned off for now, just use $mod+E
 # split in horizontal orientation
-bindsym $mod+h split h
-
+# bindsym $mod+Shift+s split h
 # split in vertical orientation
-bindsym $mod+v split v
+# bindsym $mod+Shift+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -170,7 +170,8 @@ exec --no-startup-id /usr/libexec/gsd-xsettings
 exec --no-startup-id setxkbmap us
 
 # turn on lightweight compositor
-exec --no-startup-id fastcompmgr -o 0.4 -r 12 -c -C
+exec --no-startup-id fastcompmgr -o 0.4 -r 12 -c
+# exec --no-startup-id picom
 
 # so we can send notifications
 exec --no-startup-id dunst -conf $HOME/.config/dunst/dunstrc
@@ -189,7 +190,7 @@ for_window [title=".* - Visual Studio Code$"] border pixel 1
 for_window [class="^Discord$"] border pixel 1
 # for_window [class="^org.wezfurlong.wezterm$"] floating disabled
 for_window [class="^org.wezfurlong.wezterm$"] border pixel 1
-for_window [title="^Zen Browser$"] border pixel 1
+for_window [title="Zen Browser$"] border pixel 1
 
 # ## Gaps config.
 gaps inner 6
@@ -204,14 +205,14 @@ mode "󰙏" {
     # Pressing right will grow the window’s width.
     # Pressing up will shrink the window’s height.
     # Pressing down will grow the window’s height.
-    bindsym j             resize shrink width  20 px or 20 ppt
-    bindsym $mod+j        resize shrink width  10 px or 10 ppt
-    bindsym k             resize grow   height 20 px or 20 ppt
-    bindsym $mod+k        resize grow   height 10 px or 10 ppt
-    bindsym l             resize shrink height 20 px or 20 ppt
-    bindsym $mod+l        resize shrink height 10 px or 10 ppt
-    bindsym ccedilla      resize grow   width  20 px or 20 ppt
-    bindsym $mod+ccedilla resize grow   width  10 px or 10 ppt
+    bindsym h             resize shrink width  20 px or 20 ppt
+    bindsym $mod+h        resize shrink width  10 px or 10 ppt
+    bindsym j             resize grow   height 20 px or 20 ppt
+    bindsym $mod+j        resize grow   height 10 px or 10 ppt
+    bindsym k             resize shrink height 20 px or 20 ppt
+    bindsym $mod+k        resize shrink height 10 px or 10 ppt
+    bindsym l      				resize grow   width  20 px or 20 ppt
+    bindsym $mod+l 				resize grow   width  10 px or 10 ppt
 
     # same bindings, but for the arrow keys
     bindsym Left       resize shrink width  20 px or 20 ppt

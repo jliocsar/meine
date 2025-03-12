@@ -1,6 +1,7 @@
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
+    { 'cordx56/rustowl' },
     {
       'hrsh7th/nvim-cmp',
       dependencies = {
