@@ -49,6 +49,13 @@ Simply run the `install` script:
 
 ### To-do
 
+- [ ] re-write the meine cli tool in Rust or something else, then make:
+  - `meine install` (currently the install script)
+  - `meine dotfiles` (currently the same name, will act differently)
+    - keep a file with all the current links in the home directory called `~/.meine-dotfiles-links`
+    - use this as the source of truth so that we can easily link entire directories
+  - `meine morning`
+    - use this as a replacement for the morning command, but only showing the notes/reminders
 - [ ] centralize colors variables somewhere
 - [ ] make a generic thing for the zsh_custom_config replace (from sed)
 - [ ] finish rofi theme

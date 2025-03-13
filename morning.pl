@@ -211,14 +211,6 @@ sub print_good_morning_msg {
     my $weather_icon = $weather_icon_map{$weather_code};
     my $weather_label = $weather_code_label_map{$weather_code};
 
-    open(my $fortune_fh, '-|', 'fortune') or die "Failed to run fortune: $!";
-    my @fortune_lines = <$fortune_fh>;
-    close $fortune_fh;
-    chomp(my $fortune = join("", @fortune_lines));
-    open(my $cowsay_fh, '|-', 'cowsay', '-f', 'dragon') or die "Failed to run cowsay: $!";
-    print $cowsay_fh $fortune;
-    close $cowsay_fh;
-
     println bold_text "\nGood morning!";
     print "\n";
 

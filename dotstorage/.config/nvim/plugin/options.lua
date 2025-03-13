@@ -1,15 +1,10 @@
 local opt = vim.opt
 
------ Interesting Options -----
-
--- You have to turn this one on :)
 opt.inccommand = 'split'
 
--- Best search settings :)
 opt.smartcase = true
 opt.ignorecase = true
 
------ Personal Preferences -----
 opt.number = true
 opt.relativenumber = true
 
@@ -20,9 +15,6 @@ opt.signcolumn = 'yes'
 opt.swapfile = false
 
 opt.shada = { "'10", '<0', 's10', 'h' }
-
--- Don't have `o` add a comment
-opt.formatoptions:remove 'o'
 
 opt.wrap = true
 opt.linebreak = true
@@ -39,3 +31,7 @@ opt.titlestring = '%t%( %M%)%( (%{expand("%:~:h")})%)%a (nvim)'
 opt.statusline = ''
 
 opt.undofile = true
+
+-- Always copy to system clipboard
+-- idk why but i like this
+opt.clipboard = 'unnamedplus'
