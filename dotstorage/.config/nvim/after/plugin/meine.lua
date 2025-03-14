@@ -17,7 +17,7 @@ local function get_lua_markdown(file_path)
 
     if is_comment then
       if #code_block > 0 then
-        formatted_content = formatted_content .. code_block .. '```'
+        formatted_content = formatted_content .. code_block .. '```\n'
         code_block = ''
       end
 
@@ -35,6 +35,10 @@ local function get_lua_markdown(file_path)
     else
       code_block = '\n```lua\n' .. line .. '\n'
     end
+  end
+
+  if #code_block > 0 then
+    formatted_content = formatted_content .. code_block .. '```\n'
   end
 
   return formatted_content

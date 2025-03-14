@@ -1,32 +1,35 @@
+-- # Context
 local set = vim.keymap.set
 
--- ## Motions
--- Basic movement keybinds, these make navigating splits easy for me
+-- # Motions
+-- ## Basic movement keybinds, these make navigating splits easy for me
 set('n', '<c-j>', '<c-w><c-j>')
 set('n', '<c-k>', '<c-w><c-k>')
 set('n', '<c-l>', '<c-w><c-l>')
 set('n', '<c-h>', '<c-w><c-h>')
 
--- ## Buffers
--- Save/write/exit buffer
+-- # Buffers
+-- ## Save/write/exit buffer
 set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save current buffer' })
 set('n', '<leader>q', '<cmd>q<CR>', { desc = 'Exit current buffer' })
--- Cycle between opened buffers
+-- ## Cycle between opened buffers
 set('n', '<leader>bn', '<cmd>bn<CR>', { desc = 'Next buffer' })
 set('n', '<leader>bp', '<cmd>bp<CR>', { desc = 'Previous buffer' })
+-- ## Clear highlights
+set('n', '<leader>ch', '<cmd>noh<CR>', { desc = 'Clear highlights' })
 
--- ## Diagnostics/LSP
--- Jumps to next/previous warning/error
+-- # Diagnostics/LSP
+-- ## Jumps to next/previous warning/error
 set('n', '<leader>cn', '<cmd>cnext<CR>', { desc = 'Next warning/error' })
 set('n', '<leader>cp', '<cmd>cprev<CR>', { desc = 'Previous warning/error' })
 
--- Shows all errors in the current buffer
+-- ## Shows all errors in the current buffer
 set('n', '<leader>le', vim.diagnostic.setloclist, { noremap = true })
--- Open floating window with the cursor error
+-- ## Open floating window with the cursor error
 set('n', '<leader>e', vim.diagnostic.open_float, { noremap = true, silent = true })
--- Rename the symbol
+-- ## Rename the symbol
 set('n', '<leader>r', vim.lsp.buf.rename, { noremap = true, silent = true })
--- Shows the hints from types etc
+-- ## Shows the hints from types etc
 set('n', '<space>tt', function()
   vim.lsp.inlay_hint.enable(
     not vim.lsp.inlay_hint.is_enabled { bufnr = 0 },
