@@ -22,6 +22,16 @@ cmp.setup {
     --{ name = 'path' },
     --{ name = 'buffer' },
   },
+  window = {
+    documentation = {
+      -- these borders will be overwritten by "borderline", this is just so we can turn them on
+      border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+    },
+    completion = {
+      -- these borders will be overwritten by "borderline", this is just so we can turn them on
+      border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
+    },
+  },
   mapping = {
     ['<C-e>'] = cmp.mapping.close(),
     ['<C-Space>'] = cmp.mapping.complete(),

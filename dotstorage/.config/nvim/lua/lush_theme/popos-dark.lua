@@ -1,7 +1,8 @@
 local lush = require 'lush'
 local hsl = lush.hsl
 
-local DEBUG_FG = hsl '#FF0000'
+-- Run Borderline command to change border colors and styles
+vim.cmd [[Borderline single]]
 
 -- lush() will parse the spec and
 -- return a table containing all color information.
@@ -42,5 +43,17 @@ return lush(function()
     TelescopePromptBorder { fg = hsl '#999999' },
     TelescopeResultsBorder { fg = hsl '#999999' },
     TelescopePreviewBorder { fg = hsl '#999999' },
+
+    -- Treesitter Settings
+    TreesitterContext { bg = hsl '#292929' },
+    TreesitterContextBottom { bg = hsl '#292929' },
+
+    -- Change floating window border and background
+    NormalFloat { bg = 'NONE' },
+    Pmenu { bg = 'NONE' },
+    FloatBorder { fg = hsl '#999999' },
+
+    -- Fidget notifications
+    FidgetTask { bg = 'NONE' },
   }
 end)

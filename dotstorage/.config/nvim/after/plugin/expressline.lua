@@ -39,6 +39,18 @@ M.setup = function()
       table.insert(segments, builtin.modified)
       table.insert(segments, sections.split)
       table.insert(segments, builtin.filetype)
+      table.insert(segments, ' ')
+
+      local file_encoding = vim.opt.fileencoding:get()
+      if #file_encoding > 0 then
+        table.insert(segments, '[')
+        table.insert(segments, file_encoding)
+        table.insert(segments, ']')
+        table.insert(segments, '[')
+        table.insert(segments, vim.opt.fileformat:get())
+        table.insert(segments, ']')
+      end
+
       table.insert(segments, '[')
       table.insert(segments, builtin.line_with_width(3))
       table.insert(segments, ':')
