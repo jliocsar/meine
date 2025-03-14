@@ -1,7 +1,5 @@
 local set = vim.keymap.set
 
--- print(vim.inspect(vim.api.nvim_get_keymap '0'))
-
 -- ## Motions
 -- Basic movement keybinds, these make navigating splits easy for me
 set('n', '<c-j>', '<c-w><c-j>')
