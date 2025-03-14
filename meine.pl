@@ -7,7 +7,7 @@ use constant ROOT => ".meine";
 # Check for a command and exit printing help if none is provided
 my $op_type = $ARGV[0];
 sub meine_print_help {
-    print "Usage: meine <sync|open|dotfiles>\n";
+    print "Usage: meine <sync|open|dotstorage|dotfiles>\n";
 }
 
 unless (defined $op_type) {
@@ -41,7 +41,7 @@ my $Dim = "\e[2m";
 
 my $LABEL = $Dim . $Bold . "[🐗 meine]" . $FgAnsiColor{reset};
 
-sub meine_print {
+sub meine_color {
     my $msg = shift;
     my $options = shift;
     my $fg_color = $options->{fg_color};
@@ -61,33 +61,82 @@ sub meine_print {
         $formatted = "\e[1m" . $formatted . "\e[0m";
     }   
 
-    print $LABEL . " " . $formatted . "\n";
+		return $formatted;
+}
+
+sub meine_print {
+	my $msg = shift;
+	my $options = shift;
+	my $new_line = 1;
+
+	if (defined $options) {
+		$new_line = $options->{new_line};
+	}
+
+	my $new_line_char = $new_line == 1 && "\n" || "";
+
+	$msg = "$LABEL $msg$new_line_char";
+	print $msg;
 }
 
 # Define constants
 my $HOME = $ENV{HOME};
 my $MY_ROOT = "$HOME/".ROOT;
 my $DOTSTORAGE = "$MY_ROOT/dotstorage";
+my $DOTFILES_CACHE_PATH = "$HOME/.meine-dotfiles";
 
 # Perform sync if requested
 if ($op_type eq "sync") {
     meine_print "Syncing meine to Git...";
     `cd $MY_ROOT && git add . && git commit -m 'sync' && git push`;
-    meine_print "All done!", { fg_color => "green" };
+    meine_print(meine_color("All done!", { fg_color => "green" }));
     exit 0;
 }
 
-# Open meine in VS Code if requested
+# Open meine in editor of choice if requested
 if ($op_type eq "open") {
-    meine_print "Opening ~/".ROOT." in VS Code...", { fg_color => "green" };
-    system("swallow code -w $MY_ROOT") == 0 or die "Failed to open ~/".ROOT." in VS Code: $!";
+		my $EDITOR = $ENV{EDITOR};
+    meine_print(meine_color("Opening ~/".ROOT." in $EDITOR...", { fg_color => "cyan" }));
+    system("$EDITOR $MY_ROOT") == 0 or die "Failed to open ~/".ROOT." in $EDITOR: $!";
     exit 0;
+}
+
+# Check for a dotfiles operation and exit printing help if none is provided
+sub meine_dotstorage_print_help {
+    print "Usage: meine dotstorage <list|edit>\n";
+}
+
+if ($op_type eq "dotstorage") {
+		my $dotstorage_op_type = $ARGV[1];
+		unless (defined $dotstorage_op_type) {
+			meine_print(meine_color("Invalid operation type", { fg_color => "red" }));
+			meine_dotstorage_print_help();
+			exit 1;
+		}
+
+		if ($dotstorage_op_type eq "edit") {
+				my $EDITOR = $ENV{EDITOR};
+				meine_print(meine_color("Opening $DOTSTORAGE in $EDITOR...", { fg_color => "cyan" }));
+				system("$EDITOR $DOTSTORAGE") == 0 or die "Failed to open $DOTSTORAGE in $EDITOR: $!";
+				exit 0;
+		}
+
+		if ($dotstorage_op_type eq "list") {
+				my @tree_command_args = @ARGV[2..$#ARGV];
+				my $tree_command_args = join(" ", @tree_command_args);
+				system("tree -a $tree_command_args $DOTSTORAGE") == 0 or die "Failed to list dotstorage files";
+				exit 0;
+		}
+
+    meine_print(meine_color("Invalid operation type", { fg_color => "red" }));
+    meine_dotstorage_print_help();
+    exit 1;
 }
 
 # From here on only dotfiles operations are allowed
 # Exit if invalid operation type is provided
 unless ($op_type eq "dotfiles") {
-    meine_print "Invalid operation type", { fg_color => "red" };
+    meine_print(meine_color("Invalid operation type", { fg_color => "red" }));
     meine_print_help();
     exit 1;
 }
@@ -97,50 +146,41 @@ sub meine_dotfiles_print_help {
     print "Usage: meine dotfiles <link|unlink|list|edit>\n";
 }
 
+# Check for a valid `meine dotfiles` command
 my $dotfiles_op_type = $ARGV[1];
 unless (defined $dotfiles_op_type) {
     meine_dotfiles_print_help();
     exit 1;
 }
 
+sub get_dotfiles_list {
+		my @dotfiles = ();
+		open(my $cache_fh, '<', $DOTFILES_CACHE_PATH);
+		
+		while (my $line = <$cache_fh>) {
+			next if $line =~ /^(#.*|\s+|\n)$/;
+			chomp $line;
+			push @dotfiles, $line;
+		}
+
+		close $cache_fh;
+		return @dotfiles;
+}
+
 # List all dotfiles in dotstorage if requested
 if ($dotfiles_op_type eq "list") {
-    my $dotfiles = `find $DOTSTORAGE -type f`;
-    my @dotfiles = split("\n", $dotfiles);
-    my @dotdirs = split("\n", `find $DOTSTORAGE -type d`);
+		meine_print("Dotfiles", { new_line => 0 });
 
-    if (scalar @dotfiles == 0 || scalar @dotdirs == 0) {
-        meine_print "No dotfiles in dotstorage", { fg_color => "yellow" };
-        exit 0;
-    }
+		my @dotfiles_list = get_dotfiles_list();
+		my $dotfiles = "";
 
-    sub print_title {
-        my $title = shift;
-        print($Bold . $FgAnsiColor{white} . $title . $FgAnsiColor{reset} . "\n");
-    }
+		for my $dotfile (@dotfiles_list) {
+			my $last_char = substr($dotfile, -1, 1);
+			my $icon = $last_char eq "/" && "􀈕 " || "􀈷 ";
+			$dotfiles = "$dotfiles\n$icon $dotfile";
+		}
 
-    meine_print "🔒 Dotstorage:\n", { fg_color => "green" };
-
-    print_title "📜 Directories:";
-    for my $dotdir (@dotdirs) {
-        # Replaces `$MY_ROOT/dotstorage/` with nothing
-        $dotdir =~ s/^$MY_ROOT\/dotstorage\///;
-        # Check if the dotdir is a symlink under $HOME
-        if (-l "$HOME/$dotdir") {
-            print "$dotdir\n";
-        }
-    }
-
-    print "\n";
-    print_title "📜 Files:";
-    for my $dotfile (@dotfiles) {
-        # Replaces `$MY_ROOT/dotstorage/` with nothing
-        $dotfile =~ s/^$MY_ROOT\/dotstorage\///;
-        # Check if the dotfile is a symlink under $HOME
-        if (-l "$HOME/$dotfile") {
-            print "$dotfile\n";
-        }
-    }
+		print $dotfiles;
 
     # Exit after listing all dotfiles
     exit 0;
@@ -148,98 +188,48 @@ if ($dotfiles_op_type eq "list") {
 
 # Link dotfiles in dotstorage to $HOME if requested
 if ($dotfiles_op_type eq "link") {
-    # Create dotfiles storage if it does not exist
-    unless (-e $DOTSTORAGE) {
-        meine_print "Creating dotfiles storage at $DOTSTORAGE";
-        return `mkdir $DOTSTORAGE`;
-    }
+		unless (-e $DOTFILES_CACHE_PATH) {
+			meine_print 'Create a dotfiles path in ' . meine_color($DOTFILES_CACHE_PATH, { fg_color => "blue" }) . ' first.'; 
+			exit 1;
+		}
 
-    # Check if specific link path was provided
-    my $link_path = $ARGV[2];
-    if (defined $link_path) {
-        # Check if it exists inside dotstorage
-        my $dotfile = "$DOTSTORAGE/$link_path";
+		for my $dotfile (get_dotfiles_list()) {
+			my $dotfile_dotstorage_path = "$DOTSTORAGE/$dotfile";
 
-        unless (-e $dotfile) {
-            meine_print "No file or directory at $dotfile", { fg_color => "red" };
-            exit 1;
-        }
+			unless (-e $dotfile_dotstorage_path) {
+				meine_print "File " . meine_color($dotfile, { fg_color => "red" }) . " was not found in dotstorage";
+				next;
+			}
 
-        # Link the directory/file to $HOME
-        my $dotfile_home_path = "$HOME/$link_path";
-        if (-e $dotfile_home_path) {
-            if (-l $dotfile_home_path) {
-                meine_print "Link already exists at $dotfile_home_path", { fg_color => "cyan" };
-                exit 0;
-            } else {
-                meine_print "File already exists at $dotfile_home_path", { fg_color => "cyan" };
-                exit 1;
-            }
-        } else {
-            # Prompts user to confirm linking
-            meine_print "Link $dotfile to $dotfile_home_path? [y/n]";
+			# Check if the dotfile ends with "/" in case it's a directory
+			if (-d $dotfile_dotstorage_path && !(substr($dotfile, -1, 1) eq "/")) {
+				meine_print "The path " . meine_color($dotfile, { fg_color => "blue" }) . " is a directory, but not used as such in the dotfile text. Append " . meine_color('/', { bold => 1 }) . " to its end to fix this.";
+				next;
+			}
 
-            my $response = <STDIN>;
-            while ($response !~ m/^[yYnN]$/) {
-                meine_print "Invalid response. Please enter 'y' or 'n'", { fg_color => "red" };
-                $response = <STDIN>;
-            }
-            chomp $response;
-            $response = lc $response;
+			my $dotfile_home_path = "$HOME/$dotfile";
 
-            if ($response eq "y") {
-                `ln -s $dotfile $dotfile_home_path`;
-                meine_print "Linked $dotfile to $dotfile_home_path", { fg_color => "green" };
-            }
-        }
+			if (-l $dotfile_home_path) {
+				meine_print 'Dotfile link for ' . meine_color($dotfile, { fg_color => "blue" }) . ' already exists in home directory.';
+				next;
+			}
 
-        exit 0;
-    }
+			# TODO: Is this even right?
+			if (!-l $dotfile_home_path && -d $dotfile_home_path) {
+				meine_print 'Dotfile link for ' . meine_color($dotfile, { fg_color => "blue" }) . ' already exists in home directory.';
+				next;
+			}
 
-    # Create links for dotfiles in dotstorage
-    my $dotfiles = `find $DOTSTORAGE -type f`;
-    my @dotfiles = split("\n", $dotfiles);
+			if (-e $dotfile_home_path) {
+				meine_print 'A file already exists in home directory: ' . meine_color($dotfile, { fg_color => "blue" });
+				next;
+			}
 
-    for my $dotfile (@dotfiles) {
-        # Replaces the `./dotstorage/` with `$HOME/`
-        my $dotfile_home_path = $dotfile;
-        $dotfile_home_path =~ s/^$MY_ROOT\/dotstorage/$HOME/;
-        
-        # Check if link already exists and that it's actually a link
-        if (-e $dotfile_home_path) {
-            if (-l $dotfile_home_path) {
-                meine_print "Link already exists at $dotfile_home_path", { fg_color => "cyan" };
-                next;
-            } else {
-                meine_print "File already exists at $dotfile_home_path", { fg_color => "cyan" };
-                next;
-            }
-        }
+			system("ln -s $dotfile_dotstorage_path $dotfile_home_path") == 0 or die "Failed on linking dotfile";
 
-        # Prompts user to confirm linking
-        meine_print "Link $dotfile to $dotfile_home_path? [y/n]";
+			meine_print "Created link for " . meine_color($dotfile, { fg_color => "green" }) . " successfully";
+		}
 
-        my $response = <STDIN>;
-        while ($response !~ m/^[yYnN]$/) {
-            meine_print "Invalid response. Please enter 'y' or 'n'", { fg_color => "red" };
-            $response = <STDIN>;
-        }
-        chomp $response;
-        $response = lc $response;
-
-        # Link the dotfile if user confirms
-        if ($response eq "y") {
-            chomp(my $dotfile_home_dir = `dirname $dotfile_home_path`);
-            unless (-e $dotfile_home_dir) {
-                meine_print "Creating directory $dotfile_home_dir";
-                `mkdir -p $dotfile_home_dir`;
-            }
-            `ln -s $dotfile $dotfile_home_path`;
-            meine_print "Linked $dotfile to $dotfile_home_path", { fg_color => "green" };
-        }
-    }
-
-    # Exit after linking all dotfiles
     exit 0;
 }
 
@@ -252,24 +242,46 @@ if ($dotfiles_op_type eq "unlink") {
         exit 1;
     }
 
-    # Replace `$MY_ROOT/dotstorage` with `$HOME` in the provided file path
-    $file_to_unlink =~ s/^$MY_ROOT\/dotstorage/$HOME/;
+		chomp $file_to_unlink;
+		$file_to_unlink = "$HOME/$file_to_unlink";
+
+		unless (-l $file_to_unlink) {
+			$file_to_unlink = meine_color($file_to_unlink);
+			meine_print 'No file to unlink at ' . meine_color($file_to_unlink, { fg_color => "red" });
+			exit 1;
+		}
 
     # Unlink the provided file if it exists and is a link
-    if (-e $file_to_unlink and -l $file_to_unlink) {
-        meine_print "Unlinking $file_to_unlink";
-        unlink $file_to_unlink or die "Could not unlink $file_to_unlink: $!";
-    } else {
-        meine_print "No link at $file_to_unlink", { fg_color => "yellow" };
-    }
+		meine_print "Unlinking " . meine_color($file_to_unlink, { fg_color => "yellow" });
+		unlink $file_to_unlink or die "Could not unlink $file_to_unlink: $!";
+
+		# Clear cache file after unlinking
+		open (my $read_cache_fh, '<', $DOTFILES_CACHE_PATH);
+		my @new_lines = ();
+	
+		while (my $line = <$read_cache_fh>) {
+			chomp $line;
+			my $line_home_path = "$HOME/$line";
+			next if $line_home_path eq $file_to_unlink;
+			push @new_lines, $line;
+		}
+
+		close $read_cache_fh;
+		my $new_lines = join("\n", @new_lines);
+
+		open (my $write_cache_fh, '>', $DOTFILES_CACHE_PATH);
+		print $write_cache_fh $new_lines;
+		close $write_cache_fh;
 
     # Exit after unlinking the provided file
     exit 0;
 }
 
-# Edit dotfiles in dotstorage with VS Code if requested
+# Edit dotfiles in dotstorage with editor of choice if requested
 if ($dotfiles_op_type eq "edit") {
-    system("swallow code -w $DOTSTORAGE") == 0 or die "Failed to open $DOTSTORAGE in VS Code: $!";
+		my $EDITOR = $ENV{EDITOR};
+		meine_print(meine_color("Editing dotfiles in $EDITOR", { fg_color => "cyan" }));
+    system("$EDITOR $DOTFILES_CACHE_PATH") == 0 or die "Failed to open $DOTFILES_CACHE_PATH in $EDITOR: $!";
     exit 0;
 }
 
