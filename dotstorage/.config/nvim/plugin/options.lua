@@ -1,5 +1,15 @@
 local opt = vim.opt
 
+--Set completeopt to have a better completion experience
+-- :help completeopt
+-- menuone: popup even when there's only one match
+-- noinsert: Do not insert text until a selection is made
+-- noselect: Do not select, force to select one from the menu
+-- shortness: avoid showing extra messages when using completion
+-- updatetime: set updatetime for CursorHold
+opt.completeopt = { 'menuone', 'noselect', 'noinsert' }
+opt.shortmess = opt.shortmess + { c = true }
+
 opt.inccommand = 'split'
 
 opt.smartcase = true

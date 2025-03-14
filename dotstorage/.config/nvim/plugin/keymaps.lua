@@ -1,5 +1,7 @@
 local set = vim.keymap.set
 
+-- print(vim.inspect(vim.api.nvim_get_keymap '0'))
+
 -- ## Motions
 -- Basic movement keybinds, these make navigating splits easy for me
 set('n', '<c-j>', '<c-w><c-j>')
@@ -11,8 +13,15 @@ set('n', '<c-h>', '<c-w><c-h>')
 -- Save/write/exit buffer
 set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save current buffer' })
 set('n', '<leader>q', '<cmd>q<CR>', { desc = 'Exit current buffer' })
+-- Cycle between opened buffers
+set('n', '<leader>bn', '<cmd>bn<CR>', { desc = 'Next buffer' })
+set('n', '<leader>bp', '<cmd>bp<CR>', { desc = 'Previous buffer' })
 
 -- ## Diagnostics/LSP
+-- Jumps to next/previous warning/error
+set('n', '<leader>cn', '<cmd>cnext<CR>', { desc = 'Next warning/error' })
+set('n', '<leader>cp', '<cmd>cprev<CR>', { desc = 'Previous warning/error' })
+
 -- Shows all errors in the current buffer
 set('n', '<leader>le', vim.diagnostic.setloclist, { noremap = true })
 -- Open floating window with the cursor error
