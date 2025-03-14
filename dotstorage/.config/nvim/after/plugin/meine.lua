@@ -1,3 +1,8 @@
+local env = vim.fn.environ()
+
+local HOME = env.HOME
+local KEYMAPS_LUA_FILE_PATH = HOME .. '/.config/nvim/plugin/keymaps.lua'
+
 ---@param file_path string
 local function get_lua_markdown(file_path)
   local file_content = vim.fn.readfile(file_path) --[[@as table<string>]]
@@ -65,9 +70,7 @@ end
 
 vim.api.nvim_create_user_command('MeineKeymaps', function(opts)
   -- opts.args
-  local meine_nvim_root = vim.fn.expand('%'):gsub('/after.*', '')
-  local keymaps_path = meine_nvim_root .. '/plugin/keymaps.lua'
-  local keymaps_content = get_lua_markdown(keymaps_path)
+  local keymaps_content = get_lua_markdown(KEYMAPS_LUA_FILE_PATH)
   create_markdown_output_window(keymaps_content)
 end, {
   desc = 'Lists the keymaps from .meine',
