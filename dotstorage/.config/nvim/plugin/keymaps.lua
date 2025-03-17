@@ -1,6 +1,20 @@
 -- # Context
 local set = vim.keymap.set
 
+--[[ Not used
+local function fn(f, ...)
+  local args = { ... }
+  return function(...)
+    return f(unpack(args), ...)
+  end
+end
+--]]
+
+-- # Plugins
+-- Just for an easy life interacting with them
+set('n', '<leader>l', '<cmd>Lazy<CR>', { desc = 'Opens Lazy' })
+set('n', '<leader>m', '<cmd>Mason<CR>', { desc = 'Opens Mason' })
+
 -- # Motions
 -- ## Basic movement keybinds, these make navigating splits easy for me
 set('n', '<c-j>', '<c-w><c-j>')
@@ -13,15 +27,14 @@ set('n', '<c-h>', '<c-w><c-h>')
 set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save current buffer' })
 set('n', '<leader>q', '<cmd>q<CR>', { desc = 'Exit current buffer' })
 -- ## Cycle between opened buffers
+--    These shouldn't really be a thing here but I like having not to hit : and confirm the command so idk
+--    Skill issue I guess
 set('n', '<leader>bn', '<cmd>bn<CR>', { desc = 'Next buffer' })
 set('n', '<leader>bp', '<cmd>bp<CR>', { desc = 'Previous buffer' })
+set('n', '<leader>bd', '<cmd>bd<CR>', { desc = 'Deletes the current buffer' })
+
 -- ## Clear highlights
 set('n', '<leader>ch', '<cmd>noh<CR>', { desc = 'Clear highlights' })
-
--- # Diagnostics/LSP
--- ## Jumps to next/previous warning/error
-set('n', '<leader>cn', '<cmd>cnext<CR>', { desc = 'Next warning/error' })
-set('n', '<leader>cp', '<cmd>cprev<CR>', { desc = 'Previous warning/error' })
 
 -- ## Shows all errors in the current buffer
 set('n', '<leader>le', vim.diagnostic.setloclist, { noremap = true })

@@ -21,7 +21,9 @@ local function get_lua_markdown(file_path)
         code_block = ''
       end
 
-      local stripped = formatted_content .. '\n' .. line:gsub('^%-%-%s+', '')
+      local stripped = formatted_content
+        .. '\n'
+        .. line:gsub('^%-%-%s+', ''):gsub('^%-%-%[%[%s+', ''):gsub('%-%-%]%]%s*', '---')
       formatted_content = stripped:gsub('%s+$', '') .. '\n'
     elseif is_empty_line then
       if #code_block > 0 then
