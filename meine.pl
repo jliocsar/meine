@@ -225,6 +225,11 @@ if ($dotfiles_op_type eq "link") {
 				next;
 			}
 
+			# If it's a directory, we remove the last part so we can link the entire thing 
+			if (-d $dotfile_dotstorage_path) {
+				$dotfile_home_path =~ s/[^\/]+\/?$//;
+			} 
+
 			system("ln -s $dotfile_dotstorage_path $dotfile_home_path") == 0 or die "Failed on linking dotfile";
 
 			meine_print "Created link for " . meine_color($dotfile, { fg_color => "green" }) . " successfully";

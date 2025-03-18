@@ -53,6 +53,9 @@ return lush(function()
     Pmenu { bg = 'NONE' },
     FloatBorder { fg = hsl '#999999' },
 
+    -- Flash Settings
+    FlashBackdrop {},
+
     -- Fidget notifications
     FidgetTask { bg = 'NONE' },
   }

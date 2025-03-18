@@ -177,8 +177,10 @@ exec --no-startup-id fastcompmgr -o 0.4 -r 12 -c
 exec --no-startup-id dunst -conf $HOME/.config/dunst/dunstrc
 
 # apply wallpaper via feh
-# exec --no-startup-id feh --bg-fill /usr/share/backgrounds/pop/kate-hazen-fractal-mountains.png
-exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d5429e10.jpeg
+# -- dark leaves
+# exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d5429e10.jpeg
+# -- system76
+exec --no-startup-id feh --bg-fill $HOME/.wallpapers/system76-system76-logo-blue-by-kate-hazen-of-system76-2.png
 
 # ## Windows' config.
 # hide title bar for certain windows

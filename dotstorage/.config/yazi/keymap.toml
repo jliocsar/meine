@@ -1,0 +1,16 @@
+# Open file on shell
+[[manager.prepend_keymap]]
+on   = "!"
+run  = 'shell "$SHELL" --block'
+desc = "Open shell here"
+
+# Yank to system clipboard
+[[manager.prepend_keymap]]
+on  = "y"
+run = [ 'shell -- echo "$@" | xclip -i -selection clipboard -t text/uri-list', "yank" ]
+
+# Drag and Drop with dragon
+[[manager.prepend_keymap]]
+on  = "<C-n>"
+run = 'shell -- dragon -x -i -T "$1"'
+

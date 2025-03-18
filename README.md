@@ -29,6 +29,7 @@ Simply run the `install` script:
 - [fzf](https://github.com/junegunn/fzf)
 - [harlequin](https://github.com/tconbeer/harlequin)
 - [lazygit](https://github.com/jesseduffield/lazygit)
+- [flameshot](https://flameshot.org/)
 
 #### Useful External Libs
 
@@ -40,6 +41,7 @@ Simply run the `install` script:
 - [feh](https://github.com/derf/feh)
 - [fastcompmgr](https://github.com/tycho-kirchner/fastcompmgr)
   - alternatively, [picom](https://github.com/yshui/picom) with [flashfocus](https://github.com/fennerm/flashfocus)
+- [dragon](https://github.com/mwh/dragon)
 
 ### Development
 
