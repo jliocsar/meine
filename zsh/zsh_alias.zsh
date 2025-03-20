@@ -1,7 +1,5 @@
 ## git
-alias glog='git log --abbrev-commit --first-parent --oneline'
-alias gdiff='git diff | bat --language diff --paging=always'
-alias gdh='gdiff HEAD'
+alias g='lazygit'
 alias gsl='git switch -'
 
 ginit() {
