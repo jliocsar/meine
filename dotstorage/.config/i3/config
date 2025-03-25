@@ -176,6 +176,9 @@ exec --no-startup-id fastcompmgr -o 0.4 -r 12 -c
 # so we can send notifications
 exec --no-startup-id dunst -conf $HOME/.config/dunst/dunstrc
 
+# flameshot for screenshots
+exec --no-startup-id flameshot
+
 # apply wallpaper via feh
 # -- dark leaves
 exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d5429e10.jpeg

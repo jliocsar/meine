@@ -11,6 +11,15 @@ ginit() {
     gp -u origin main
 }
 
+bak() {
+	echo $1
+}
+
+here() {
+	local IFS=' '
+	echo "$*" >> "$HOME/.here"
+}
+
 ## zsh
 alias j='jump'
 alias szh='source $HOME/.zshrc'

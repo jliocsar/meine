@@ -216,6 +216,7 @@ config.colors = {
 config.enable_tab_bar = true
 config.tab_bar_at_bottom = true
 config.use_fancy_tab_bar = false
+config.tab_max_width = 32
 
 -- This function returns the suggested title for a tab.
 -- It prefers the title that was set via `tab:set_title()`
