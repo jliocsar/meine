@@ -12,7 +12,7 @@ ginit() {
 }
 
 bak() {
-	echo $1
+	cp $1 $1.bak
 }
 
 here() {

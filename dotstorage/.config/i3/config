@@ -158,6 +158,10 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+# ## Custom keybinds
+# toggle keyboard layout
+bindsym $mod+Control+space exec --no-startup-id $HOME/.meine/i3/keyboard_toggle.pl
+
 # ## Custom startup commands.
 # turn on touchpad click
 exec --no-startup-id xinput set-prop "DLL09D9:00 04F3:3146 Touchpad" "libinput Tapping Enabled" 1

@@ -11,11 +11,6 @@ lspconfig.tailwindcss.setup {}
 lspconfig.perlnavigator.setup {}
 
 -- Rust specific shit
-lspconfig.rustowl.setup {
-  trigger = {
-    hover = true,
-  },
-}
 lspconfig.rust_analyzer.setup {
   settings = {
     ['rust-analyzer'] = {},

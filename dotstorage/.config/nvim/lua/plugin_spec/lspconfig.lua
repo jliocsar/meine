@@ -1,7 +1,12 @@
 return {
   'neovim/nvim-lspconfig',
   dependencies = {
-    { 'cordx56/rustowl' },
+    {
+      'cordx56/rustowl',
+      build = 'cd rustowl && cargo install --path . --locked',
+      lazy = false, -- This plugin is already lazy
+      opts = {},
+    },
     {
       'hrsh7th/nvim-cmp',
       dependencies = {
