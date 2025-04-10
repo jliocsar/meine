@@ -1,4 +1,4 @@
-return {
+local config = {
   'neovim/nvim-lspconfig',
   dependencies = {
     {
@@ -48,3 +48,5 @@ return {
     },
   },
 }
+
+return config

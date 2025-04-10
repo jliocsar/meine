@@ -1,13 +1,22 @@
 local wezterm = require 'wezterm'
+
 local config = wezterm.config_builder()
 -- local plugin = wezterm.plugin
 local act = wezterm.action
+local home = wezterm.home_dir
+local _, stdout = wezterm.run_child_process { 'zsh', '-c', '-i', '"alias"' }
+local aliases_lut = {}
+
+if stdout then
+  for line in stdout:gmatch '[^\n]*\n?' do
+    local alias, value = line:match '(.*)=(.*)'
+    value = value:gsub('^[\'"]', ''):gsub('[\'"]', '')
+    aliases_lut[alias] = value
+  end
+end
 
 -- # Events
 wezterm.on('trigger-aether', function(window, pane)
-  -- Create a temporary file to pass to vim
-  local home = os.getenv 'HOME'
-
   -- Open a new window running vim and tell it to open the file
   window:perform_action(
     act.SpawnCommandInNewTab {
@@ -223,12 +232,19 @@ config.tab_max_width = 32
 -- or `wezterm cli set-tab-title`, but falls back to the
 -- title of the active pane in that tab.
 function custom_tab_title(title, foreground_process_name, working_dir)
+  local working_dir_str = tostring(working_dir)
+
   -- Return a custom tab title when running Aether
   if
     foreground_process_name == '/usr/bin/perl'
-    and string.match(tostring(working_dir), '/Projects/aether$')
+    and working_dir_str:match '/Projects/aether$'
   then
     return 'aether'
+  end
+
+  local alias = aliases_lut[title]
+  if alias then
+    return alias
   end
 
   return title
