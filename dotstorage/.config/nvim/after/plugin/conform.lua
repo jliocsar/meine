@@ -10,6 +10,7 @@ conform.setup {
     javascript = { 'prettierd' },
     javascriptreact = { 'prettierd' },
     perl = { 'perl' },
+    php = { 'pretty-php' },
   },
   format_on_save = {
     -- These options will be passed to conform.format()
