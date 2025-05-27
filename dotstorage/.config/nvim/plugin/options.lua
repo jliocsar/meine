@@ -24,6 +24,15 @@ opt.splitright = true
 opt.signcolumn = 'yes'
 opt.swapfile = false
 
+-- TODO: Check better way to do this
+vim.cmd [[
+  augroup NoAutoComment
+    autocmd!
+    autocmd FileType * setlocal formatoptions-=o
+  augroup END
+]]
+opt.formatoptions:remove 'o'
+
 opt.shada = { "'10", '<0', 's10', 'h' }
 
 opt.wrap = true

@@ -10,10 +10,34 @@ local function fn(f, ...)
 end
 --]]
 
+-- fuck uuuuu
+set('n', 'CapsLock', 'Esc')
+
 -- # Plugins
--- Just for an easy life interacting with them
-set('n', '<leader>l', '<cmd>Lazy<CR>', { desc = 'Opens Lazy' })
-set('n', '<leader>m', '<cmd>Mason<CR>', { desc = 'Opens Mason' })
+-- Just for an easy life interacting with these
+set('n', '<leader>l', '<cmd>Lazy<CR>', { desc = 'Opens Lazy' }, { noremap = true })
+set('n', '<leader>m', '<cmd>Mason<CR>', { desc = 'Opens Mason' }, { noremap = true })
+
+-- ## Spectre
+set('n', '<leader>S', function()
+	require('spectre').toggle()
+end, {
+	desc = 'Toggle Spectre',
+})
+set('n', '<leader>sw', function()
+	require('spectre').open_visual { select_word = true }
+end, {
+	desc = 'Search current word',
+})
+-- TODO: Move this to a Lua function
+set('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {
+	desc = 'Search current word',
+})
+set('n', '<leader>sp', function()
+	require('spectre').open_file_search { select_word = true }
+end, {
+	desc = 'Search on current file',
+})
 
 -- # Motions
 -- ## Basic movement keybinds, these make navigating splits easy for me
@@ -44,8 +68,8 @@ set('n', '<leader>e', vim.diagnostic.open_float, { noremap = true, silent = true
 set('n', '<leader>r', vim.lsp.buf.rename, { noremap = true, silent = true })
 -- ## Shows the hints from types etc
 set('n', '<space>tt', function()
-  vim.lsp.inlay_hint.enable(
-    not vim.lsp.inlay_hint.is_enabled { bufnr = 0 },
-    { bufnr = 0 }
-  )
+	vim.lsp.inlay_hint.enable(
+		not vim.lsp.inlay_hint.is_enabled { bufnr = 0 },
+		{ bufnr = 0 }
+	)
 end)

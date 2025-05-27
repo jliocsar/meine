@@ -45,8 +45,8 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
-# bindsym $mod+Return exec --no-startup-id warp-terminal
+# bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
+bindsym $mod+Return exec --no-startup-id warp-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -158,6 +158,10 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
+# ## Custom keybinds
+# toggle keyboard layout
+bindsym $mod+Control+space exec --no-startup-id $HOME/.meine/i3/keyboard_toggle.pl
+
 # ## Custom startup commands.
 # turn on touchpad click
 exec --no-startup-id xinput set-prop "DLL09D9:00 04F3:3146 Touchpad" "libinput Tapping Enabled" 1
@@ -181,9 +185,9 @@ exec --no-startup-id flameshot
 
 # apply wallpaper via feh
 # -- dark leaves
-exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d5429e10.jpeg
+# exec --no-startup-id feh --bg-fill $HOME/.wallpapers/photo-1475257026007-0753d5429e10.jpeg
 # -- system76
-# exec --no-startup-id feh --bg-fill $HOME/.wallpapers/system76-system76-logo-blue-by-kate-hazen-of-system76-2.png
+exec --no-startup-id feh --bg-fill $HOME/.wallpapers/system76-system76-logo-blue-by-kate-hazen-of-system76-2.png
 
 # ## Windows' config.
 # hide title bar for certain windows
@@ -194,7 +198,8 @@ for_window [class="^Google-chrome$"] floating disabled
 for_window [title=".* - Visual Studio Code$"] border pixel 1
 for_window [class="^Discord$"] border pixel 1
 # for_window [class="^org.wezfurlong.wezterm$"] floating disabled
-for_window [class="^org.wezfurlong.wezterm$"] border pixel 1
+# for_window [class="^org.wezfurlong.wezterm$"] border pixel 1
+for_window [class="^dev.warp.Warp$"] border pixel 1
 for_window [title="Zen Browser$"] border pixel 1
 
 # ## Gaps config.
@@ -242,15 +247,19 @@ mode "󰙏" {
 bindsym $mod+r mode "󰙏"
 
 # ## Colors/theme
-set $bg_color                     #222222
-set $bar_bg_color                 #27272799
+# set $bg_color                     #222222
+set $bg_color                     #111111
+# set $bar_bg_color                 #27272799
+set $bar_bg_color                 #11111199
 set $bar_separator_color          #484848
 set $fg_color                     #cccccc
-set $dim_fg_color                 #999999
+set $dim_fg_color                 #888888
 set $dim_color                    #292929
-set $active_bg_color              #303030
+# set $active_bg_color              #303030
+set $active_bg_color              #292929
 set $border_color                 #444444
-set $primary_color                #94EBEB
+# set $primary_color                #94EBEB
+set $primary_color                #4c74b5
 set $primary_dark_color           #287781
 set $error_color                  #E56A54
 set $chill_border_color           #555555
@@ -259,16 +268,17 @@ set $chill_border_color           #555555
 # class                 border                 bground                     text                indicator            child_border
 # ---------------------------------------------------------------------------------------------------------------------------------------
 # client.focused          $primary_color         $active_bg_color            $primary_color      $primary_dark_color  $primary_color
-# client.focused_inactive $border_color          $bg_color                   $dim_fg_color       #484E50              $bg_color
-# client.unfocused        $border_color          $bg_color                   $dim_fg_color       #292D2E              $bg_color
+client.focused          $primary_color         $active_bg_color            $fg_color           $primary_dark_color  $primary_color
+client.focused_inactive $border_color          $bg_color                   $dim_fg_color       #484E50              $bg_color
+client.unfocused        $border_color          $bg_color                   $dim_fg_color       #292D2E              $bg_color
 client.urgent           $error_color           $error_color                $dim_color          #900000              $error_color
 client.placeholder      #000000                #0C0C0C                     #FFFFFF             #000000              #0C0C0C
 client.background       $active_bg_color
 
 # More chill look
-client.focused          $chill_border_color    $dim_color                  $fg_color           $border_color        $chill_border_color
-client.focused_inactive $active_bg_color       $bg_color                   $dim_fg_color       #484E50              $active_bg_color
-client.unfocused        $active_bg_color       $bg_color                   $dim_fg_color       #292D2E              $active_bg_color
+# client.focused          $chill_border_color    $dim_color                  $fg_color           $border_color        $chill_border_color
+# client.focused_inactive $active_bg_color       $bg_color                   $dim_fg_color       #484E50              $active_bg_color
+# client.unfocused        $active_bg_color       $bg_color                   $dim_fg_color       #292D2E              $active_bg_color
 
 # Start i3bar to display a workspace bar (plus the system information i3status, if available)
 bar {
@@ -286,12 +296,13 @@ bar {
         # class            border                   bground                   text
         # ---------------------------------------------------------------------------------------
         # focused_workspace  $primary_color           $active_bg_color          $primary_color
+        focused_workspace  $primary_color           $active_bg_color          $fg_color
         active_workspace   $border_color            $bg_color                 $dim_fg_color
         inactive_workspace $border_color            $bg_color                 $dim_fg_color
         urgent_workspace   $error_color             $error_color              $dim_color
         binding_mode       $error_color             $error_color              $dim_color
 
         # More chill look
-        focused_workspace  $chill_border_color      $active_bg_color          $fg_color
+        # focused_workspace  $chill_border_color      $active_bg_color          $fg_color
     }
 }

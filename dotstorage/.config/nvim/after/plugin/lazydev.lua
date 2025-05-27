@@ -1,3 +1,3 @@
-local lazydev = require 'lazydev'
+-- local lazydev = require 'lazydev'
 
-lazydev.setup()
+-- lazydev.setup()
