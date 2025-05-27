@@ -51,6 +51,9 @@ opt.statusline = ''
 
 opt.undofile = true
 
+-- views can only be fully collapsed with the global statusline
+opt.laststatus = 3
+
 -- Always copy to system clipboard
 -- idk why but i like this
 opt.clipboard = 'unnamedplus'
