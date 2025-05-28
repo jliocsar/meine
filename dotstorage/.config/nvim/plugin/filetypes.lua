@@ -1,7 +1,5 @@
-local filetype = vim.filetype
-
-filetype.add({
-	pattern = {
-		['.*%.script'] = 'lua',
+vim.filetype.add({
+	extension = {
+		script = "lua",
 	},
 })

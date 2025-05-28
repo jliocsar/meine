@@ -84,3 +84,6 @@ tags
 /contrib/result-*
 
 CMakeUserPresets.json
+
+# nvim lazy lock file
+lazy-lock.json
